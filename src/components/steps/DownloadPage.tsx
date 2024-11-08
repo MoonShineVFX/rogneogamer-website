@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 
 interface DownloadPageProps {
   onPrev: () => void;
-  onNext?: () => void;
+  onNext: () => void;
 }
 
 const DownloadPage = ({ onPrev, onNext }: DownloadPageProps) => {
@@ -117,13 +117,13 @@ const DownloadPage = ({ onPrev, onNext }: DownloadPageProps) => {
             className="top-1/2 right-0 z-40 h-10 flex items-center"
           >
             <button
-              onClick={onNext}
+              onClick={() => onNext()}
               className="h-full w-[100%] aspect-[90/40] bg-contain bg-left-top bg-no-repeat flex items-center justify-center hover:scale-95 font-cachet font-bold text-white/80"
               style={{
                 backgroundImage: `url('${IMAGE_URLS.ROG_GAMER_CARD}/images/redbutton_bg2.png')`,
               }}
             >
-              Next
+              Finish
             </button>
           </motion.div>
           <div className="h-[5vh] w-[1px] bg-white/70 absolute bottom-0 left-1/2 -translate-x-1/2"></div>
