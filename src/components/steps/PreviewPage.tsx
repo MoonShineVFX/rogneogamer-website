@@ -1,4 +1,4 @@
-import { useAppContext } from "../../context/AppContext";
+// import { useAppContext } from "../../context/AppContext";
 import { IMAGE_URLS } from "../../helpers/constants";
 import { motion } from "framer-motion";
 
@@ -8,7 +8,8 @@ interface PreviewPageProps {
 }
 
 const PreviewPage = ({ onNext, onPrev }: PreviewPageProps) => {
-  const { previewImages } = useAppContext();
+  // 移除未使用的解構
+  // const { previewImages } = useAppContext();
 
   return (
     <div

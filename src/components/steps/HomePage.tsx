@@ -1,28 +1,27 @@
-import { AnimatePresence, motion } from "framer-motion";
+import { motion } from "framer-motion";
 import { useAppContext } from "../../context/AppContext";
-import useIsMobile from "../../hooks/useIsMobile";
 import { useState } from "react";
 interface HomePageProps {
   onNext: () => void;
 }
 
-interface InputStatus {
-  isValid: boolean;
-  message?: string;
-}
+// interface InputStatus {
+//   isValid: boolean;
+//   message?: string;
+// }
 
 const HomePage = ({ onNext }: HomePageProps) => {
   const { displayName, setDisplayName } = useAppContext();
   const [isUsername, setIsUsername] = useState(true);
   const [isAccept, setIsAccept] = useState(false);
   const [isSending, setIsSending] = useState(false);
-  const isMobile = useIsMobile();
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (displayName.trim()) {
-      onNext();
-    }
-  };
+  // const isMobile = useIsMobile();
+  // const handleSubmit = (e: React.FormEvent) => {
+  //   e.preventDefault();
+  //   if (displayName.trim()) {
+  //     onNext();
+  //   }
+  // };
   let r2imagesurl = "https://r2.web.moonshine.tw/opt/md/msweb/roggamercard";
 
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -63,8 +62,8 @@ const HomePage = ({ onNext }: HomePageProps) => {
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          exit={{ opacity: 0, delay: 1 }}
-          transition={{ type: "spring", stiffness: 200, damping: 20 }}
+          exit={{ opacity: 0 }}
+          transition={{ delay: 0.5 }}
           className="h-screen bg-cover bg-center bg-no-repeat z-0 w-full fixed"
           style={{
             backgroundImage: `url('${

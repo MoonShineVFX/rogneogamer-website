@@ -1,4 +1,4 @@
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useState, ReactNode } from "react";
 
 interface AppContextType {
   displayName: string;
@@ -23,7 +23,11 @@ interface AppContextType {
 
 const AppContext = createContext<AppContextType | undefined>(undefined);
 
-export const AppProvider = ({ children }) => {
+interface AppProviderProps {
+  children: ReactNode;
+}
+
+export const AppProvider = ({ children }: AppProviderProps) => {
   const [displayName, setDisplayName] = useState("");
   const [selectedSeries, setSelectedSeries] = useState(0);
   const [selectedGender, setSelectedGender] = useState<"male" | "female">(

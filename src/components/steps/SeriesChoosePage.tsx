@@ -1,7 +1,6 @@
-import React from "react";
-import { useAppContext } from "../../context/AppContext";
 import { motion } from "framer-motion";
 import { IMAGE_URLS } from "../../helpers/constants";
+import { useAppContext } from "../../context/AppContext";
 interface SeriesChoosePageProps {
   onNext: () => void;
   onPrev: () => void;

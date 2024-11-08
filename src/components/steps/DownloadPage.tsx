@@ -1,14 +1,15 @@
-import React from "react";
-import { useAppContext } from "../../context/AppContext";
+// import { useAppContext } from "../../context/AppContext";
 import { IMAGE_URLS } from "../../helpers/constants";
 import { motion } from "framer-motion";
+
 interface DownloadPageProps {
-  onNext: () => void;
   onPrev: () => void;
+  onNext?: () => void;
 }
 
-const DownloadPage = ({ onNext, onPrev }: DownloadPageProps) => {
-  const { resultImages } = useAppContext();
+const DownloadPage = ({ onPrev, onNext }: DownloadPageProps) => {
+  // 移除未使用的解構
+  // const { resultImages } = useAppContext();
 
   return (
     <div

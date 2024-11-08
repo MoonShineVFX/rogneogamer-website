@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect, useCallback } from "react";
+import React, { useState, useRef, useCallback } from "react";
 import { useAppContext } from "../../context/AppContext";
 import { IMAGE_URLS } from "../../helpers/constants";
 import { motion } from "framer-motion";
@@ -18,7 +18,6 @@ const CameraPage = ({ onNext, onPrev }: CameraPageProps) => {
   const inputFileRef = useRef<HTMLInputElement>(null);
   const [image, setImage] = useState<string | null>(null);
   const [imageType, setImageType] = useState<"camera" | "upload">("camera");
-  const [selectedImage, setSelectedImage] = useState<File | null>(null);
   const { setBeforeImage } = useImage();
 
   const videoConstraints2 = {
@@ -30,38 +29,37 @@ const CameraPage = ({ onNext, onPrev }: CameraPageProps) => {
   //shot
   const capture = useCallback(() => {
     const imageSrc = webcamRef.current?.getScreenshot();
-    // setImg(imageSrc);
-    setImageType("camera");
-
-    handleClick(imageSrc);
+    if (imageSrc) {
+      setImageType("camera");
+      handleClick(imageSrc);
+    }
   }, [webcamRef]);
   //呼叫執行圖片處理
-  const handleClick = async (photo: string) => {
+  const handleClick = async (photo: string | null | undefined) => {
+    if (!photo) return;
     processCameraImage(photo);
   };
   //處理圖片壓縮與顯示
   const processCameraImage = async (photo: string) => {
-    const files = await base64toFileList(photo);
-    const compressFiles = await resizeFile(files[0]);
-    const formData = new FormData();
-    formData.append("image", compressFiles);
-    console.log(compressFiles);
-    setSelectedImage(compressFiles);
+    try {
+      const files = await base64toFileList(photo);
+      const compressedFile = await resizeFile(files[0]);
 
-    //顯示預覽圖
-    if (compressFiles) {
-      const reader = new FileReader();
-      reader.onload = () => {
-        // 读取文件并更新选定的图像
+      // 確保 compressedFile 是 File 或 Blob
+      if (compressedFile instanceof File || compressedFile instanceof Blob) {
+        const formData = new FormData();
+        formData.append("image", compressedFile);
 
-        setImage(reader.result as string);
-        setBeforeImage(reader.result as string);
-      };
-      reader.readAsDataURL(compressFiles);
-      // setMsg('Proceed to the next step..')
-      // setTimeout(()=>{
-      //   navigate("/templates");
-      // },1200)
+        // 如果需要顯示預覽
+        const reader = new FileReader();
+        reader.onload = () => {
+          setImage(reader.result as string);
+          setBeforeImage(reader.result as string);
+        };
+        reader.readAsDataURL(compressedFile);
+      }
+    } catch (error) {
+      console.error("Error processing image:", error);
     }
   };
   //base64轉jpg
@@ -86,19 +84,19 @@ const CameraPage = ({ onNext, onPrev }: CameraPageProps) => {
     return [file];
   }
   //壓縮圖片
-  const resizeFile = (file: File) =>
+  const resizeFile = (file: File): Promise<File | Blob> =>
     new Promise((resolve) => {
       Resizer.imageFileResizer(
         file,
-        300, // 設置圖像的最大寬度
-        400, // 設置圖像的最大高度
-        "JPEG", // 設置圖像的格式
-        70, // 設置圖像的質量
-        0, // 設置圖像的旋轉角度
+        300,
+        400,
+        "JPEG",
+        70,
+        0,
         (uri) => {
-          resolve(uri);
+          resolve(uri as File);
         },
-        "file" // 設置返回的圖像格式
+        "file"
       );
     });
 
