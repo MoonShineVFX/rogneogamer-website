@@ -57,7 +57,7 @@ const StepController = () => {
       component: (
         <DownloadPage
           onPrev={() => setCurrentStep(5)}
-          onNext={() => setCurrentStep(1)}
+          onNext={() => setCurrentStep(0)}
         />
       ),
     },
