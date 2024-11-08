@@ -1,0 +1,44 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  @font-face {
+    font-family: "Cachet";
+    src: url("https://r2.web.moonshine.tw/msweb/asusaicamera/fonts/TradeGothicLTW05-Bold.woff2")
+        format("woff2"),
+      url("https://r2.web.moonshine.tw/msweb/asusaicamera/fonts/TradeGothicLTW05-Bold.woff")
+        format("woff");
+  }
+  @font-face {
+    font-family: "ROGFonts";
+    src: url("https://r2.web.moonshine.tw/msweb/asusaicamera/fonts/ROGFonts-Regular_0.otf")
+      format("opentype");
+  }
+  @font-face {
+    font-family: "CachetPro";
+    src: url("https://r2.web.moonshine.tw/msweb/asusaicamera/fonts/TradeGothicLTPro-Bold.ttf")
+      format("opentype");
+  }
+  @font-face {
+    font-family: "CachetProObl";
+    src: url("https://r2.web.moonshine.tw/msweb/asusaicamera/fonts/TradeGothicLTPro-BoldObl.ttf")
+      format("opentype");
+  }
+  @font-face {
+    font-family: "RobotoCon";
+    src: url("https://r2.web.moonshine.tw/msweb/asusaicamera/fonts/RobotoCondensed-Regular.ttf")
+      format("opentype");
+  }
+  @font-face {
+    font-family: "RobotoConBold";
+    src: url("https://r2.web.moonshine.tw/msweb/asusaicamera/fonts/RobotoCondensed-Bold.ttf")
+      format("opentype");
+  }
+
+  html {
+    /* font-family: Montserrat, sans-serif; */
+    font-family: "Cachet-W05", "Noto Sans TC", sans-serif;
+    overscroll-behavior: none;
+  }
+}
