@@ -27,119 +27,132 @@ const StyleChoosePage = ({ onNext, onPrev }: StyleChoosePageProps) => {
 
   return (
     <div
-      className="relative h-[100dvh] bg-left-top bg-no-repeat "
+      className="relative h-[100dvh] bg-left-top bg-no-repeat pt-[4%]  flex flex-col justify-between"
       style={{
         backgroundImage: `url('${IMAGE_URLS.ROG_NEO_GAMER + "p3_bg_2.png"}')`,
         backgroundSize: "100% 100%",
       }}
     >
-      <div className=" pt-[25%]  relative ">
-        <div className="w-[78%] aspect-[367/733] mx-auto">
-          <img src={IMAGE_URLS.ROG_NEO_GAMER + "character.png"} alt="" />
-        </div>
-        <div className=" absolute top-0 left-0 w-full h-full right-0 bottom-0 flex flex-col justify-between pt-[30%] pb-[10%] items-center bg-orange-500/0">
-          <div className="w-[80%]">
-            <div className="flex justify-between items-center gap-4 ">
-              <button
-                onClick={() =>
-                  setSelectedAppearance((prev: number) => Math.max(0, prev - 1))
-                }
-                className="w-[16%] aspect-square hover:scale-95 transition-transform animate-pulse"
-              >
-                <img
-                  src={
-                    IMAGE_URLS.ROG_GAMER_CARD +
-                    "/images/character_left_btn2x.png"
+      <div className="pt-[5%] h-[83%]  mx-auto  flex flex-col justify-center  gap-4 bg-emerald-600/0">
+        <div className="w-full h-full  mx-auto ">
+          <motion.img
+            initial={{ opacity: 0, x: 0 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.5 }}
+            src={IMAGE_URLS.ROG_NEO_GAMER + "character.png"}
+            alt=""
+            className="max-w-full max-h-full mx-auto"
+          />
+          <div className=" absolute top-0 left-0 w-full h-full right-0 bottom-0  flex flex-col justify-evenly pt-[0%] pb-[10%] items-center bg-orange-500/0">
+            <div className="w-[80%]">
+              <div className="flex justify-between items-center gap-4 ">
+                <button
+                  onClick={() =>
+                    setSelectedAppearance((prev: number) =>
+                      Math.max(0, prev - 1)
+                    )
                   }
-                  alt="previous"
-                  className="w-full h-full object-contain"
-                />
+                  className="w-[16%] aspect-square hover:scale-95 transition-transform animate-pulse"
+                >
+                  <img
+                    src={
+                      IMAGE_URLS.ROG_GAMER_CARD +
+                      "/images/character_left_btn2x.png"
+                    }
+                    alt="previous"
+                    className="w-full h-full object-contain"
+                  />
+                </button>
+                <div className="text-white/10">
+                  外觀 {selectedAppearance + 1}
+                </div>
+                <button
+                  onClick={() =>
+                    setSelectedAppearance((prev: number) => prev + 1)
+                  }
+                  className="w-[16%] aspect-square hover:scale-95 transition-transform animate-pulse"
+                >
+                  <img
+                    src={
+                      IMAGE_URLS.ROG_GAMER_CARD +
+                      "/images/character_right_btn2x.png"
+                    }
+                    alt="next"
+                    className="w-full h-full object-contain"
+                  />
+                </button>
+              </div>
+            </div>
+
+            <div className="w-[80%]">
+              <div className="flex justify-between items-center gap-4">
+                <button
+                  onClick={() =>
+                    setSelectedClothing((prev: number) => Math.max(0, prev - 1))
+                  }
+                  className="w-[16%] aspect-square hover:scale-95 transition-transform animate-pulse"
+                >
+                  <img
+                    src={
+                      IMAGE_URLS.ROG_GAMER_CARD +
+                      "/images/character_left_btn2x.png"
+                    }
+                    alt="previous"
+                    className="w-full h-full object-contain"
+                  />
+                </button>
+                <div className="text-white/10">衣服 {selectedClothing + 1}</div>
+                <button
+                  onClick={() =>
+                    setSelectedClothing((prev: number) => prev + 1)
+                  }
+                  className="w-[16%] aspect-square hover:scale-95 transition-transform animate-pulse"
+                >
+                  <img
+                    src={
+                      IMAGE_URLS.ROG_GAMER_CARD +
+                      "/images/character_right_btn2x.png"
+                    }
+                    alt="next"
+                    className="w-full h-full object-contain"
+                  />
+                </button>
+              </div>
+            </div>
+
+            <div className="flex gap-4 w-[80%] justify-center">
+              <button
+                onClick={() => setSelectedGender("male")}
+                className={`flex-1  aspect-[16/8] -mr-4 font-rog text-xl tracking-widest  bg-contain bg-no-repeat bg-center flex items-center justify-center text-white/80 hover:scale-105 transition-transform ${
+                  selectedGender === "male"
+                    ? "opacity-100 scale-105"
+                    : "opacity-70 scale-95"
+                }`}
+                style={{
+                  backgroundImage: `url('${IMAGE_URLS.ROG_NEO_GAMER}p3_male.png')`,
+                }}
+              >
+                MAlE
               </button>
-              <div className="text-white/10">外觀 {selectedAppearance + 1}</div>
               <button
-                onClick={() =>
-                  setSelectedAppearance((prev: number) => prev + 1)
-                }
-                className="w-[16%] aspect-square hover:scale-95 transition-transform animate-pulse"
+                onClick={() => setSelectedGender("female")}
+                className={`flex-1  bg-contain -ml-4 font-rog text-xl tracking-widest bg-no-repeat bg-center flex items-center justify-center text-white/80 hover:scale-105 transition-transform ${
+                  selectedGender === "female"
+                    ? "opacity-100 scale-105"
+                    : "opacity-70 scale-95"
+                }`}
+                style={{
+                  backgroundImage: `url('${IMAGE_URLS.ROG_NEO_GAMER}p3_female.png')`,
+                }}
               >
-                <img
-                  src={
-                    IMAGE_URLS.ROG_GAMER_CARD +
-                    "/images/character_right_btn2x.png"
-                  }
-                  alt="next"
-                  className="w-full h-full object-contain"
-                />
+                FEMALE
               </button>
             </div>
-          </div>
-
-          <div className="w-[80%]">
-            <div className="flex justify-between items-center gap-4">
-              <button
-                onClick={() =>
-                  setSelectedClothing((prev: number) => Math.max(0, prev - 1))
-                }
-                className="w-[16%] aspect-square hover:scale-95 transition-transform animate-pulse"
-              >
-                <img
-                  src={
-                    IMAGE_URLS.ROG_GAMER_CARD +
-                    "/images/character_left_btn2x.png"
-                  }
-                  alt="previous"
-                  className="w-full h-full object-contain"
-                />
-              </button>
-              <div className="text-white/10">衣服 {selectedClothing + 1}</div>
-              <button
-                onClick={() => setSelectedClothing((prev: number) => prev + 1)}
-                className="w-[16%] aspect-square hover:scale-95 transition-transform animate-pulse"
-              >
-                <img
-                  src={
-                    IMAGE_URLS.ROG_GAMER_CARD +
-                    "/images/character_right_btn2x.png"
-                  }
-                  alt="next"
-                  className="w-full h-full object-contain"
-                />
-              </button>
-            </div>
-          </div>
-
-          <div className="flex gap-4 w-[80%] justify-center">
-            <button
-              onClick={() => setSelectedGender("male")}
-              className={`flex-1  aspect-[16/8] -mr-4 font-rog text-xl tracking-widest  bg-contain bg-no-repeat bg-center flex items-center justify-center text-white/80 hover:scale-105 transition-transform ${
-                selectedGender === "male"
-                  ? "opacity-100 scale-105"
-                  : "opacity-70 scale-95"
-              }`}
-              style={{
-                backgroundImage: `url('${IMAGE_URLS.ROG_NEO_GAMER}p3_male.png')`,
-              }}
-            >
-              MAlE
-            </button>
-            <button
-              onClick={() => setSelectedGender("female")}
-              className={`flex-1  bg-contain -ml-4 font-rog text-xl tracking-widest bg-no-repeat bg-center flex items-center justify-center text-white/80 hover:scale-105 transition-transform ${
-                selectedGender === "female"
-                  ? "opacity-100 scale-105"
-                  : "opacity-70 scale-95"
-              }`}
-              style={{
-                backgroundImage: `url('${IMAGE_URLS.ROG_NEO_GAMER}p3_female.png')`,
-              }}
-            >
-              FEMALE
-            </button>
           </div>
         </div>
       </div>
 
-      <div className="w-full pt-[7%] h-[15dvh] fixed bottom-0">
+      <div className="w-full pt-[5%] h-[12%]  bottom-0">
         <div className="flex justify-between w-[60%] mx-auto h-full bg-violet-600/0 relative">
           <motion.div
             initial={{ opacity: 0, x: 100 }}

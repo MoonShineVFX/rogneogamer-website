@@ -1,4 +1,4 @@
-import React, { useState, useRef, useCallback } from "react";
+import React, { useState, useRef, useCallback, useEffect } from "react";
 import { useAppContext } from "../../context/AppContext";
 import { IMAGE_URLS } from "../../helpers/constants";
 import { motion } from "framer-motion";
@@ -13,7 +13,14 @@ interface CameraPageProps {
 }
 
 const CameraPage = ({ onNext, onPrev }: CameraPageProps) => {
-  const { setUserPhoto } = useAppContext();
+  const {
+    setUserPhoto,
+    selectedSeries,
+    selectedGender,
+    selectedAppearance,
+    selectedClothing,
+    selectedAsset,
+  } = useAppContext();
   const webcamRef = useRef<Webcam>(null);
   const inputFileRef = useRef<HTMLInputElement>(null);
   const [image, setImage] = useState<string | null>(null);
@@ -116,11 +123,29 @@ const CameraPage = ({ onNext, onPrev }: CameraPageProps) => {
     }
   };
 
-  const handleNext = () => {
-    if (image) {
-      setUserPhoto(image);
-      onNext();
+  useEffect(() => {
+    if (selectedSeries === null || selectedAsset === null) {
+      console.log("Missing required selections");
+      onPrev();
+      return;
     }
+
+    console.log("Selected Series:", selectedSeries);
+    console.log("Selected Asset:", selectedAsset);
+  }, [selectedSeries, selectedAsset, onPrev]);
+
+  const handleNext = () => {
+    if (selectedSeries === null || selectedAsset === null) {
+      alert("請先完成所有選擇");
+      return;
+    }
+
+    if (!image) {
+      alert("請先拍攝或上傳照片");
+      return;
+    }
+
+    onNext();
   };
 
   const handlePrev = () => {
@@ -342,6 +367,16 @@ const CameraPage = ({ onNext, onPrev }: CameraPageProps) => {
             <div className="h-[5vh] w-[1px] bg-white/70 absolute bottom-0 left-1/2 -translate-x-1/2"></div>
           </div>
         </div>
+      </div>
+
+      {/* 在界面上顯示選擇的內容（如果需要） */}
+      <div className="absolute top-4 left-4 text-white/80">
+        <div>Series: {selectedSeries}</div>
+
+        <div>Gender: {selectedGender}</div>
+        <div>Appearance: {selectedAppearance}</div>
+        <div>Clothing: {selectedClothing}</div>
+        <div>Asset: {selectedAsset}</div>
       </div>
     </div>
   );

@@ -25,26 +25,29 @@ const SeriesChoosePage = ({ onNext, onPrev }: SeriesChoosePageProps) => {
 
   return (
     <div
-      className=" relative h-[100dvh] bg-left-top bg-no-repeat "
+      className=" relative h-[100dvh] bg-left-top bg-no-repeat flex flex-col justify-between"
       style={{
         backgroundImage: `url('${IMAGE_URLS.ROG_NEO_GAMER + "p2_bg.png"}')`,
         backgroundSize: "100% 100%",
       }}
     >
-      <div className=" w-[80%] py-[10%] mx-auto">
+      <div className=" w-[88%] pt-[5%]  mx-auto h-full  relative bg-green-50/0">
         <motion.div
           initial={{ opacity: 0, y: 100 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
-          className="aspect-[423/688] relative"
+          className=" relative"
         >
           <motion.img
+            initial={{ opacity: 0, y: 100 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
             src={IMAGE_URLS.ROG_NEO_GAMER + "p2_character.png"}
             alt=""
             className="w-full h-full object-contain"
           />
         </motion.div>
-        <div className="grid grid-cols-1 gap-4 -mt-[25%] mb-8">
+        <div className="grid grid-cols-1 gap-4 mb-3  absolute bottom-0 w-full">
           {series.map((item) => (
             <button
               key={item.id}
@@ -64,7 +67,7 @@ const SeriesChoosePage = ({ onNext, onPrev }: SeriesChoosePageProps) => {
         </div>
       </div>
 
-      <div className="w-full pt-[7%] h-[15dvh] fixed bottom-0">
+      <div className="w-full pt-[5%] h-[12%]  bottom-0">
         <div className="flex justify-between w-[60%] mx-auto h-full bg-violet-600/0 relative">
           <motion.div
             initial={{ opacity: 0, x: 100 }}

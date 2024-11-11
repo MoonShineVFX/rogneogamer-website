@@ -1,6 +1,8 @@
 import { motion } from "framer-motion";
 import { useAppContext } from "../../context/AppContext";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { IMAGE_URLS } from "../../helpers/constants";
+import { useWindowResize } from "../../hooks/useWindowResize";
 interface HomePageProps {
   onNext: () => void;
 }
@@ -15,6 +17,7 @@ const HomePage = ({ onNext }: HomePageProps) => {
   const [isUsername, setIsUsername] = useState(true);
   const [isAccept, setIsAccept] = useState(false);
   const [isSending, setIsSending] = useState(false);
+  const windowSize = useWindowResize();
   // const isMobile = useIsMobile();
   // const handleSubmit = (e: React.FormEvent) => {
   //   e.preventDefault();
@@ -22,6 +25,13 @@ const HomePage = ({ onNext }: HomePageProps) => {
   //     onNext();
   //   }
   // };
+  // 只在視窗大小改變時更新 CSS 變數
+  useEffect(() => {
+    document.documentElement.style.setProperty(
+      "--window-height",
+      `${windowSize.height}px`
+    );
+  }, [windowSize.height]);
   let r2imagesurl = "https://r2.web.moonshine.tw/opt/md/msweb/roggamercard";
 
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -57,18 +67,20 @@ const HomePage = ({ onNext }: HomePageProps) => {
   };
 
   return (
-    <div className=" relative h-[100dvh]">
+    <div className=" relative ">
       <>
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           transition={{ delay: 0.5 }}
-          className="h-screen bg-cover bg-center bg-no-repeat z-0 w-full fixed"
+          className=" bg-left-top bg-no-repeat z-0 w-full fixed   min-h-[100vh] min-h-[100dvh] "
           style={{
             backgroundImage: `url('${
-              r2imagesurl + "/images/mb/home_bg_mb.png"
+              IMAGE_URLS.ROG_GAMER_CARD + "/images/mb/home_bg_mb.png"
             }')`,
+            backgroundSize: "100% 100%",
+            minHeight: "var(--window-height, 100vh)",
           }}
         ></motion.div>
         <motion.img

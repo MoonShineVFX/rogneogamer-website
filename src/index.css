@@ -40,5 +40,40 @@
     /* font-family: Montserrat, sans-serif; */
     font-family: "Cachet-W05", "Noto Sans TC", sans-serif;
     overscroll-behavior: none;
+    background-color: black;
+  }
+}
+
+/* 添加到你的全局 CSS 中 */
+@supports (-webkit-touch-callout: none) {
+  .min-h-screen {
+    min-height: -webkit-fill-available;
+  }
+}
+
+/* 防止 iOS Safari 的橡皮筋效果 */
+html {
+  height: -webkit-fill-available;
+  overflow: hidden;
+}
+
+body {
+  min-height: 100vh;
+  min-height: -webkit-fill-available;
+  overflow: auto;
+  overscroll-behavior-y: none;
+}
+
+.min-safe-h-screen {
+  /* equivalent to 100dvh in major browsers */
+  min-height: calc(
+    100vh - env(safe-area-inset-bottom, 0) - env(safe-area-inset-top, 0)
+  );
+}
+
+@supports (-webkit-touch-callout: none) {
+  .min-safe-h-screen {
+    /* for ios safari 15, safe-area-inset-bottom is 0, so a special fix apply here */
+    min-height: -webkit-fill-available;
   }
 }

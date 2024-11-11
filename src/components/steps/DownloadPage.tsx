@@ -13,15 +13,30 @@ const DownloadPage = ({ onPrev, onNext }: DownloadPageProps) => {
 
   return (
     <div
-      className="relative h-[100dvh] bg-left-top bg-no-repeat"
+      className="relative h-[100dvh] bg-left-top bg-no-repeat pt-[4%]  flex flex-col justify-between"
       style={{
-        backgroundImage: `url('${IMAGE_URLS.ROG_NEO_GAMER + "p7_bg2.png"}')`,
+        backgroundImage: `url('${IMAGE_URLS.ROG_NEO_GAMER + "c_bg02.png"}')`,
         backgroundSize: "100% 100%",
       }}
     >
-      <div className="w-[85%] mx-auto pt-[25%]">
+      <div className="relative flex  h-[38px] w-full ">
+        <div className="text-center text-white font-rog text-2xl font-bold flex items-center justify-start gap-4 absolute top-0 left-0 pl-[5%] pt-[1%]   ">
+          DOWNLOAD{" "}
+          <img
+            src={`${IMAGE_URLS.ROG_NEO_GAMER + "c_titleicon01.png"}`}
+            alt=""
+          />
+        </div>
+        <div className="  ml-auto ">
+          <img
+            src={`${IMAGE_URLS.ROG_NEO_GAMER + "c_topborder01.png"}`}
+            alt=""
+          />
+        </div>
+      </div>
+      <div className="px-[5%] h-[86%] mx-auto  flex flex-col justify-center pt-[4%] gap-6">
         {/* 第一張橫向圖片 */}
-        <div className="w-full  mb-10 bg-red-800/0  relative">
+        <div className="w-full   relative">
           <img
             src={IMAGE_URLS.ROG_NEO_GAMER + "p7_b1.png"}
             alt=""
@@ -34,7 +49,7 @@ const DownloadPage = ({ onPrev, onNext }: DownloadPageProps) => {
               className="w-full h-full object-cover"
             />
           </div>
-          <div className="absolute -bottom-[6%] left-1/2 -translate-x-1/2   z-20 flex items-center gap-2">
+          <div className="absolute -bottom-[5%] left-1/2 -translate-x-1/2   z-20 flex items-center gap-2">
             <img
               src={`${IMAGE_URLS.ROG_NEO_GAMER}dl_icon.png`}
               className="w-full"
@@ -44,7 +59,7 @@ const DownloadPage = ({ onPrev, onNext }: DownloadPageProps) => {
         </div>
 
         {/* 兩張直向圖片並排 */}
-        <div className="flex gap-4">
+        <div className="flex gap-4 h-[52%]">
           <div className="w-1/2  bg-red-800/0  relative">
             <img
               src={IMAGE_URLS.ROG_NEO_GAMER + "p7_b2.png"}
@@ -91,7 +106,7 @@ const DownloadPage = ({ onPrev, onNext }: DownloadPageProps) => {
       </div>
 
       {/* Next/Prev 按鈕 */}
-      <div className="w-full pt-[7%] h-[15dvh] fixed bottom-0">
+      <div className="w-full pt-[5%] h-[12%]  bottom-0">
         <div className="flex justify-between w-[60%] mx-auto h-full bg-violet-600/0 relative">
           <motion.div
             initial={{ opacity: 0, x: 100 }}
