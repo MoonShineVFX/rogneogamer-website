@@ -14,7 +14,6 @@ interface CameraPageProps {
 
 const CameraPage = ({ onNext, onPrev }: CameraPageProps) => {
   const {
-    setUserPhoto,
     selectedSeries,
     selectedGender,
     selectedAppearance,

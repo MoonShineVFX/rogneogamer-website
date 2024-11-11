@@ -16,13 +16,13 @@ const AssetChoosePage = ({ onNext, onPrev }: AssetChoosePageProps) => {
     { id: 2, name: "道具三" },
   ];
 
-  const handleNext = () => {
-    onNext();
-  };
+  // const handleNext = () => {
+  //   onNext();
+  // };
 
-  const handlePrev = () => {
-    onPrev();
-  };
+  // const handlePrev = () => {
+  //   onPrev();
+  // };
 
   return (
     <div
