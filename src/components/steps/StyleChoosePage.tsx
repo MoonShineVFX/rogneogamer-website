@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { useAppContext } from "../../context/AppContext";
 import { IMAGE_URLS } from "../../helpers/constants";
 import { motion } from "framer-motion";
@@ -17,6 +18,8 @@ const StyleChoosePage = ({ onNext, onPrev }: StyleChoosePageProps) => {
     setSelectedClothing,
   } = useAppContext();
 
+  const [currentSet, setCurrentSet] = useState("appearance");
+
   const handleNext = () => {
     onNext();
   };
@@ -33,6 +36,17 @@ const StyleChoosePage = ({ onNext, onPrev }: StyleChoosePageProps) => {
         backgroundSize: "100% 100%",
       }}
     >
+      <div className="relative flex  h-[38px] w-full ">
+        <div className="text-center text-white font-rog text- xl font-bold flex items-center justify-start gap-4 absolute top-0 left-0 pl-[5%] pt-[1%] uppercase   ">
+          Character{" "}
+        </div>
+        <div className="  ml-auto ">
+          <img
+            src={`${IMAGE_URLS.ROG_NEO_GAMER + "c_titleborder01.png"}`}
+            alt=""
+          />
+        </div>
+      </div>
       <div className="pt-[5%] h-[83%]  mx-auto  flex flex-col justify-center  gap-4 bg-emerald-600/0">
         <div className="w-full h-full  mx-auto ">
           <motion.img
@@ -47,12 +61,15 @@ const StyleChoosePage = ({ onNext, onPrev }: StyleChoosePageProps) => {
             <div className="w-[80%]">
               <div className="flex justify-between items-center gap-4 ">
                 <button
-                  onClick={() =>
+                  onClick={() => {
                     setSelectedAppearance((prev: number) =>
                       Math.max(0, prev - 1)
-                    )
-                  }
-                  className="w-[16%] aspect-square hover:scale-95 transition-transform animate-pulse"
+                    );
+                    setCurrentSet("appearance");
+                  }}
+                  className={`w-[16%] aspect-square hover:scale-95 transition-transform  ${
+                    currentSet === "appearance" ? "animate-pulse" : " grayscale"
+                  }`}
                 >
                   <img
                     src={
@@ -67,10 +84,13 @@ const StyleChoosePage = ({ onNext, onPrev }: StyleChoosePageProps) => {
                   外觀 {selectedAppearance + 1}
                 </div>
                 <button
-                  onClick={() =>
-                    setSelectedAppearance((prev: number) => prev + 1)
-                  }
-                  className="w-[16%] aspect-square hover:scale-95 transition-transform animate-pulse"
+                  onClick={() => {
+                    setSelectedAppearance((prev: number) => prev + 1);
+                    setCurrentSet("appearance");
+                  }}
+                  className={`w-[16%] aspect-square hover:scale-95 transition-transform  ${
+                    currentSet === "appearance" ? "animate-pulse" : " grayscale"
+                  }`}
                 >
                   <img
                     src={
@@ -87,10 +107,15 @@ const StyleChoosePage = ({ onNext, onPrev }: StyleChoosePageProps) => {
             <div className="w-[80%]">
               <div className="flex justify-between items-center gap-4">
                 <button
-                  onClick={() =>
-                    setSelectedClothing((prev: number) => Math.max(0, prev - 1))
-                  }
-                  className="w-[16%] aspect-square hover:scale-95 transition-transform animate-pulse"
+                  onClick={() => {
+                    setSelectedClothing((prev: number) =>
+                      Math.max(0, prev - 1)
+                    );
+                    setCurrentSet("clothing");
+                  }}
+                  className={`w-[16%] aspect-square hover:scale-95 transition-transform  ${
+                    currentSet === "clothing" ? "animate-pulse" : " grayscale"
+                  }`}
                 >
                   <img
                     src={
@@ -103,10 +128,13 @@ const StyleChoosePage = ({ onNext, onPrev }: StyleChoosePageProps) => {
                 </button>
                 <div className="text-white/10">衣服 {selectedClothing + 1}</div>
                 <button
-                  onClick={() =>
-                    setSelectedClothing((prev: number) => prev + 1)
-                  }
-                  className="w-[16%] aspect-square hover:scale-95 transition-transform animate-pulse"
+                  onClick={() => {
+                    setSelectedClothing((prev: number) => prev + 1);
+                    setCurrentSet("clothing");
+                  }}
+                  className={`w-[16%] aspect-square hover:scale-95 transition-transform  ${
+                    currentSet === "clothing" ? "animate-pulse" : " grayscale"
+                  }`}
                 >
                   <img
                     src={

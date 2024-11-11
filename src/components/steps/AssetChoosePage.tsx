@@ -28,15 +28,26 @@ const AssetChoosePage = ({ onNext, onPrev }: AssetChoosePageProps) => {
     <div
       className="relative h-[100dvh] bg-left-top bg-no-repeat pt-[4%]  flex flex-col justify-between"
       style={{
-        backgroundImage: `url('${IMAGE_URLS.ROG_NEO_GAMER + "p4_bg2.png"}')`,
+        backgroundImage: `url('${IMAGE_URLS.ROG_NEO_GAMER + "c_bg02.png"}')`,
         backgroundSize: "100% 100%",
       }}
     >
-      <div className="pt-[5%] h-[83%]  mx-auto  flex flex-col justify-center  gap-4 bg-emerald-600/0">
+      <div className="relative flex  h-[38px] w-full ">
+        <div className="text-center text-white font-rog text-xl font-bold flex items-center justify-start gap-4 absolute top-0 left-0 pl-[5%] pt-[1%]  uppercase  ">
+          Tool Kit{" "}
+        </div>
+        <div className="  ml-auto ">
+          <img
+            src={`${IMAGE_URLS.ROG_NEO_GAMER + "c_titleborder01.png"}`}
+            alt=""
+          />
+        </div>
+      </div>
+      <div className="pt-[5%] h-[82%]  mx-auto  flex flex-col justify-center  gap-4 bg-emerald-600/0">
         <div className="flex-1  relative">
-          <div className="w-[85%]  mx-auto relative">
+          <div className="w-[84%]  mx-auto relative">
             <img
-              src={IMAGE_URLS.ROG_NEO_GAMER + "p4_itemborder.png"}
+              src={IMAGE_URLS.ROG_NEO_GAMER + "p4_itemborder02.png"}
               alt=""
               className="w-full"
             />

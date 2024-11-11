@@ -20,16 +20,12 @@ const PreviewPage = ({ onNext, onPrev }: PreviewPageProps) => {
       }}
     >
       <div className="relative flex  h-[38px] w-full ">
-        <div className="text-center text-white font-rog text-2xl font-bold flex items-center justify-start gap-4 absolute top-0 left-0 pl-[5%] pt-[1%]   ">
+        <div className="text-center text-white font-rog text- xl font-bold flex items-center justify-start gap-4 absolute top-0 left-0 pl-[5%] pt-[1%]   ">
           PREVIEW{" "}
-          <img
-            src={`${IMAGE_URLS.ROG_NEO_GAMER + "c_titleicon01.png"}`}
-            alt=""
-          />
         </div>
         <div className="  ml-auto ">
           <img
-            src={`${IMAGE_URLS.ROG_NEO_GAMER + "c_topborder01.png"}`}
+            src={`${IMAGE_URLS.ROG_NEO_GAMER + "c_titleborder01.png"}`}
             alt=""
           />
         </div>
