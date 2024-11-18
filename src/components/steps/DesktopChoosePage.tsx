@@ -20,13 +20,7 @@ const DesktopChoosePage = ({ onNext, onPrev }: DesktopChoosePageProps) => {
 
   // 處理卡片點擊
   const handleCardClick = (type: ChooseType) => {
-    if (
-      type === "series" ||
-      (type === "style" && selectedSeries !== null) ||
-      (type === "asset" && selectedStyle !== null)
-    ) {
-      setCurrentChoose(type);
-    }
+    setCurrentChoose(type);
   };
 
   const getCardStyle = (type: ChooseType) => {
@@ -62,7 +56,7 @@ const DesktopChoosePage = ({ onNext, onPrev }: DesktopChoosePageProps) => {
         case "asset":
           return 0.8;
         default:
-          return 0.9;
+          return 0.8;
       }
     };
 
@@ -102,31 +96,24 @@ const DesktopChoosePage = ({ onNext, onPrev }: DesktopChoosePageProps) => {
       {/* 調整主要內容區域 - 使用固定寬度並居中 */}
       <div className="relative z-10 h-screen flex items-center justify-center">
         <div className="relative w-[1200px] h-[80vh]">
-          {/* Asset 卡片 (最底層) */}
+          {/* Style 卡片 (中間層) */}
           <motion.div
-            initial={{ x: 1000, opacity: 0 }}
-            animate={getCardStyle("asset")}
+            initial={{ x: 0, opacity: 0 }}
+            animate={getCardStyle("style")}
             transition={{ duration: 0.4, ease: "easeInOut" }}
-            onClick={() => handleCardClick("asset")}
-            className={`w-[37%]  overflow-y-hidden absolute left-1/2 -translate-x-1/2 bg-black/30 backdrop-blur-sm rounded-lg  transition-colors duration-300
+            onClick={() => handleCardClick("style")}
+            className={`w-[37%]  overflow-y-hidden   absolute left-1/2 -translate-x-1/2 bg-black/30 
+              backdrop-blur-sm rounded-lg  transition-all duration-300 cursor-pointer
+              hover:shadow-2xl
               ${
-                selectedStyle === null
-                  ? "opacity-50 pointer-events-none grayscale"
-                  : "cursor-pointer"
+                currentChoose === "style"
+                  ? "grayscale-0 border-2 border-red-500"
+                  : "grayscale hover:grayscale-0 blur-sm hover:blur-none transition-all duration-300 hover:border-2 hover:border-red-800"
               }
-              ${
-                currentChoose === "asset"
-                  ? "grayscale-0"
-                  : "grayscale hover:grayscale-0 blur-sm hover:blur-none hover:scale-105 transition-all duration-300 hover:border-2 hover:border-red-800"
-              }
-              ${selectedAsset !== null ? "border-2 border-red-500" : ""}`}
-            style={{
-              transformStyle: "preserve-3d",
-              transition: "transform 0.1s ease-out",
-            }}
+             `}
           >
-            <div className="h-fu">
-              <AssetChoosePage
+            <div className="h-full">
+              <StyleChoosePage
                 onNext={() => {}}
                 onPrev={() => {}}
                 isDesktop={true}
@@ -134,27 +121,24 @@ const DesktopChoosePage = ({ onNext, onPrev }: DesktopChoosePageProps) => {
             </div>
           </motion.div>
 
-          {/* Style 卡片 (中間層) */}
+          {/* Asset 卡片 (最底層) */}
           <motion.div
-            initial={{ x: 0, opacity: 0 }}
-            animate={getCardStyle("style")}
+            initial={{ x: 1000, opacity: 0 }}
+            animate={getCardStyle("asset")}
             transition={{ duration: 0.4, ease: "easeInOut" }}
-            onClick={() => handleCardClick("style")}
-            className={`w-[37%]  overflow-y-hidden  absolute left-1/2 -translate-x-1/2 bg-black/30 backdrop-blur-sm rounded-lg  transition-colors duration-300
+            onClick={() => handleCardClick("asset")}
+            className={`w-[37%]  overflow-y-hidden   absolute left-1/2 -translate-x-1/2 bg-black/30 
+              backdrop-blur-sm rounded-lg  transition-all duration-300 cursor-pointer
+              hover:shadow-2xl
               ${
-                selectedSeries === null
-                  ? "opacity-50 pointer-events-none grayscale"
-                  : "cursor-pointer"
-              }
-              ${
-                currentChoose === "style"
-                  ? "grayscale-0"
+                currentChoose === "asset"
+                  ? "grayscale-0 border-2 border-red-500"
                   : "grayscale hover:grayscale-0 blur-sm hover:blur-none transition-all duration-300 hover:border-2 hover:border-red-800"
               }
-              ${selectedStyle !== null ? "border-2 border-red-500" : ""}`}
+              `}
           >
-            <div className="h-full">
-              <StyleChoosePage
+            <div className="h-fu">
+              <AssetChoosePage
                 onNext={() => {}}
                 onPrev={() => {}}
                 isDesktop={true}
@@ -173,10 +157,10 @@ const DesktopChoosePage = ({ onNext, onPrev }: DesktopChoosePageProps) => {
               hover:shadow-2xl
               ${
                 currentChoose === "series"
-                  ? "grayscale-0"
-                  : "grayscale hover:grayscale-0"
+                  ? "grayscale-0 border-2 border-red-500"
+                  : "grayscale hover:grayscale-0 blur-sm hover:blur-none hover:scale-105 transition-all duration-300 hover:border-2 hover:border-red-800"
               }
-              ${selectedSeries === null ? "" : "border-2 border-red-500"}`}
+              `}
           >
             <div className="h-full">
               <SeriesChoosePage

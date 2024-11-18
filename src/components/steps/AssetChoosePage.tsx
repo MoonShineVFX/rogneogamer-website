@@ -77,7 +77,7 @@ const AssetChoosePage = ({
                     }`}
                     animate={{
                       opacity: 1,
-                      scale: selectedAsset === asset.id ? 1.1 : 0.95,
+                      scale: selectedAsset === asset.id ? 1.25 : 0.95,
                       transition: {
                         duration: 0.3,
                       },
