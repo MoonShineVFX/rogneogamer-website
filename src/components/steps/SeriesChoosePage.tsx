@@ -4,9 +4,14 @@ import { useAppContext } from "../../context/AppContext";
 interface SeriesChoosePageProps {
   onNext: () => void;
   onPrev: () => void;
+  isDesktop: boolean;
 }
 
-const SeriesChoosePage = ({ onNext, onPrev }: SeriesChoosePageProps) => {
+const SeriesChoosePage = ({
+  onNext,
+  onPrev,
+  isDesktop,
+}: SeriesChoosePageProps) => {
   const { selectedSeries, setSelectedSeries } = useAppContext();
 
   const series = [
@@ -68,42 +73,44 @@ const SeriesChoosePage = ({ onNext, onPrev }: SeriesChoosePageProps) => {
       </div>
 
       <div className="w-full pt-[5%] h-[12%]  bottom-0">
-        <div className="flex justify-between w-[60%] mx-auto h-full bg-violet-600/0 relative">
-          <motion.div
-            initial={{ opacity: 0, x: 100 }}
-            animate={{ opacity: 1, x: 0, y: "0%" }}
-            exit={{ opacity: 0, x: -100 }}
-            transition={{ type: "spring", stiffness: 200, damping: 20 }}
-            className="top-1/2 left-0 z-40 h-10 flex items-center"
-          >
-            <button
-              onClick={handlePrev}
-              className="h-full w-[100%] aspect-[90/40] bg-contain bg-left-top bg-no-repeat flex items-center justify-center hover:scale-95 font-cachet font-bold text-white/80"
-              style={{
-                backgroundImage: `url('${IMAGE_URLS.ROG_GAMER_CARD}/images/redbutton_bg2.png')`,
-              }}
+        {!isDesktop && (
+          <div className="flex justify-between w-[60%] mx-auto h-full bg-violet-600/0 relative">
+            <motion.div
+              initial={{ opacity: 0, x: 100 }}
+              animate={{ opacity: 1, x: 0, y: "0%" }}
+              exit={{ opacity: 0, x: -100 }}
+              transition={{ type: "spring", stiffness: 200, damping: 20 }}
+              className="top-1/2 left-0 z-40 h-10 flex items-center"
             >
-              Back
-            </button>
-          </motion.div>
-          <motion.div
-            initial={{ opacity: 0, x: 100 }}
-            animate={{ opacity: 1, x: 0, y: "0%" }}
-            exit={{ opacity: 0, x: -100 }}
-            className="top-1/2 right-0 z-40 h-10 flex items-center"
-          >
-            <button
-              onClick={handleNext}
-              className="h-full w-[100%] aspect-[90/40] bg-contain bg-left-top bg-no-repeat flex items-center justify-center hover:scale-95 font-cachet font-bold text-white/80"
-              style={{
-                backgroundImage: `url('${IMAGE_URLS.ROG_GAMER_CARD}/images/redbutton_bg2.png')`,
-              }}
+              <button
+                onClick={handlePrev}
+                className="h-full w-[100%] aspect-[90/40] bg-contain bg-left-top bg-no-repeat flex items-center justify-center hover:scale-95 font-cachet font-bold text-white/80"
+                style={{
+                  backgroundImage: `url('${IMAGE_URLS.ROG_GAMER_CARD}/images/redbutton_bg2.png')`,
+                }}
+              >
+                Back
+              </button>
+            </motion.div>
+            <motion.div
+              initial={{ opacity: 0, x: 100 }}
+              animate={{ opacity: 1, x: 0, y: "0%" }}
+              exit={{ opacity: 0, x: -100 }}
+              className="top-1/2 right-0 z-40 h-10 flex items-center"
             >
-              Next
-            </button>
-          </motion.div>
-          <div className="h-[5vh] w-[1px] bg-white/70 absolute bottom-0 left-1/2 -translate-x-1/2"></div>
-        </div>
+              <button
+                onClick={handleNext}
+                className="h-full w-[100%] aspect-[90/40] bg-contain bg-left-top bg-no-repeat flex items-center justify-center hover:scale-95 font-cachet font-bold text-white/80"
+                style={{
+                  backgroundImage: `url('${IMAGE_URLS.ROG_GAMER_CARD}/images/redbutton_bg2.png')`,
+                }}
+              >
+                Next
+              </button>
+            </motion.div>
+            <div className="h-[5vh] w-[1px] bg-white/70 absolute bottom-0 left-1/2 -translate-x-1/2"></div>
+          </div>
+        )}
       </div>
     </div>
   );

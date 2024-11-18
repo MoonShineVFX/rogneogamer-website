@@ -1,8 +1,10 @@
 export const IMAGE_URLS = {
   ROG_GAMER_CARD: "https://r2.web.moonshine.tw/opt/md/msweb/roggamercard",
+
+  ROG_GAMER_CARD_GIF: "https://r2.web.moonshine.tw/msweb/roggamercard",
   ROG_NEO_GAMER:
     "https://r2.web.moonshine.tw/opt/md/msweb/rogneogamer/prototype/",
-  ROG_GAMER_CARD_GIF: "https://r2.web.moonshine.tw/msweb/roggamercard",
+  ROG_NEO_GAMER_LG: "https://r2.web.moonshine.tw/msweb/rogneogamer/prototype/",
 } as const;
 
 // 如果需要，也可以加入其他常用的 helper 函數
