@@ -24,6 +24,7 @@ const StepController = () => {
             <SeriesChoosePage
               onNext={() => setCurrentStep(3)}
               onPrev={() => setCurrentStep(1)}
+              isDesktop={false}
             />
           );
         case 3:
@@ -31,6 +32,7 @@ const StepController = () => {
             <StyleChoosePage
               onNext={() => setCurrentStep(4)}
               onPrev={() => setCurrentStep(2)}
+              isDesktop={false}
             />
           );
         case 4:
@@ -38,6 +40,7 @@ const StepController = () => {
             <AssetChoosePage
               onNext={() => setCurrentStep(5)}
               onPrev={() => setCurrentStep(3)}
+              isDesktop={false}
             />
           );
         case 5:

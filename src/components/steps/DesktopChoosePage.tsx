@@ -4,7 +4,7 @@ import { IMAGE_URLS } from "../../helpers/constants";
 import SeriesChoosePage from "./SeriesChoosePage";
 import StyleChoosePage from "./StyleChoosePage";
 import AssetChoosePage from "./AssetChoosePage";
-import { useState, useRef, MouseEvent } from "react";
+import { useState } from "react";
 
 interface DesktopChoosePageProps {
   onNext: () => void;
@@ -12,15 +12,11 @@ interface DesktopChoosePageProps {
 }
 
 // 定義選擇類型
-type ChooseType = "series" | "style" | "asset" | null;
+type ChooseType = "series" | "style" | "asset";
 
 const DesktopChoosePage = ({ onNext, onPrev }: DesktopChoosePageProps) => {
   const { selectedSeries, selectedStyle, selectedAsset } = useAppContext();
   const [currentChoose, setCurrentChoose] = useState<ChooseType>("series");
-
-  // 檢查是否可以進入下一步
-  const canProceed =
-    selectedSeries !== null && selectedStyle !== null && selectedAsset !== null;
 
   // 處理卡片點擊
   const handleCardClick = (type: ChooseType) => {
@@ -38,7 +34,18 @@ const DesktopChoosePage = ({ onNext, onPrev }: DesktopChoosePageProps) => {
       series: "-145%", // 左側固定位置
       style: "-50%", // 中間固定位置
       asset: "45%", // 右側固定位置
-    };
+    } as const; // 添加 as const 來確保類型
+
+    // 如果 type 是 null，返回默認樣式
+    if (type === null) {
+      return {
+        scale: 0.9,
+        x: "0%",
+        y: "-10%",
+        opacity: 1,
+        zIndex: 1,
+      };
+    }
 
     // 計算基礎縮放比例
     const getBaseScale = (cardType: ChooseType) => {
@@ -49,7 +56,7 @@ const DesktopChoosePage = ({ onNext, onPrev }: DesktopChoosePageProps) => {
       // 根據當前選中項目決定其他卡片的大小
       switch (currentChoose) {
         case "series":
-          return 0.8; // style 中等，asset 最小
+          return 0.8;
         case "style":
           return 0.8;
         case "asset":
@@ -62,18 +69,16 @@ const DesktopChoosePage = ({ onNext, onPrev }: DesktopChoosePageProps) => {
     // 計算 z-index
     let zIndex = 1;
     if (currentChoose === type) {
-      zIndex = 30; // 當前選中的在最上層
+      zIndex = 30;
     } else if (type === "series") {
-      zIndex = 20; // series 次層
+      zIndex = 20;
     } else if (type === "style") {
-      zIndex = 10; // style 第三層
-    } else {
-      zIndex = 1; // asset 最底層
+      zIndex = 10;
     }
 
     return {
       scale: getBaseScale(type),
-      x: basePositions[type],
+      x: basePositions[type], // 現在 type 已經確定不是 null
       y: "-10%",
       opacity: 1,
       zIndex,

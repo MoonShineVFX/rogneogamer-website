@@ -10,6 +10,7 @@ interface AppContextType {
   previewImages: string[];
   userPhoto: string | null;
   resultImages: string[];
+  selectedStyle: string | null;
   setDisplayName: (name: string) => void;
   setSelectedSeries: (series: number) => void;
   setSelectedGender: (gender: "male" | "female") => void;
@@ -19,6 +20,7 @@ interface AppContextType {
   setPreviewImages: (images: string[]) => void;
   setUserPhoto: (photo: string) => void;
   setResultImages: (images: string[]) => void;
+  setSelectedStyle: (style: string | null) => void;
 }
 
 const AppContext = createContext<AppContextType | undefined>(undefined);
@@ -39,6 +41,7 @@ export const AppProvider = ({ children }: AppProviderProps) => {
   const [previewImages, setPreviewImages] = useState<string[]>([]);
   const [userPhoto, setUserPhoto] = useState<string | null>(null);
   const [resultImages, setResultImages] = useState<string[]>([]);
+  const [selectedStyle, setSelectedStyle] = useState<string | null>(null);
 
   return (
     <AppContext.Provider
@@ -52,6 +55,7 @@ export const AppProvider = ({ children }: AppProviderProps) => {
         previewImages,
         userPhoto,
         resultImages,
+        selectedStyle,
         setDisplayName,
         setSelectedSeries,
         setSelectedGender,
@@ -61,6 +65,7 @@ export const AppProvider = ({ children }: AppProviderProps) => {
         setPreviewImages,
         setUserPhoto,
         setResultImages,
+        setSelectedStyle,
       }}
     >
       {children}

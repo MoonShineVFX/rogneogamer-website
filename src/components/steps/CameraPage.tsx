@@ -43,16 +43,17 @@ const CameraPage = ({ onNext, onPrev }: CameraPageProps) => {
   };
 
   useEffect(() => {
-    const cameraC_Instance = lottie.loadAnimation({
+    if (!cameraC_Container.current) return;
+
+    const instance = lottie.loadAnimation({
       container: cameraC_Container.current,
-      animationData: cameraC,
-      autoplay: true,
+      renderer: "svg",
       loop: true,
+      autoplay: true,
+      animationData: cameraC,
     });
 
-    return () => {
-      cameraC_Instance.destroy();
-    };
+    return () => instance.destroy();
   }, []);
 
   //shot
