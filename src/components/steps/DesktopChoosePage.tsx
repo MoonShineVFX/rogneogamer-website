@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { useAppContext } from "../../context/AppContext";
+// import { useAppContext } from "../../context/AppContext";
 import { IMAGE_URLS } from "../../helpers/constants";
 import SeriesChoosePage from "./SeriesChoosePage";
 import StyleChoosePage from "./StyleChoosePage";
@@ -15,7 +15,7 @@ interface DesktopChoosePageProps {
 type ChooseType = "series" | "style" | "asset";
 
 const DesktopChoosePage = ({ onNext, onPrev }: DesktopChoosePageProps) => {
-  const { selectedSeries, selectedStyle, selectedAsset } = useAppContext();
+  // const { selectedSeries, selectedStyle, selectedAsset } = useAppContext();
   const [currentChoose, setCurrentChoose] = useState<ChooseType>("series");
 
   // 處理卡片點擊
