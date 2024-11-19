@@ -165,7 +165,7 @@ const StyleChoosePage = ({
                   backgroundImage: `url('${IMAGE_URLS.ROG_NEO_GAMER}p3_male.png')`,
                 }}
               >
-                MAlE
+                Type1
               </button>
               <button
                 onClick={() => setSelectedGender("female")}
@@ -178,7 +178,7 @@ const StyleChoosePage = ({
                   backgroundImage: `url('${IMAGE_URLS.ROG_NEO_GAMER}p3_female.png')`,
                 }}
               >
-                FEMALE
+                Type2
               </button>
             </div>
           </div>
