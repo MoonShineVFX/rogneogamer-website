@@ -16,9 +16,9 @@ const AssetChoosePage = ({
   const { selectedAsset, setSelectedAsset } = useAppContext();
 
   const assets = [
-    { id: 0, name: "道具一" },
-    { id: 1, name: "道具二" },
-    { id: 2, name: "道具三" },
+    { id: 1, name: "道具一" },
+    { id: 2, name: "道具二" },
+    { id: 3, name: "道具三" },
   ];
 
   // const handleNext = () => {

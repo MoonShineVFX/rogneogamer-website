@@ -15,9 +15,9 @@ const SeriesChoosePage = ({
   const { selectedSeries, setSelectedSeries } = useAppContext();
 
   const series = [
-    { id: 0, name: "SERIES NAME 1" },
-    { id: 1, name: "SERIES NAME 2" },
-    { id: 2, name: "SERIES NAME 3" },
+    { id: 1, name: "SERIES NAME 1" },
+    { id: 2, name: "SERIES NAME 2" },
+    { id: 3, name: "SERIES NAME 3" },
   ];
 
   const handleNext = () => {

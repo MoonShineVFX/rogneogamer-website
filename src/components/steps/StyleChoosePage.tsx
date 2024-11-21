@@ -33,6 +33,25 @@ const StyleChoosePage = ({
     onPrev();
   };
 
+  type Clothing = "1" | "2" | "3" | "4";
+
+  const cycleClothing = (direction: "prev" | "next") => {
+    setSelectedClothing((prev) => {
+      const current = prev || "1"; // 預設值為 "1"
+      const num = parseInt(current);
+      const nextNum =
+        direction === "next"
+          ? num === 4
+            ? 1
+            : num + 1
+          : num === 1
+          ? 4
+          : num - 1;
+      return nextNum.toString() as Clothing;
+    });
+    setCurrentSet("clothing");
+  };
+
   return (
     <div
       className="relative h-[100dvh] bg-left-top bg-no-repeat pt-[4%]  flex flex-col justify-between"
@@ -67,9 +86,7 @@ const StyleChoosePage = ({
               <div className="flex justify-between items-center gap-4 ">
                 <button
                   onClick={() => {
-                    setSelectedAppearance((prev: number) =>
-                      Math.max(0, prev - 1)
-                    );
+                    setSelectedAppearance((prev) => (prev === "W" ? "B" : "W"));
                     setCurrentSet("appearance");
                   }}
                   className={`w-[16%] aspect-square hover:scale-95 transition-transform  ${
@@ -85,12 +102,10 @@ const StyleChoosePage = ({
                     className="w-full h-full object-contain"
                   />
                 </button>
-                <div className="text-white/10">
-                  外觀 {selectedAppearance + 1}
-                </div>
+                <div className="text-white/10">外觀 {selectedAppearance}</div>
                 <button
                   onClick={() => {
-                    setSelectedAppearance((prev: number) => prev + 1);
+                    setSelectedAppearance((prev) => (prev === "W" ? "B" : "W"));
                     setCurrentSet("appearance");
                   }}
                   className={`w-[16%] aspect-square hover:scale-95 transition-transform  ${
@@ -112,12 +127,7 @@ const StyleChoosePage = ({
             <div className="w-[80%]">
               <div className="flex justify-between items-center gap-4">
                 <button
-                  onClick={() => {
-                    setSelectedClothing((prev: number) =>
-                      Math.max(0, prev - 1)
-                    );
-                    setCurrentSet("clothing");
-                  }}
+                  onClick={() => cycleClothing("prev")}
                   className={`w-[16%] aspect-square hover:scale-95 transition-transform  ${
                     currentSet === "clothing" ? "animate-pulse" : " grayscale"
                   }`}
@@ -131,12 +141,9 @@ const StyleChoosePage = ({
                     className="w-full h-full object-contain"
                   />
                 </button>
-                <div className="text-white/10">衣服 {selectedClothing + 1}</div>
+                <div className="text-white/10">衣服 {selectedClothing}</div>
                 <button
-                  onClick={() => {
-                    setSelectedClothing((prev: number) => prev + 1);
-                    setCurrentSet("clothing");
-                  }}
+                  onClick={() => cycleClothing("next")}
                   className={`w-[16%] aspect-square hover:scale-95 transition-transform  ${
                     currentSet === "clothing" ? "animate-pulse" : " grayscale"
                   }`}
@@ -155,9 +162,9 @@ const StyleChoosePage = ({
 
             <div className="flex gap-4 w-[80%] justify-center">
               <button
-                onClick={() => setSelectedGender("male")}
+                onClick={() => setSelectedGender("M")}
                 className={`flex-1  aspect-[16/8] -mr-4 font-rog text-xl tracking-widest  bg-contain bg-no-repeat bg-center flex items-center justify-center text-white/80 hover:scale-105 transition-transform ${
-                  selectedGender === "male"
+                  selectedGender === "M"
                     ? "opacity-100 scale-105"
                     : "opacity-70 scale-95"
                 }`}
@@ -168,9 +175,9 @@ const StyleChoosePage = ({
                 Type1
               </button>
               <button
-                onClick={() => setSelectedGender("female")}
+                onClick={() => setSelectedGender("F")}
                 className={`flex-1  bg-contain -ml-4 font-rog text-xl tracking-widest bg-no-repeat bg-center flex items-center justify-center text-white/80 hover:scale-105 transition-transform ${
-                  selectedGender === "female"
+                  selectedGender === "F"
                     ? "opacity-100 scale-105"
                     : "opacity-70 scale-95"
                 }`}

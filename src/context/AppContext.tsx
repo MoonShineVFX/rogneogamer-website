@@ -1,11 +1,14 @@
 import { createContext, useContext, useState, ReactNode } from "react";
 
+type Appearance = "B" | "W";
+type Clothing = "1" | "2" | "3" | "4";
+
 interface AppContextType {
   displayName: string;
   selectedSeries: number;
-  selectedGender: "male" | "female";
-  selectedAppearance: number;
-  selectedClothing: number;
+  selectedGender: "M" | "F";
+  selectedAppearance: Appearance | null;
+  selectedClothing: Clothing | null;
   selectedAsset: number;
   previewImages: string[];
   userPhoto: string | null;
@@ -13,9 +16,13 @@ interface AppContextType {
   selectedStyle: string | null;
   setDisplayName: (name: string) => void;
   setSelectedSeries: (series: number) => void;
-  setSelectedGender: (gender: "male" | "female") => void;
-  setSelectedAppearance: React.Dispatch<React.SetStateAction<number>>;
-  setSelectedClothing: React.Dispatch<React.SetStateAction<number>>;
+  setSelectedGender: (gender: "M" | "F") => void;
+  setSelectedAppearance: (
+    value: Appearance | ((prev: Appearance | null) => Appearance)
+  ) => void;
+  setSelectedClothing: (
+    value: Clothing | null | ((prev: Clothing | null) => Clothing)
+  ) => void;
   setSelectedAsset: (asset: number) => void;
   setPreviewImages: (images: string[]) => void;
   setUserPhoto: (photo: string) => void;
@@ -32,11 +39,11 @@ interface AppProviderProps {
 export const AppProvider = ({ children }: AppProviderProps) => {
   const [displayName, setDisplayName] = useState("");
   const [selectedSeries, setSelectedSeries] = useState(0);
-  const [selectedGender, setSelectedGender] = useState<"male" | "female">(
-    "male"
+  const [selectedGender, setSelectedGender] = useState<"M" | "F">("M");
+  const [selectedAppearance, setSelectedAppearance] = useState<Appearance>("W");
+  const [selectedClothing, setSelectedClothing] = useState<Clothing | null>(
+    "1"
   );
-  const [selectedAppearance, setSelectedAppearance] = useState(0);
-  const [selectedClothing, setSelectedClothing] = useState(0);
   const [selectedAsset, setSelectedAsset] = useState(0);
   const [previewImages, setPreviewImages] = useState<string[]>([]);
   const [userPhoto, setUserPhoto] = useState<string | null>(null);

@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-// import { useAppContext } from "../../context/AppContext";
+import { useAppContext } from "../../context/AppContext";
 import { IMAGE_URLS } from "../../helpers/constants";
 import SeriesChoosePage from "./SeriesChoosePage";
 import StyleChoosePage from "./StyleChoosePage";
@@ -15,7 +15,13 @@ interface DesktopChoosePageProps {
 type ChooseType = "series" | "style" | "asset";
 
 const DesktopChoosePage = ({ onNext, onPrev }: DesktopChoosePageProps) => {
-  // const { selectedSeries, selectedStyle, selectedAsset } = useAppContext();
+  const {
+    selectedSeries,
+    selectedAsset,
+    selectedAppearance,
+    selectedGender,
+    selectedClothing,
+  } = useAppContext();
   const [currentChoose, setCurrentChoose] = useState<ChooseType>("series");
 
   // 處理卡片點擊
@@ -81,6 +87,16 @@ const DesktopChoosePage = ({ onNext, onPrev }: DesktopChoosePageProps) => {
 
   return (
     <div className="min-h-screen bg-black relative overflow-hidden">
+      <div className="absolute top-0 left-0 text-white/50 text-sm z-10">
+        {"S" +
+          selectedSeries +
+          selectedGender +
+          selectedAppearance +
+          "-C0" +
+          selectedClothing +
+          "-A" +
+          selectedAsset}
+      </div>
       {/* 背景元素 */}
       <motion.div
         initial={{ opacity: 0 }}
