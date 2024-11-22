@@ -38,7 +38,7 @@ interface AppProviderProps {
 
 export const AppProvider = ({ children }: AppProviderProps) => {
   const [displayName, setDisplayName] = useState("");
-  const [selectedSeries, setSelectedSeries] = useState(0);
+  const [selectedSeries, setSelectedSeries] = useState<number>(1);
   const [selectedGender, setSelectedGender] = useState<"M" | "F">("M");
   const [selectedAppearance, setSelectedAppearance] = useState<Appearance>("W");
   const [selectedClothing, setSelectedClothing] = useState<Clothing | null>(

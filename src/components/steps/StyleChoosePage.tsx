@@ -15,6 +15,7 @@ const StyleChoosePage = ({
   isDesktop,
 }: StyleChoosePageProps) => {
   const {
+    selectedSeries,
     selectedGender,
     setSelectedGender,
     selectedAppearance,
@@ -77,7 +78,16 @@ const StyleChoosePage = ({
             initial={{ opacity: 0, x: 0 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.5 }}
-            src={IMAGE_URLS.ROG_NEO_GAMER + "character.png"}
+            src={
+              IMAGE_URLS.ROG_NEO_GAMER +
+              "output/image_S" +
+              selectedSeries +
+              selectedGender +
+              selectedAppearance +
+              "C0" +
+              selectedClothing +
+              ".png"
+            }
             alt=""
             className="max-w-full max-h-full mx-auto"
           />

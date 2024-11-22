@@ -92,7 +92,7 @@ const DesktopChoosePage = ({ onNext, onPrev }: DesktopChoosePageProps) => {
           selectedSeries +
           selectedGender +
           selectedAppearance +
-          "-C0" +
+          "C0" +
           selectedClothing +
           "-A" +
           selectedAsset}
