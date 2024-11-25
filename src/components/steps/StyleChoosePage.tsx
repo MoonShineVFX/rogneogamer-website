@@ -75,18 +75,19 @@ const StyleChoosePage = ({
       <div className="pt-[5%] h-[83%]  mx-auto  flex flex-col justify-center  gap-4 bg-emerald-600/0">
         <div className="w-full h-full  mx-auto ">
           <motion.img
-            initial={{ opacity: 0, x: 0 }}
-            animate={{ opacity: 1, x: 0 }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
             transition={{ duration: 0.5 }}
             src={
-              IMAGE_URLS.ROG_NEO_GAMER +
-              "output/image_S" +
+              "https://r2.web.moonshine.tw/opt/lg/msweb/rogneogamer/prototype/" +
+              "o3/image_S" +
               selectedSeries +
               selectedGender +
               selectedAppearance +
               "C0" +
               selectedClothing +
-              ".png"
+              ".png?v=2"
             }
             alt=""
             className="max-w-full max-h-full mx-auto"
