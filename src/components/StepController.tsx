@@ -43,6 +43,8 @@ const StepController = () => {
               isDesktop={false}
             />
           );
+        // del BgChoosePage
+
         case 5:
           return (
             <PreviewPage

@@ -1,35 +1,46 @@
-// import { useAppContext } from "../../context/AppContext";
-import { IMAGE_URLS } from "../../helpers/constants";
 import { motion } from "framer-motion";
-import useIsMobile from "../../hooks/useIsMobile";
 import { useAppContext } from "../../context/AppContext";
-interface PreviewPageProps {
+import { IMAGE_URLS } from "../../helpers/constants";
+import useIsMobile from "../../hooks/useIsMobile";
+interface BgChoosePageProps {
   onNext: () => void;
   onPrev: () => void;
+  isDesktop?: boolean;
 }
 
-const PreviewPage = ({ onNext, onPrev }: PreviewPageProps) => {
-  // 移除未使用的解構
-  const { selectedSeries, selectedAsset } = useAppContext();
-  console.log(
-    `${IMAGE_URLS.ROG_NEO_GAMER}bg/S${selectedSeries}A0${selectedAsset}.png`
-  );
+const BgChoosePage = ({ onNext, onPrev }: BgChoosePageProps) => {
+  const { selectedBg, selectedSeries, selectedAsset, setSelectedBg } =
+    useAppContext();
   const isMobile = useIsMobile();
+
+  // 根據選擇的 series 生成兩個背景選項
+  const bgOptions = [
+    {
+      id: `s${selectedSeries}_1A0${selectedAsset}`,
+      url: `${IMAGE_URLS.ROG_NEO_GAMER}bg/s${selectedSeries}_1A0${selectedAsset}.png`,
+    },
+    {
+      id: `s${selectedSeries}_2A0${selectedAsset}`,
+      url: `${IMAGE_URLS.ROG_NEO_GAMER}bg/s${selectedSeries}_2A0${selectedAsset}.png`,
+    },
+  ];
 
   return (
     <div
       className="relative h-[100dvh] bg-left-top bg-no-repeat pt-[4%]  flex flex-col justify-between lg:justify-start"
       style={{
-        backgroundImage: `url('${IMAGE_URLS.ROG_NEO_GAMER + "c_bg02.png"}')`,
+        backgroundImage: `url('${
+          IMAGE_URLS.ROG_NEO_GAMER + "desktop_bg.png"
+        }')`,
         backgroundSize: "100% 100%",
       }}
     >
       <div className="absolute top-0 left-0 text-white/50 text-sm z-10">
-        {`S${selectedSeries}A0${selectedAsset}`}
+        {"s" + selectedSeries + "_1A0" + selectedAsset}
       </div>
       <div className="relative flex  h-[38px] w-full ">
         <div className="text-center text-white font-rog text- xl font-bold flex items-center justify-start gap-4 absolute top-0 left-0 pl-[5%] pt-[1%]   ">
-          PREVIEW{" "}
+          BACKGROUND{" "}
         </div>
         <div className="  ml-auto ">
           <img
@@ -38,89 +49,39 @@ const PreviewPage = ({ onNext, onPrev }: PreviewPageProps) => {
           />
         </div>
       </div>
-      <div className="px-[6%] lg:px-[10%] h-[86%] lg:h-auto  lg:w-[100%]   mx-auto   flex flex-col lg:flex-row justify-center pt-[4%] lg:pt-[10%] gap-4 lg:gap-8">
-        {/* 第一張橫向圖片 */}
-        <div className="w-full  lg:w-[65%]   relative   aspect-video  ">
-          <img
-            src={IMAGE_URLS.ROG_NEO_GAMER + "p7_b1.png"}
-            alt=""
-            className="w-full h-full object-contain "
-          />
-          <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0, scale: 0.9 }}
-            className="absolute top-0 left-0 w-full h-full px-4 py-3 -mt-1 lg:px-[8%]   "
-          >
-            <img
-              src={`${IMAGE_URLS.ROG_NEO_GAMER}bg/S${selectedSeries}A0${selectedAsset}.jpg`}
-              alt="預覽 1"
-              className="w-full h-full object-cover"
-            />
-          </motion.div>
-          <div className="absolute -bottom-[5%] left-1/2 -translate-x-1/2   z-20 flex items-center gap-2">
-            <p className="text-white/80 text-center">Wallpaper</p>
-          </div>
-        </div>
-
-        {/* 兩張直向圖片並排 */}
-        <div className="flex gap-4 h-auto w-full lg:w-1/2 lg:h-full aspect-[4/3] ">
-          <div className="w-1/2  bg-red-800/0  relative">
-            <img
-              src={IMAGE_URLS.ROG_NEO_GAMER + "p7_b2.png"}
-              alt=""
-              className="w-full h-full object-contain"
-            />
+      {/* 背景選擇區域 */}
+      <div className="relative z-10 container mx-auto px-4 py-[8%]">
+        <div className="grid grid-cols-2 md:grid-cols-2 gap-6">
+          {bgOptions.map((bg, index) => (
             <motion.div
-              initial={{ opacity: 0, scale: 0.9 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 0.9 }}
-              transition={{
-                type: "spring",
-                stiffness: 200,
-                damping: 20,
-                delay: 0.2,
+              key={bg.id}
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{
+                opacity: 1,
+                scale: selectedBg === bg.id ? 1.05 : 1,
               }}
-              className="absolute top-0 left-0 w-full h-full px-3 py-4 -mt-1 lg:px-[9%] "
+              transition={{
+                duration: 0.5,
+                delay: index * 0.5,
+              }}
+              onClick={() => setSelectedBg(bg.id)}
+              className={`
+                bg-white/10 
+                aspect-[16/9] 
+                cursor-pointer 
+                hover:brightness-125
+                transition-all
+                duration-300
+                ${selectedBg === bg.id ? "ring-2 ring-red-500 scale-105" : ""}
+              `}
             >
               <img
-                src={`${IMAGE_URLS.ROG_NEO_GAMER}p5_img2.png`}
-                alt="預覽 1"
-                className="w-full h-full object-cover"
+                src={bg.url}
+                alt={`Background ${index + 1}`}
+                className="w-full h-full object-cover rounded-lg "
               />
             </motion.div>
-            <div className="absolute -bottom-[6%] left-1/2 -translate-x-1/2   z-20 flex items-center gap-2">
-              <p className="text-white/80 text-center">Phone</p>
-            </div>
-          </div>
-          <div className="w-1/2 bg-red-800/0  relative">
-            <img
-              src={IMAGE_URLS.ROG_NEO_GAMER + "p7_b2.png"}
-              alt=""
-              className="w-full h-full object-contain"
-            />
-            <motion.div
-              initial={{ opacity: 0, scale: 0.9 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 0.9 }}
-              transition={{
-                type: "spring",
-                stiffness: 200,
-                damping: 20,
-                delay: 0.2,
-              }}
-              className="absolute top-0 left-0 w-full h-full px-3 py-4 -mt-1 lg:px-[9%] "
-            >
-              <img
-                src={`${IMAGE_URLS.ROG_NEO_GAMER}p5_img2.png`}
-                alt="預覽 1"
-                className="w-full h-full object-cover"
-              />
-            </motion.div>
-            <div className="absolute -bottom-[6%] left-1/2 -translate-x-1/2   z-20 flex items-center gap-2">
-              <p className="text-white/80 text-center">Dnamic</p>
-            </div>
-          </div>
+          ))}
         </div>
       </div>
 
@@ -207,4 +168,4 @@ const PreviewPage = ({ onNext, onPrev }: PreviewPageProps) => {
   );
 };
 
-export default PreviewPage;
+export default BgChoosePage;

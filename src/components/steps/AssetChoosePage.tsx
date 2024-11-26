@@ -8,6 +8,8 @@ interface AssetChoosePageProps {
   isDesktop: boolean;
 }
 
+type Asset = "1" | "2";
+
 const AssetChoosePage = ({
   onNext,
   onPrev,
@@ -15,10 +17,9 @@ const AssetChoosePage = ({
 }: AssetChoosePageProps) => {
   const { selectedAsset, setSelectedAsset } = useAppContext();
 
-  const assets = [
-    { id: 1, name: "道具一" },
-    { id: 2, name: "道具二" },
-    { id: 3, name: "道具三" },
+  const assets: { id: Asset; name: string }[] = [
+    { id: "1", name: "道具一" },
+    { id: "2", name: "道具二" },
   ];
 
   // const handleNext = () => {
@@ -50,46 +51,36 @@ const AssetChoosePage = ({
       </div>
       <div className="pt-[5%] h-[82%]  mx-auto  flex flex-col justify-center  gap-4 bg-emerald-600/0">
         <div className="flex-1  relative">
-          <div className="w-[84%]  mx-auto relative">
+          <div className="w-[87%]  mx-auto relative">
             <img
-              src={IMAGE_URLS.ROG_NEO_GAMER + "p4_itemborder02.png"}
+              src={IMAGE_URLS.ROG_NEO_GAMER + "asset_edge.png"}
               alt=""
               className="w-full"
             />
-            <div className="absolute top-[2%] left-[7.5%] w-[85%] h-[95%] z-40">
-              <div className="flex flex-col gap-4 h-full justify-between ">
+            <div className="absolute top-[2%] left-0 w-[100%] h-[95%] z-40 ">
+              <div className="flex flex-col gap-4 h-full justify-evenly ">
                 {assets.map((asset) => (
-                  <motion.div
-                    initial={{ opacity: 0, x: 0 }}
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
-                    transition={{
-                      duration: 0.5,
-                      delay: 0.1 * asset.id,
-                      scale: {
-                        duration: 0.2,
-                      },
-                    }}
+                  <div
                     onClick={() => setSelectedAsset(asset.id)}
                     key={asset.id}
-                    className={`relative aspect-[262/120] h-full w-full p-0 cursor-pointer flex items-center justify-center ${
+                    className={`relative aspect-[368/173]  w-full p-0 cursor-pointer flex items-center justify-center bg-contain bg-left-top bg-no-repeat ${
                       selectedAsset === asset.id ? "z-10" : "z-0"
                     }`}
-                    animate={{
-                      opacity: 1,
-                      scale: selectedAsset === asset.id ? 1.25 : 0.95,
-                      transition: {
-                        duration: 0.3,
-                      },
+                    style={{
+                      backgroundImage: `url('${
+                        IMAGE_URLS.ROG_NEO_GAMER + "asset_b.png"
+                      }')`,
+                      backgroundSize: "100% 100%",
                     }}
                   >
                     <motion.img
                       src={IMAGE_URLS.ROG_NEO_GAMER + "item.png"}
                       alt=""
-                      className="w-full max-w-[80px] max-h-full"
-                      whileHover={{ opacity: 0.9 }}
+                      className={`w-full max-w-[80px] max-h-full transition-all duration-300 ${
+                        selectedAsset === asset.id ? "scale-125" : "scale-95"
+                      }`}
                     />
-                  </motion.div>
+                  </div>
                 ))}
               </div>
             </div>
