@@ -15,9 +15,9 @@ const SeriesChoosePage = ({
   const { selectedSeries, setSelectedSeries } = useAppContext();
 
   const series = [
-    { id: "1", name: "SERIES NAME 1" },
-    { id: "2", name: "SERIES NAME 2" },
-    { id: "3", name: "SERIES NAME 3" },
+    { id: "1", name: "Mechanist" },
+    { id: "2", name: "Extremist" },
+    { id: "3", name: "Fanatic" },
   ];
 
   const handleNext = () => {
@@ -30,12 +30,23 @@ const SeriesChoosePage = ({
 
   return (
     <div
-      className=" relative h-[100dvh] bg-left-top bg-no-repeat flex flex-col justify-between"
+      className="relative h-[100dvh] bg-left-top bg-no-repeat pt-[4%]  flex flex-col justify-between "
       style={{
-        backgroundImage: `url('${IMAGE_URLS.ROG_NEO_GAMER + "p2_bg.png"}')`,
+        backgroundImage: `url('${IMAGE_URLS.ROG_NEO_GAMER + "c_bg02.png"}')`,
         backgroundSize: "100% 100%",
       }}
     >
+      <div className="relative flex  h-[38px] w-full ">
+        <div className="text-center text-white font-rog text- xl font-bold flex items-center justify-start gap-4 absolute top-0 left-0 pl-[5%] pt-[1%] uppercase   ">
+          SERIES{" "}
+        </div>
+        <div className="  ml-auto ">
+          <img
+            src={`${IMAGE_URLS.ROG_NEO_GAMER + "c_titleborder01.png"}`}
+            alt=""
+          />
+        </div>
+      </div>
       <div className=" w-[88%] pt-[5%]  mx-auto h-full  relative bg-green-50/0">
         <motion.div
           initial={{ opacity: 0, y: 100 }}

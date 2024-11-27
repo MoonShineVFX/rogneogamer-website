@@ -26,15 +26,17 @@ const DownloadPage = ({ onNext, onPrev }: DownloadPageProps) => {
   } = useAppContext();
   const [currentMenu, setCurrentMenu] = useState("image");
   const [isAtBottom] = useState(false);
-  const [qrUrl] = useState("1");
   const isMobile = useIsMobile();
-  const [showProgress, setShowProgress] = useState(false);
+  const [showProgress, setShowProgress] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [faceSwapTaskId, setFaceSwapTaskId] = useState<string>("");
   const [videoFaceSwapTaskId, setVideoFaceSwapTaskId] = useState<string | null>(
     null
   );
   const [renderedResultImage, setRenderedResultImage] = useState<string | null>(
+    null
+  );
+  const [renderedResultVideo, setRenderedResultVideo] = useState<string | null>(
     null
   );
   const mb_menu = [
@@ -58,7 +60,6 @@ const DownloadPage = ({ onNext, onPrev }: DownloadPageProps) => {
         if (capturedImage) {
           try {
             if (isSubscribed) {
-              setShowProgress(true);
               setError(null);
             }
             const response = await faceSwapApi.swapFace(
@@ -96,7 +97,14 @@ const DownloadPage = ({ onNext, onPrev }: DownloadPageProps) => {
                 "S" + selectedSeries + "_" + selectedGender
               }.mp4`
             );
-            setVideoFaceSwapTaskId(responseVideo.job_id);
+            if (isSubscribed) {
+              if (responseVideo.job_id) {
+                setVideoFaceSwapTaskId(responseVideo.job_id);
+                setTimeout(() => {
+                  getResultVideo(responseVideo.job_id);
+                }, 500);
+              }
+            }
           } catch (error) {
             setError("影片上傳失敗");
           }
@@ -131,6 +139,34 @@ const DownloadPage = ({ onNext, onPrev }: DownloadPageProps) => {
       }
 
       console.log(response);
+    }, 1000);
+  };
+  const getResultVideo = async (id: string) => {
+    if (!id) return;
+    const response = await faceSwapApi.getSwappedVideo(id);
+    //   {
+    //     "completed_at": null,
+    //     "created_at": "2024-11-27T17:59:48.907167",
+    //     "error_message": "檔案下載失敗.",
+    //     "id": "0ec33f1a-39d2-49c1-9dec-9814ad282752",
+    //     "output_path": null,
+    //     "progress": 100,
+    //     "source_path": "https://www.ly.gov.tw/Images/Legislators/ly1000_6_00192_13f.jpg",
+    //     "status": "failed",
+    //     "target_path": "https://r2.web.moonshine.tw/msweb/rogneogamer/prototype/video/S1_F.mp4"
+    // }
+    setTimeout(async () => {
+      if (response.status === "failed") {
+        setError("影片下載失敗");
+        return;
+      }
+      if (response.progress < 100 || response.status === "processing") {
+        getResultVideo(id);
+        return;
+      }
+      if (response.status === "completed" && response.source_path.length > 0) {
+        setRenderedResultVideo(response.output_path);
+      }
     }, 1000);
   };
 
@@ -223,7 +259,7 @@ const DownloadPage = ({ onNext, onPrev }: DownloadPageProps) => {
                     >
                       <img
                         src={
-                          IMAGE_URLS.ROG_NEO_GAMER_LG +
+                          IMAGE_URLS.ROG_NEO_GAMER +
                           "final_" +
                           item.title +
                           ".svg"
@@ -356,13 +392,15 @@ const DownloadPage = ({ onNext, onPrev }: DownloadPageProps) => {
                       className={` flex flex-col justify-center items-center gap-10 bg-orange-400/0 w-full `}
                     >
                       <a
-                        href={`wallpaperdUrl`}
+                        href={
+                          renderedResultImage ? renderedResultImage : undefined
+                        }
                         target="_blank"
                         rel="noreferrer"
                         className={` transition-all duration-500 flex items-end justify-between bg-fuchsia-100/0 pl-[10%] relative`}
                       >
                         <div className=" absolute top-0 left-0 w-[12%]  ">
-                          {qrUrl && qrUrl.length > 0 ? (
+                          {renderedResultImage ? (
                             <img
                               className=" absolute  left-0"
                               src={
@@ -381,7 +419,7 @@ const DownloadPage = ({ onNext, onPrev }: DownloadPageProps) => {
                         <div
                           className={` ${"text-[#C7B299]"} font-cachetpro bg-sky-400/0 text-[5vw] underline`}
                         >
-                          Download Wallpaper
+                          Download PC Wallpaper
                         </div>
                       </a>
                     </div>
@@ -405,13 +443,13 @@ const DownloadPage = ({ onNext, onPrev }: DownloadPageProps) => {
                       className={` flex flex-col justify-center items-center gap-10 bg-orange-400/0 w-full `}
                     >
                       <a
-                        href={`wallpaperdUrl`}
+                        href={renderedResultImage ? renderedResultImage : ""}
                         target="_blank"
                         rel="noreferrer"
                         className={` transition-all duration-500 flex items-end justify-between bg-fuchsia-100/0 pl-[10%] relative`}
                       >
                         <div className=" absolute top-0 left-0 w-[12%]  ">
-                          {qrUrl && qrUrl.length > 0 ? (
+                          {renderedResultImage ? (
                             <img
                               className=" absolute  left-0"
                               src={
@@ -454,13 +492,13 @@ const DownloadPage = ({ onNext, onPrev }: DownloadPageProps) => {
                       className={` flex flex-col justify-center items-center gap-10 bg-orange-400/0 w-full `}
                     >
                       <a
-                        href={`wallpaperdUrl`}
+                        href={renderedResultVideo ? renderedResultVideo : ""}
                         target="_blank"
                         rel="noreferrer"
                         className={` transition-all duration-500 flex items-end justify-between bg-fuchsia-100/0 pl-[10%] relative`}
                       >
-                        <div className=" absolute top-0 left-0 w-[12%]  ">
-                          {qrUrl && qrUrl.length > 0 ? (
+                        <div className=" absolute top-0 left-0 w-[17%]  ">
+                          {renderedResultVideo ? (
                             <img
                               className=" absolute  left-0"
                               src={
@@ -617,15 +655,18 @@ const DownloadPage = ({ onNext, onPrev }: DownloadPageProps) => {
                 <motion.div
                   className={`w-full space-y-[8%] flex flex-col  justify-end items-end ${"opacity-80 brightness-100 "}`}
                 >
-                  <div
+                  <a
+                    href={renderedResultImage ? renderedResultImage : ""}
+                    target="_blank"
+                    rel="noreferrer"
                     className={` flex items-end justify-between w-[78%] pl-[12%] relative transition-all duration-500  ${
-                      qrUrl
+                      renderedResultImage
                         ? "hover:scale-95 cursor-pointer  "
                         : " grayscale brightness-50 cursor-wait "
                     }`}
                   >
                     <div className=" absolute -top-1 left-0 w-[11%]  ">
-                      {qrUrl ? (
+                      {renderedResultImage ? (
                         <img
                           className=" w-full"
                           src={
@@ -649,18 +690,18 @@ const DownloadPage = ({ onNext, onPrev }: DownloadPageProps) => {
                         }')`,
                       }}
                     >
-                      Download 16:9 Wallpaper
+                      Download PC Wallpaper
                     </div>
-                  </div>
+                  </a>
                   <div
                     className={`flex items-end justify-between w-[78%] pl-[12%] relative transition-all duration-500  ${
-                      qrUrl && qrUrl.length > 0
+                      renderedResultImage
                         ? "hover:scale-95 cursor-pointer  "
                         : " grayscale brightness-50 cursor-wait "
                     }`}
                   >
                     <div className=" absolute -top-1 left-0 w-[11%]">
-                      {qrUrl && qrUrl.length > 0 ? (
+                      {renderedResultImage ? (
                         <img
                           className=" w-full"
                           src={
@@ -684,18 +725,21 @@ const DownloadPage = ({ onNext, onPrev }: DownloadPageProps) => {
                         }')`,
                       }}
                     >
-                      Download 9:16 Wallpaper
+                      Download Mobile Wallpaper
                     </div>
                   </div>
-                  <div
+                  <a
+                    href={renderedResultVideo ? renderedResultVideo : ""}
+                    target="_blank"
+                    rel="noreferrer"
                     className={`flex items-end justify-between w-[78%] pl-[12%] relative transition-all duration-500  ${
-                      qrUrl && qrUrl.length > 0
+                      renderedResultVideo
                         ? "hover:scale-95 cursor-pointer  "
                         : " grayscale brightness-50 cursor-wait "
                     }`}
                   >
                     <div className=" absolute -top-1 left-0 w-[11%]">
-                      {qrUrl && qrUrl.length > 0 ? (
+                      {renderedResultVideo ? (
                         <img
                           className=" w-full"
                           src={
@@ -721,7 +765,7 @@ const DownloadPage = ({ onNext, onPrev }: DownloadPageProps) => {
                     >
                       Download Video
                     </div>
-                  </div>
+                  </a>
                   <div
                     onClick={onNext}
                     className="hover:scale-95 cursor-pointer flex items-end justify-between w-[78%] bg-fuchsia-100/0 pl-[12%] relative"

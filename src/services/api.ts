@@ -6,6 +6,10 @@ interface FaceSwapResponse {
   generations: {
     img: string;
   }[];
+  progress: number;
+  status: string;
+  source_path: string;
+  output_path: string;
 }
 
 export const API_BASE_URL = "https://rogneogamer-api.moonshine-studio.net";
@@ -101,7 +105,7 @@ export const faceSwapApi = {
   },
 
   // 獲取換臉後的影片
-  getSwappedVideo: async (id: string): Promise<string> => {
+  getSwappedVideo: async (id: string): Promise<FaceSwapResponse> => {
     try {
       const response = await fetch(`${API_BASE_URL}/video/${id}`, {
         headers: {
@@ -113,8 +117,7 @@ export const faceSwapApi = {
         throw new Error("Failed to get swapped video");
       }
 
-      const blob = await response.blob();
-      return URL.createObjectURL(blob);
+      return await response.json();
     } catch (error) {
       console.error("Get swapped video error:", error);
       throw error;

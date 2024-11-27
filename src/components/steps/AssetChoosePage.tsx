@@ -33,7 +33,7 @@ const AssetChoosePage = ({
     >
       <div className="relative flex  h-[38px] w-full ">
         <div className="text-center text-white font-rog text-xl font-bold flex items-center justify-start gap-4 absolute top-0 left-0 pl-[5%] pt-[1%]  uppercase  ">
-          Tool Kit{" "}
+          Gaming Setup​{" "}
         </div>
         <div className="  ml-auto ">
           <img

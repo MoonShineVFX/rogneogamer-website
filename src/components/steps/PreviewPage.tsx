@@ -81,7 +81,7 @@ const PreviewPage = ({ onNext, onPrev }: PreviewPageProps) => {
             />
           </motion.div>
           <div className="absolute -bottom-[5%] left-1/2 -translate-x-1/2   z-20 flex items-center gap-2">
-            <p className="text-white/80 text-center">Wallpaper</p>
+            <p className="text-white/80 text-center">PC Wallpaper</p>
           </div>
         </div>
 
@@ -112,7 +112,7 @@ const PreviewPage = ({ onNext, onPrev }: PreviewPageProps) => {
               />
             </motion.div>
             <div className="absolute -bottom-[6%] left-1/2 -translate-x-1/2   z-20 flex items-center gap-2">
-              <p className="text-white/80 text-center">Phone</p>
+              <p className="text-white/80 text-center">Mobile Wallpaper</p>
             </div>
           </div>
           <div className="w-1/2 bg-red-800/0  relative">
@@ -133,14 +133,19 @@ const PreviewPage = ({ onNext, onPrev }: PreviewPageProps) => {
               }}
               className="absolute top-0 left-0 w-full h-full px-3 py-4 -mt-1 lg:px-[9%] "
             >
-              <img
-                src={`${IMAGE_URLS.ROG_NEO_GAMER}p5_img2.png`}
-                alt="預覽 1"
+              {/* iframe video  `${IMAGE_URLS.ROG_NEO_GAMER}video/${
+                "S" + selectedSeries + "_" + selectedGender
+              }.mp4` */}
+              <iframe
+                src={`${IMAGE_URLS.ROG_NEO_GAMER}video/${
+                  "S" + selectedSeries + "_" + selectedGender
+                }.mp4`}
+                title="Video"
                 className="w-full h-full object-cover"
-              />
+              ></iframe>
             </motion.div>
             <div className="absolute -bottom-[6%] left-1/2 -translate-x-1/2   z-20 flex items-center gap-2">
-              <p className="text-white/80 text-center">Dnamic</p>
+              <p className="text-white/80 text-center">Video</p>
             </div>
           </div>
         </div>

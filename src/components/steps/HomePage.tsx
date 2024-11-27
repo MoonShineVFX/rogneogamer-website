@@ -59,6 +59,7 @@ const HomePage = ({ onNext }: HomePageProps) => {
   const handleClick = async () => {
     if (!displayName.trim()) {
       setIsUsername(false);
+      setIsAccept(true);
       return;
     }
 
@@ -118,7 +119,7 @@ const HomePage = ({ onNext }: HomePageProps) => {
             className="max-w-full w-[47%] fixed top-[5%] left-8 z-50"
           >
             <img
-              src={IMAGE_URLS.ROG_GAMER_CARD + "/images/mb/home_title_mb.png"}
+              src={IMAGE_URLS.ROG_NEO_GAMER + "home_title_mb.png"}
               alt="title"
             />
           </motion.div>
@@ -289,10 +290,9 @@ const HomePage = ({ onNext }: HomePageProps) => {
                   <br />* Only English letters, numbers, and symbols are
                   permitted.
                   {!isUsername && <div>* Please name your gamer</div>}
-                  {!isAccept && <div>* Please agree to our terms.</div>}
                 </div>
               </div>
-              <div className="flex items-center gap-2 mt-4 px-4">
+              {/* <div className="flex items-center gap-2 mt-4 px-4 h-[10%]">
                 <input
                   type="checkbox"
                   id="terms"
@@ -303,7 +303,7 @@ const HomePage = ({ onNext }: HomePageProps) => {
                 <label htmlFor="terms" className="text-[3vw] text-white/80">
                   I agree to the Terms of Service and Privacy Policy
                 </label>
-              </div>
+              </div> */}
               <div className="flex flex-col items-center gap-9  w-full  bg-slate-500/0  ">
                 <button
                   onClick={handleClick}
@@ -443,7 +443,7 @@ const HomePage = ({ onNext }: HomePageProps) => {
           <AnimatePresence>
             <motion.div
               initial={{ opacity: 0, y: "-50%", x: "-10%" }}
-              animate={{ opacity: 1, y: "-50%", x: 0 }}
+              animate={{ opacity: 1, y: "-50%", x: "7%" }}
               exit={{ opacity: 0, y: "-50%", x: "-25%" }}
               transition={{
                 type: "spring",
@@ -451,10 +451,10 @@ const HomePage = ({ onNext }: HomePageProps) => {
                 damping: 20,
                 delay: 1.5,
               }}
-              className=" absolute top-1/2 left-0 z-50 w-[90vw]  mix-blend-screen pointer-events-none"
+              className=" absolute top-1/2 left-0 z-50 w-[57vw]   mix-blend-screen pointer-events-none"
             >
               <img
-                src={IMAGE_URLS.ROG_GAMER_CARD_GIF + "/images/home_title.gif"}
+                src={IMAGE_URLS.ROG_NEO_GAMER + "home_title.png"}
                 alt=""
                 className="w-[100%] "
               />
