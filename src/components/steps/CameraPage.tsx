@@ -23,6 +23,7 @@ const CameraPage = ({ onNext, onPrev }: CameraPageProps) => {
     selectedAppearance,
     selectedClothing,
     selectedAsset,
+    setCapturedImage,
   } = useAppContext();
   const webcamRef = useRef<Webcam>(null);
   const inputFileRef = useRef<HTMLInputElement>(null);
@@ -74,7 +75,7 @@ const CameraPage = ({ onNext, onPrev }: CameraPageProps) => {
     try {
       const files = await base64toFileList(photo);
       const compressedFile = await resizeFile(files[0]);
-
+      setCapturedImage(compressedFile as File);
       // 確保 compressedFile 是 File 或 Blob
       if (compressedFile instanceof File || compressedFile instanceof Blob) {
         const formData = new FormData();
@@ -133,13 +134,27 @@ const CameraPage = ({ onNext, onPrev }: CameraPageProps) => {
   const onUploadBtnClick = () => {
     inputFileRef.current?.click();
   };
-
+  const allowedImageTypes = [
+    "image/jpeg",
+    "image/jpg",
+    "image/png",
+    "image/bmp",
+  ];
   const onFilechange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
       const file = e.target.files[0];
+      if (!allowedImageTypes.includes(file.type)) {
+        alert("請上傳正確的圖片格式");
+        return;
+      }
+      if (file.size > 12 * 1024 * 1024) {
+        alert("請上傳小於12MB的圖片");
+        return;
+      }
       const reader = new FileReader();
       reader.onloadend = () => {
         setImage(reader.result as string);
+        setBeforeImage(reader.result as string);
         setImageType("upload");
       };
       reader.readAsDataURL(file);
@@ -714,16 +729,6 @@ const CameraPage = ({ onNext, onPrev }: CameraPageProps) => {
           </motion.div>
         </>
       )}
-
-      {/* 在界面上顯示選擇的內容（如果需要） */}
-      <div className="absolute top-4 left-4 text-white/80">
-        <div>Series: {selectedSeries}</div>
-
-        <div>Gender: {selectedGender}</div>
-        <div>Appearance: {selectedAppearance}</div>
-        <div>Clothing: {selectedClothing}</div>
-        <div>Asset: {selectedAsset}</div>
-      </div>
     </div>
   );
 };

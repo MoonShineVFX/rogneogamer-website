@@ -15,9 +15,9 @@ const SeriesChoosePage = ({
   const { selectedSeries, setSelectedSeries } = useAppContext();
 
   const series = [
-    { id: 1, name: "SERIES NAME 1" },
-    { id: 2, name: "SERIES NAME 2" },
-    { id: 3, name: "SERIES NAME 3" },
+    { id: "1", name: "SERIES NAME 1" },
+    { id: "2", name: "SERIES NAME 2" },
+    { id: "3", name: "SERIES NAME 3" },
   ];
 
   const handleNext = () => {
@@ -56,7 +56,7 @@ const SeriesChoosePage = ({
           {series.map((item) => (
             <button
               key={item.id}
-              onClick={() => setSelectedSeries(item.id)}
+              onClick={() => setSelectedSeries(item.id as "1" | "2" | "3")}
               className={`p-4 font-rog tracking-widest aspect-[410/40] text-lg bg-contain bg-no-repeat bg-center flex items-center justify-center text-white/80 scale-95 hover:scale-105 transition-transform ${
                 selectedSeries === item.id
                   ? "opacity-100 scale-105"

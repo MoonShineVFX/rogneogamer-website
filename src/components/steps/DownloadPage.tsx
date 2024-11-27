@@ -2,14 +2,16 @@
 import { IMAGE_URLS } from "../../helpers/constants";
 import { AnimatePresence, motion } from "framer-motion";
 import useIsMobile from "../../hooks/useIsMobile";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useAppContext } from "../../context/AppContext";
+import ScreenProgress from "../common/ScreenProgress";
+import { faceSwapApi } from "../../services/api";
 interface DownloadPageProps {
   onPrev: () => void;
   onNext: () => void;
 }
 
-const DownloadPage = ({ onPrev, onNext }: DownloadPageProps) => {
+const DownloadPage = ({ onNext, onPrev }: DownloadPageProps) => {
   // 移除未使用的解構
   // const { resultImages } = useAppContext();
   let scrollbarStyle = "style-1";
@@ -20,11 +22,21 @@ const DownloadPage = ({ onPrev, onNext }: DownloadPageProps) => {
     selectedAppearance,
     selectedClothing,
     selectedAsset,
+    capturedImage,
   } = useAppContext();
   const [currentMenu, setCurrentMenu] = useState("image");
   const [isAtBottom] = useState(false);
   const [qrUrl] = useState("1");
   const isMobile = useIsMobile();
+  const [showProgress, setShowProgress] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [faceSwapTaskId, setFaceSwapTaskId] = useState<string>("");
+  const [videoFaceSwapTaskId, setVideoFaceSwapTaskId] = useState<string | null>(
+    null
+  );
+  const [renderedResultImage, setRenderedResultImage] = useState<string | null>(
+    null
+  );
   const mb_menu = [
     { title: "image" },
     { title: "wallpaper" },
@@ -33,19 +45,116 @@ const DownloadPage = ({ onPrev, onNext }: DownloadPageProps) => {
     { title: "home" },
   ];
 
+  useEffect(() => {
+    let isSubscribed = true;
+
+    const processImage = async () => {
+      try {
+        if (!capturedImage) {
+          setError("沒有可用的圖片");
+          return;
+        }
+        console.log(capturedImage);
+        if (capturedImage) {
+          try {
+            if (isSubscribed) {
+              setShowProgress(true);
+              setError(null);
+            }
+            const response = await faceSwapApi.swapFace(
+              capturedImage,
+              `${IMAGE_URLS.ROG_NEO_GAMER}composed/h_templates/${
+                "S" +
+                selectedSeries +
+                selectedGender +
+                selectedAppearance +
+                "C0" +
+                selectedClothing +
+                "A" +
+                selectedAsset
+              }.jpg`
+            );
+            if (isSubscribed) {
+              if (response.id) {
+                setFaceSwapTaskId(response.id);
+                console.log(faceSwapTaskId);
+                setTimeout(() => {
+                  getResulImage(response.id);
+                }, 500);
+              }
+            }
+            //POST rogneogamer-api.moonshine-studio.net/testpost
+            // const response = await faceSwapApi.testPost();
+          } catch (error) {
+            setError("圖片上傳失敗");
+          }
+
+          try {
+            const responseVideo = await faceSwapApi.swapFaceVideo(
+              capturedImage,
+              `${IMAGE_URLS.ROG_NEO_GAMER}video/${
+                "S" + selectedSeries + "_" + selectedGender
+              }.mp4`
+            );
+            setVideoFaceSwapTaskId(responseVideo.job_id);
+          } catch (error) {
+            setError("影片上傳失敗");
+          }
+        }
+      } catch (error) {
+        isSubscribed &&
+          setError("Timeout error, please upload the image again.");
+      }
+    };
+
+    processImage();
+
+    return () => {
+      isSubscribed = false;
+    };
+  }, [capturedImage]);
+  const getResulImage = async (id: string) => {
+    if (!id) return;
+    const response = await faceSwapApi.getSwappedImage(id);
+    setTimeout(async () => {
+      // if response.
+      if (response.restarted >= 2) {
+        setError("Timeout error, please upload the image again.");
+        return;
+      }
+      if (response.finished === 0) {
+        getResulImage(id);
+        return;
+      }
+      if (response.finished === 1) {
+        setRenderedResultImage(response.generations[0].img);
+      }
+
+      console.log(response);
+    }, 1000);
+  };
+
+  useEffect(() => {
+    console.log(videoFaceSwapTaskId);
+  }, [videoFaceSwapTaskId]);
+  // POST https://rogneogamer-api.moonshine-studio.net/face_swap
+  // GET https://rogneogamer-api.moonshine-studio.net/images/:id
+  // POST https://rogneogamer-api.moonshine-studio.net/video_face_swap
+  // GET https://rogneogamer-api.moonshine-studio.net/video/:id
+  console.log(error);
   return (
-    <div
-      className="relative h-[100dvh] bg-left-top bg-no-repeat pt-[4%]  flex flex-col justify-between lg:justify-start"
-      style={{
-        backgroundImage: `url('${IMAGE_URLS.ROG_NEO_GAMER + "c_bg02.png"}')`,
-        backgroundSize: "100% 100%",
-      }}
-    >
-      <div className="relative flex  h-[38px] w-full z-10">
-        <div className="text-center text-white font-rog text-xl font-bold flex items-center justify-start gap-4 absolute top-0 left-0 pl-[5%] pt-[1%]   ">
-          DOWNLOAD{" "}
-        </div>
-        <div className="  ml-auto ">
+    <div className="relative h-[100dvh] bg-left-top bg-no-repeat   flex flex-col justify-between lg:justify-start">
+      {/* 添加 ScreenProgress */}
+      <AnimatePresence>
+        {showProgress && (
+          <ScreenProgress
+            duration={10000}
+            onComplete={() => setShowProgress(false)}
+          />
+        )}
+      </AnimatePresence>
+      <div className="fixed flex  h-[58px] w-full z-10 top-[0%] bg-gradient-to-b from-red-900 via-red-900/50 to-red-900/0">
+        <div className="  ml-auto pt-[2%] ">
           <img
             src={`${IMAGE_URLS.ROG_NEO_GAMER + "c_titleborder01.png"}`}
             alt=""
@@ -53,7 +162,6 @@ const DownloadPage = ({ onPrev, onNext }: DownloadPageProps) => {
         </div>
       </div>
 
-      {/* Next/Prev 按鈕 */}
       {isMobile ? (
         <div className="w-full h-[100dvh] z-0 ">
           <motion.div
@@ -62,14 +170,23 @@ const DownloadPage = ({ onPrev, onNext }: DownloadPageProps) => {
             transition={{ type: "spring", stiffness: 200, damping: 20 }}
             className="h-[100dvh] transition-all w-full bg-cover bg-center bg-no-repeat z-0 fixed top-0 left-0 pointer-events-none"
             style={{
-              backgroundImage: `url('${
-                IMAGE_URLS.ROG_NEO_GAMER + "p5_img1.png"
-              }')`,
+              backgroundImage: `url('${`${
+                IMAGE_URLS.ROG_NEO_GAMER_LG
+              }composed/h_templates/${
+                "S" +
+                selectedSeries +
+                selectedGender +
+                selectedAppearance +
+                "C0" +
+                selectedClothing +
+                "A" +
+                selectedAsset
+              }.jpg`}')`,
               touchAction: "none",
             }}
           ></motion.div>
           <div
-            className=" fixed top-0 left-0 w-full h-[100dvh] bg-bottom bg-cover bg-no-repeat pointer-events-none  bg-gradient-to-t from-black via-black/75 to-black/0  "
+            className=" fixed top-0 left-0 w-full h-[100dvh] bg-bottom bg-cover bg-no-repeat pointer-events-none  bg-gradient-to-t from-black via-black/25 to-black/0  "
             // style={{
             //   backgroundImage: `url('${r2imagesurl+'/images/mb/final_mask2.png'}')`,
             // }}
@@ -239,47 +356,10 @@ const DownloadPage = ({ onPrev, onNext }: DownloadPageProps) => {
                       className={` flex flex-col justify-center items-center gap-10 bg-orange-400/0 w-full `}
                     >
                       <a
-                        href={`card3Url`}
-                        target="_blank"
-                        rel="noreferrer"
-                        className={`${
-                          qrUrl
-                            ? "hover:scale-95 cursor-pointer  "
-                            : " pointer-events-none grayscale text-zinc-600  cursor-wait "
-                        }  transition-all duration-500 flex items-end justify-between  bg-fuchsia-100/0 pl-[10%] relative`}
-                      >
-                        <div className=" absolute top-0 left-0 w-[12%]  ">
-                          {qrUrl ? (
-                            <img
-                              className=" absolute -top-1 left-0"
-                              src={
-                                IMAGE_URLS.ROG_GAMER_CARD +
-                                "/images/final_dl_icon.png"
-                              }
-                              alt=""
-                            />
-                          ) : (
-                            <div className="absolute top-0 left-0 flex items-center justify-center w-full aspect-square ">
-                              <div className=" w-[4vw]  aspect-square   animate-spin rounded-full border-4 border-solid border-current border-e-transparent align-[-0.125em] text-surface"></div>
-                            </div>
-                          )}
-                        </div>
-
-                        <div
-                          className={` ${"text-[#C7B299]"} font-cachetpro bg-sky-400/0 text-[5vw] underline`}
-                        >
-                          Download Gamer Card
-                        </div>
-                      </a>
-                      <a
                         href={`wallpaperdUrl`}
                         target="_blank"
                         rel="noreferrer"
-                        className={`${
-                          qrUrl && qrUrl.length > 0
-                            ? "hover:scale-95 cursor-pointer  "
-                            : " pointer-events-none grayscale text-zinc-600 cursor-wait "
-                        } transition-all duration-500 flex items-end justify-between bg-fuchsia-100/0 pl-[10%] relative`}
+                        className={` transition-all duration-500 flex items-end justify-between bg-fuchsia-100/0 pl-[10%] relative`}
                       >
                         <div className=" absolute top-0 left-0 w-[12%]  ">
                           {qrUrl && qrUrl.length > 0 ? (
@@ -322,30 +402,37 @@ const DownloadPage = ({ onPrev, onNext }: DownloadPageProps) => {
                     className="w-full bg-slate-700/0 px-[10%]  flex items-center h-full"
                   >
                     <div
-                      className={` flex flex-col justify-center items-center  bg-orange-400/0 w-full ${"opacity-80 brightness-100 "} `}
+                      className={` flex flex-col justify-center items-center gap-10 bg-orange-400/0 w-full `}
                     >
-                      <div className="flex gap-[16%] mt-[7%] w-full justify-center ">
-                        {/* <div className=' flex items-center w-[12%] aspect-square' onClick={handleShare}><img src={r2imagesurl+'/images/ig.svg'} alt="" className='w-full ' /></div> */}
-                        <div className=" flex items-center w-[10%] aspect-square">
-                          <img
-                            src={
-                              IMAGE_URLS.ROG_GAMER_CARD_GIF +
-                              "/images/twitter.svg"
-                            }
-                            alt=""
-                            className="w-full"
-                          />
+                      <a
+                        href={`wallpaperdUrl`}
+                        target="_blank"
+                        rel="noreferrer"
+                        className={` transition-all duration-500 flex items-end justify-between bg-fuchsia-100/0 pl-[10%] relative`}
+                      >
+                        <div className=" absolute top-0 left-0 w-[12%]  ">
+                          {qrUrl && qrUrl.length > 0 ? (
+                            <img
+                              className=" absolute  left-0"
+                              src={
+                                IMAGE_URLS.ROG_GAMER_CARD +
+                                "/images/final_dl_icon.png"
+                              }
+                              alt=""
+                            />
+                          ) : (
+                            <div className="absolute top-0 left-0 flex items-center justify-center w-full aspect-square ">
+                              <div className=" w-[4vw]  aspect-square   animate-spin rounded-full border-4 border-solid border-current border-e-transparent align-[-0.125em] text-surface"></div>
+                            </div>
+                          )}
                         </div>
-                        <div className=" flex items-center w-[6%] aspect-square">
-                          <img
-                            src={
-                              IMAGE_URLS.ROG_GAMER_CARD_GIF + "/images/fb.svg"
-                            }
-                            alt=""
-                            className="w-full"
-                          />
+
+                        <div
+                          className={` ${"text-[#C7B299]"} font-cachetpro bg-sky-400/0 text-[5vw] underline`}
+                        >
+                          Download Mobile Wallpaper
                         </div>
-                      </div>
+                      </a>
                     </div>
                   </motion.div>
                 )}
@@ -361,22 +448,40 @@ const DownloadPage = ({ onPrev, onNext }: DownloadPageProps) => {
                       damping: 20,
                       delay: 0.2,
                     }}
-                    className="w-full bg-slate-700/0 px-[0%]   flex items-end h-auto mt-auto "
+                    className="w-full bg-slate-700/0 px-[10%]  flex items-center h-full"
                   >
-                    <div className="   bg-orange-400/0 w-full relative   ">
-                      <img
-                        src={
-                          IMAGE_URLS.ROG_GAMER_CARD + "/images/mb/star_fire.png"
-                        }
-                        alt=""
-                        className="z-0 w-10/12 mx-auto brightness-[.6] "
-                      />
-
-                      <div className="w-full bg-blue-400/0 pt-[7%] h-[15dvh] fixed bottom-0 z-20  ">
-                        <div className=" flex justify-center h-full bg-violet-600/0 relative">
-                          <div className="h-[4vh] w-[1px] bg-white/70 absolute bottom-0 left-1/2 -translate-x-1/2 "></div>
+                    <div
+                      className={` flex flex-col justify-center items-center gap-10 bg-orange-400/0 w-full `}
+                    >
+                      <a
+                        href={`wallpaperdUrl`}
+                        target="_blank"
+                        rel="noreferrer"
+                        className={` transition-all duration-500 flex items-end justify-between bg-fuchsia-100/0 pl-[10%] relative`}
+                      >
+                        <div className=" absolute top-0 left-0 w-[12%]  ">
+                          {qrUrl && qrUrl.length > 0 ? (
+                            <img
+                              className=" absolute  left-0"
+                              src={
+                                IMAGE_URLS.ROG_GAMER_CARD +
+                                "/images/final_dl_icon.png"
+                              }
+                              alt=""
+                            />
+                          ) : (
+                            <div className="absolute top-0 left-0 flex items-center justify-center w-full aspect-square ">
+                              <div className=" w-[4vw]  aspect-square   animate-spin rounded-full border-4 border-solid border-current border-e-transparent align-[-0.125em] text-surface"></div>
+                            </div>
+                          )}
                         </div>
-                      </div>
+
+                        <div
+                          className={` ${"text-[#C7B299]"} font-cachetpro bg-sky-400/0 text-[5vw] underline`}
+                        >
+                          Download Video
+                        </div>
+                      </a>
                     </div>
                   </motion.div>
                 )}
@@ -427,7 +532,7 @@ const DownloadPage = ({ onPrev, onNext }: DownloadPageProps) => {
         </div>
       ) : (
         <>
-          <div className=" absolute w-full h-screen  z-50 flex justify-center items-center text-white  ">
+          <div className=" absolute w-full h-screen  z-40 flex justify-center items-center text-white  ">
             <div className=" relative bg-slate-400/0 w-[80vw] h-[80vh] flex items-center justify-between gap-2  ">
               <div className=" absolute top-1/2 -translate-y-1/2 left-0 h-full w-[1px] bg-white/20"></div>
               <div className=" absolute top-1/2 -translate-y-1/2 right-0 h-full w-[1px] bg-white/20"></div>
@@ -648,15 +753,41 @@ const DownloadPage = ({ onPrev, onNext }: DownloadPageProps) => {
             </div>
           </div>
 
+          {renderedResultImage ? (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ type: "spring", stiffness: 200, damping: 20 }}
+              className="h-screen bg-cover bg-center bg-no-repeat -z-0"
+              style={{
+                backgroundImage: `url('${renderedResultImage}')`,
+              }}
+            ></motion.div>
+          ) : (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ type: "spring", stiffness: 200, damping: 20 }}
+              className="h-screen  -z-0 bg-slate-700 animate-pulse w-full"
+            ></motion.div>
+          )}
+
           <motion.div
             initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
+            animate={{ opacity: 0.5 }}
             exit={{ opacity: 0 }}
-            transition={{ type: "spring", stiffness: 200, damping: 20 }}
-            className="h-screen bg-cover bg-center bg-no-repeat -z-0"
+            transition={{
+              type: "spring",
+              stiffness: 200,
+              damping: 20,
+              duration: 2,
+            }}
+            className="h-screen bg-cover bg-center bg-no-repeat z-10 mix-blend-multiply absolute top-0 left-0 w-full "
             style={{
               backgroundImage: `url('${
-                IMAGE_URLS.ROG_NEO_GAMER + "p5_img1.png"
+                IMAGE_URLS.ROG_GAMER_CARD_GIF + "/images/final_mask.png"
               }')`,
             }}
           ></motion.div>

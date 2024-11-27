@@ -4,7 +4,7 @@ type Appearance = "B" | "W";
 type Clothing = "1" | "2" | "3" | "4";
 interface AppContextType {
   displayName: string;
-  selectedSeries: number;
+  selectedSeries: "1" | "2" | "3";
   selectedGender: "M" | "F";
   selectedAppearance: Appearance | null;
   selectedClothing: Clothing | null;
@@ -14,8 +14,9 @@ interface AppContextType {
   resultImages: string[];
   selectedStyle: string | null;
   selectedBg: string | null;
+  capturedImage: File | null;
   setDisplayName: (name: string) => void;
-  setSelectedSeries: (series: number) => void;
+  setSelectedSeries: (series: "1" | "2" | "3") => void;
   setSelectedGender: (gender: "M" | "F") => void;
   setSelectedAppearance: (
     value: Appearance | ((prev: Appearance | null) => Appearance)
@@ -29,6 +30,7 @@ interface AppContextType {
   setResultImages: (images: string[]) => void;
   setSelectedStyle: (style: string | null) => void;
   setSelectedBg: (bg: string | null) => void;
+  setCapturedImage: (image: File | null) => void;
 }
 
 const AppContext = createContext<AppContextType | undefined>(undefined);
@@ -39,7 +41,7 @@ interface AppProviderProps {
 
 export const AppProvider = ({ children }: AppProviderProps) => {
   const [displayName, setDisplayName] = useState("");
-  const [selectedSeries, setSelectedSeries] = useState<number>(1);
+  const [selectedSeries, setSelectedSeries] = useState<"1" | "2" | "3">("1");
   const [selectedGender, setSelectedGender] = useState<"M" | "F">("M");
   const [selectedAppearance, setSelectedAppearance] = useState<Appearance>("W");
   const [selectedClothing, setSelectedClothing] = useState<Clothing | null>(
@@ -51,6 +53,7 @@ export const AppProvider = ({ children }: AppProviderProps) => {
   const [resultImages, setResultImages] = useState<string[]>([]);
   const [selectedStyle, setSelectedStyle] = useState<string | null>(null);
   const [selectedBg, setSelectedBg] = useState<string | null>(null);
+  const [capturedImage, setCapturedImage] = useState<File | null>(null);
 
   return (
     <AppContext.Provider
@@ -66,6 +69,7 @@ export const AppProvider = ({ children }: AppProviderProps) => {
         resultImages,
         selectedStyle,
         selectedBg,
+        capturedImage,
         setDisplayName,
         setSelectedSeries,
         setSelectedGender,
@@ -77,6 +81,7 @@ export const AppProvider = ({ children }: AppProviderProps) => {
         setResultImages,
         setSelectedStyle,
         setSelectedBg,
+        setCapturedImage,
       }}
     >
       {children}

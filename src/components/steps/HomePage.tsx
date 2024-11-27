@@ -1,7 +1,7 @@
 import { AnimatePresence, motion } from "framer-motion";
 import { useAppContext } from "../../context/AppContext";
 import { useEffect, useState } from "react";
-import { IMAGE_URLS } from "../../helpers/constants";
+import { IMAGE_URLS, HOME_DATA } from "../../helpers/constants";
 import { useWindowResize } from "../../hooks/useWindowResize";
 import useIsMobile from "../../hooks/useIsMobile";
 
@@ -16,18 +16,24 @@ interface HomePageProps {
 
 const HomePage = ({ onNext }: HomePageProps) => {
   const { displayName, setDisplayName } = useAppContext();
-  const [isUsername, setIsUsername] = useState(true);
+  const [isUsername, setIsUsername] = useState(false);
   const [isAccept, setIsAccept] = useState(false);
   const [isSending, setIsSending] = useState(false);
   const windowSize = useWindowResize();
   const isMobile = useIsMobile();
-  // const handleSubmit = (e: React.FormEvent) => {
-  //   e.preventDefault();
-  //   if (displayName.trim()) {
-  //     onNext();
-  //   }
-  // };
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+
+  // 每秒切換圖片
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentImageIndex((prev) => (prev + 1) % HOME_DATA.length);
+    }, 5000);
+
+    return () => clearInterval(interval);
+  }, []);
+
   // 只在視窗大小改變時更新 CSS 變數
+
   useEffect(() => {
     document.documentElement.style.setProperty(
       "--window-height",
@@ -160,24 +166,27 @@ const HomePage = ({ onNext }: HomePageProps) => {
               className="w-full"
             />
           </div>
-          <motion.div
-            initial={{ opacity: 0, y: "18%", x: 0, scale: 1.6 }}
-            animate={{ opacity: 1, y: "30%", x: 0, scale: 1.7 }}
-            exit={{ opacity: 0, y: "18%", x: 0, scale: 1.4 }}
-            transition={{
-              delay: 0.3,
-              type: "spring",
-              stiffness: 200,
-              damping: 50,
-            }}
-            className="max-w-full w-[100%] fixed top-[20%] left-0 bg-slate-400/0 z-10"
-          >
-            <img
-              src={IMAGE_URLS.ROG_NEO_GAMER + "character.png"}
-              alt="avatar"
-              className="w-full"
-            />
-          </motion.div>
+          <div className="absolute top-[20%] left-1/2 -translate-x-1/2 w-[65vh] z-10">
+            <AnimatePresence mode="wait">
+              <motion.img
+                key={currentImageIndex}
+                src={
+                  IMAGE_URLS.ROG_NEO_GAMER + HOME_DATA[currentImageIndex].img
+                }
+                alt={`character-${currentImageIndex}`}
+                initial={{ opacity: 0, y: "18%", x: 0, scale: 1.6 }}
+                animate={{ opacity: 1, y: "30%", x: "-50%", scale: 1.7 }}
+                exit={{ opacity: 0, y: "18%", x: 0, scale: 1.4 }}
+                transition={{
+                  delay: 0.1,
+                  type: "spring",
+                  stiffness: 200,
+                  damping: 50,
+                }}
+                className="w-full"
+              />
+            </AnimatePresence>
+          </div>
           <div className="max-w-full w-[100%] fixed bottom-0 left-0 bg-slate-400/0 -z-10 animate-pulse animate-infinite animate-alternate">
             <img
               src={IMAGE_URLS.ROG_GAMER_CARD + "/images/mb/home_redglow_mb.png"}
@@ -405,24 +414,31 @@ const HomePage = ({ onNext }: HomePageProps) => {
             </motion.div>
 
             {/* 中央角色 */}
-            <motion.div
-              initial={{ opacity: 0, y: "18%", x: 0, scale: 1.6 }}
-              animate={{ opacity: 1, y: "30%", x: "-50%", scale: 1.7 }}
-              exit={{ opacity: 0, y: "18%", x: 0, scale: 1.4 }}
-              transition={{
-                delay: 0.3,
-                type: "spring",
-                stiffness: 200,
-                damping: 50,
-              }}
-              className="absolute top-[20%] left-1/2 -translate-x-1/2 w-[65vh] z-10"
-            >
-              <img
-                src={IMAGE_URLS.ROG_NEO_GAMER_LG + "character.png"}
-                alt="character"
-                className="w-full"
-              />
-            </motion.div>
+            <AnimatePresence initial={true}>
+              <motion.div
+                key={currentImageIndex}
+                initial={{ opacity: 0, y: "15%", x: 0, scale: 1.4 }}
+                animate={{ opacity: 1, y: "15%", x: "-60%", scale: 1.5 }}
+                exit={{ opacity: 0, y: "15%", x: "-160%", scale: 1.4 }}
+                transition={{
+                  delay: 0.1,
+                  type: "spring",
+                  stiffness: 200,
+                  damping: 50,
+                }}
+                className="absolute top-[20%] left-1/2 -translate-x-1/2 w-[65vh] z-10"
+              >
+                <img
+                  src={
+                    IMAGE_URLS.ROG_NEO_GAMER_MD +
+                    "o4/" +
+                    HOME_DATA[currentImageIndex].img
+                  }
+                  alt={`character-${currentImageIndex}`}
+                  className="w-full"
+                />
+              </motion.div>
+            </AnimatePresence>
           </motion.div>
           <AnimatePresence>
             <motion.div
@@ -533,7 +549,7 @@ const HomePage = ({ onNext }: HomePageProps) => {
                   aria-label="start"
                   disabled={isSending}
                   className={`z-0 w-[24%] text-[1vw] aspect-[90/40] ${
-                    isSending || !isAccept ? "grayscale" : "grayscale-0"
+                    isSending || !isUsername ? "grayscale" : "grayscale-0"
                   } bg-contain bg-top bg-no-repeat flex items-center justify-center hover:scale-95 font-robotocon font-bold text-white/80`}
                   style={{
                     backgroundImage: `url('${IMAGE_URLS.ROG_GAMER_CARD}/images/redbutton_bg.png')`,
@@ -550,7 +566,6 @@ const HomePage = ({ onNext }: HomePageProps) => {
               * Input is limited to 20 characters.
               <br />* Only English letters, numbers, and symbols are permitted.
               {!isUsername && <div>* Please name your gamer</div>}
-              {!isAccept && <div>* Please agree to our terms.</div>}
             </div>
           </motion.div>
         </>

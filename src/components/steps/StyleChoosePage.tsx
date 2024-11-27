@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useAppContext } from "../../context/AppContext";
 import { IMAGE_URLS } from "../../helpers/constants";
 import { motion } from "framer-motion";
+import LoadingImage from "../common/LoadingImage";
 
 interface StyleChoosePageProps {
   onNext: () => void;
@@ -74,13 +75,9 @@ const StyleChoosePage = ({
       </div>
       <div className="pt-[5%] h-[83%]  mx-auto  flex flex-col justify-center  gap-4 bg-emerald-600/0">
         <div className="w-full h-full  mx-auto ">
-          <motion.img
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.5 }}
+          <LoadingImage
             src={
-              "https://r2.web.moonshine.tw/opt/lg/msweb/rogneogamer/prototype/" +
+              "https://r2.web.moonshine.tw/msweb/rogneogamer/prototype/" +
               "o3/image_S" +
               selectedSeries +
               selectedGender +

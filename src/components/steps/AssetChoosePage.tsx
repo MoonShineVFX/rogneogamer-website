@@ -8,31 +8,24 @@ interface AssetChoosePageProps {
   isDesktop: boolean;
 }
 
-type Asset = "1" | "2";
-
 const AssetChoosePage = ({
   onNext,
   onPrev,
   isDesktop,
 }: AssetChoosePageProps) => {
-  const { selectedAsset, setSelectedAsset } = useAppContext();
+  const { selectedSeries, selectedAsset, setSelectedAsset } = useAppContext();
 
-  const assets: { id: Asset; name: string }[] = [
-    { id: "1", name: "道具一" },
-    { id: "2", name: "道具二" },
-  ];
-
-  // const handleNext = () => {
-  //   onNext();
-  // };
-
-  // const handlePrev = () => {
-  //   onPrev();
-  // };
+  // 直接生成當前系列的道具選項
+  const currentAssets = selectedSeries
+    ? [
+        { id: "1", name: `S${selectedSeries}A1` },
+        { id: "2", name: `S${selectedSeries}A2` },
+      ]
+    : [];
 
   return (
     <div
-      className="relative h-[100dvh] bg-left-top bg-no-repeat pt-[4%]  flex flex-col justify-between"
+      className="relative h-[100dvh] bg-left-top bg-no-repeat pt-[4%]  flex flex-col justify-between "
       style={{
         backgroundImage: `url('${IMAGE_URLS.ROG_NEO_GAMER + "c_bg02.png"}')`,
         backgroundSize: "100% 100%",
@@ -49,47 +42,45 @@ const AssetChoosePage = ({
           />
         </div>
       </div>
-      <div className="pt-[5%] h-[82%]  mx-auto  flex flex-col justify-center  gap-4 bg-emerald-600/0">
-        <div className="flex-1  relative">
-          <div className="w-[87%]  mx-auto relative">
-            <img
-              src={IMAGE_URLS.ROG_NEO_GAMER + "asset_edge.png"}
-              alt=""
-              className="w-full"
-            />
-            <div className="absolute top-[2%] left-0 w-[100%] h-[95%] z-40 ">
-              <div className="flex flex-col gap-4 h-full justify-evenly ">
-                {assets.map((asset) => (
-                  <div
-                    onClick={() => setSelectedAsset(asset.id)}
-                    key={asset.id}
-                    className={`relative aspect-[368/173]  w-full p-0 cursor-pointer flex items-center justify-center bg-contain bg-left-top bg-no-repeat ${
-                      selectedAsset === asset.id ? "z-10" : "z-0"
+      <div className=" h-full  mx-auto  flex flex-col justify-center items-center  gap-4 bg-emerald-600/0">
+        <div className="w-[95%]  mx-auto relative bg-slate-20/0">
+          <img
+            src={IMAGE_URLS.ROG_NEO_GAMER + "asset_edge.png"}
+            alt=""
+            className="w-full"
+          />
+          <div className="absolute top-0 left-0 w-[100%] h-[95%] z-40 ">
+            <div className="flex flex-col gap-4 h-full justify-evenly ">
+              {currentAssets.map((asset) => (
+                <div
+                  onClick={() => setSelectedAsset(asset.id as "1" | "2")}
+                  key={asset.id}
+                  className={`relative aspect-[368/173]  w-full p-0 cursor-pointer flex items-center justify-center bg-contain bg-left-top bg-no-repeat ${
+                    selectedAsset === asset.id ? "z-10" : "z-0"
+                  }`}
+                  style={{
+                    backgroundImage: `url('${
+                      IMAGE_URLS.ROG_NEO_GAMER + "asset_b.png"
+                    }')`,
+                    backgroundSize: "100% 100%",
+                  }}
+                >
+                  <motion.img
+                    src={IMAGE_URLS.ROG_NEO_GAMER + `Assets/${asset.name}.jpg`}
+                    alt=""
+                    className={`w-[55%] max-w-full max-h-full transition-all duration-300 ${
+                      selectedAsset === asset.id ? "scale-100" : "scale-90"
                     }`}
-                    style={{
-                      backgroundImage: `url('${
-                        IMAGE_URLS.ROG_NEO_GAMER + "asset_b.png"
-                      }')`,
-                      backgroundSize: "100% 100%",
-                    }}
-                  >
-                    <motion.img
-                      src={IMAGE_URLS.ROG_NEO_GAMER + "item.png"}
-                      alt=""
-                      className={`w-full max-w-[80px] max-h-full transition-all duration-300 ${
-                        selectedAsset === asset.id ? "scale-125" : "scale-95"
-                      }`}
-                    />
-                  </div>
-                ))}
-              </div>
+                  />
+                </div>
+              ))}
             </div>
           </div>
         </div>
       </div>
 
-      <div className="w-full pt-[5%] h-[12%]  bottom-0">
-        {!isDesktop && (
+      {!isDesktop && (
+        <div className="w-full pt-[5%] h-[12%]  bottom-0">
           <div className="flex justify-between w-[60%] mx-auto h-full bg-violet-600/0 relative">
             <motion.div
               initial={{ opacity: 0, x: 100 }}
@@ -126,8 +117,8 @@ const AssetChoosePage = ({
             </motion.div>
             <div className="h-[5vh] w-[1px] bg-white/70 absolute bottom-0 left-1/2 -translate-x-1/2"></div>
           </div>
-        )}
-      </div>
+        </div>
+      )}
     </div>
   );
 };

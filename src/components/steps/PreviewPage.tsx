@@ -10,7 +10,13 @@ interface PreviewPageProps {
 
 const PreviewPage = ({ onNext, onPrev }: PreviewPageProps) => {
   // 移除未使用的解構
-  const { selectedSeries, selectedAsset } = useAppContext();
+  const {
+    selectedSeries,
+    selectedAsset,
+    selectedGender,
+    selectedAppearance,
+    selectedClothing,
+  } = useAppContext();
   console.log(
     `${IMAGE_URLS.ROG_NEO_GAMER}bg/S${selectedSeries}A0${selectedAsset}.png`
   );
@@ -25,7 +31,14 @@ const PreviewPage = ({ onNext, onPrev }: PreviewPageProps) => {
       }}
     >
       <div className="absolute top-0 left-0 text-white/50 text-sm z-10">
-        {`S${selectedSeries}A0${selectedAsset}`}
+        {"S" +
+          selectedSeries +
+          selectedGender +
+          selectedAppearance +
+          "C0" +
+          selectedClothing +
+          "A" +
+          selectedAsset}{" "}
       </div>
       <div className="relative flex  h-[38px] w-full ">
         <div className="text-center text-white font-rog text- xl font-bold flex items-center justify-start gap-4 absolute top-0 left-0 pl-[5%] pt-[1%]   ">
@@ -53,7 +66,16 @@ const PreviewPage = ({ onNext, onPrev }: PreviewPageProps) => {
             className="absolute top-0 left-0 w-full h-full px-4 py-3 -mt-1 lg:px-[8%]   "
           >
             <img
-              src={`${IMAGE_URLS.ROG_NEO_GAMER}bg/S${selectedSeries}A0${selectedAsset}.jpg`}
+              src={`${IMAGE_URLS.ROG_NEO_GAMER_LG}composed/h_templates/${
+                "S" +
+                selectedSeries +
+                selectedGender +
+                selectedAppearance +
+                "C0" +
+                selectedClothing +
+                "A" +
+                selectedAsset
+              }.jpg`}
               alt="預覽 1"
               className="w-full h-full object-cover"
             />
