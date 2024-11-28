@@ -177,6 +177,37 @@ const DownloadPage = ({ onNext, onPrev }: DownloadPageProps) => {
   // GET https://rogneogamer-api.moonshine-studio.net/images/:id
   // POST https://rogneogamer-api.moonshine-studio.net/video_face_swap
   // GET https://rogneogamer-api.moonshine-studio.net/video/:id
+
+  const downloadVideo = (url: string) => {
+    let corsanywhere = "https://mscors-anywhwere.kilokingw.workers.dev/?";
+    const fileName = "outputVideo.mp4";
+
+    fetch(corsanywhere + url)
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+        return response.blob();
+      })
+      .then((blob) => {
+        const videoBlob = new Blob([blob], { type: "video/mp4" });
+        const downloadUrl = window.URL.createObjectURL(videoBlob);
+        const link = document.createElement("a");
+        link.href = downloadUrl;
+        link.setAttribute("download", fileName);
+
+        // Append to the document
+        document.body.appendChild(link);
+
+        // Trigger download
+        link.click();
+
+        // Clean up
+        link.parentNode!.removeChild(link);
+        window.URL.revokeObjectURL(downloadUrl);
+      })
+      .catch((err) => console.error("Error downloading video:", err));
+  };
   console.log(error);
   return (
     <div className="relative h-[100dvh] bg-left-top bg-no-repeat   flex flex-col justify-between lg:justify-start">
@@ -491,11 +522,12 @@ const DownloadPage = ({ onNext, onPrev }: DownloadPageProps) => {
                     <div
                       className={` flex flex-col justify-center items-center gap-10 bg-orange-400/0 w-full `}
                     >
-                      <a
-                        href={renderedResultVideo ? renderedResultVideo : ""}
-                        target="_blank"
-                        rel="noreferrer"
-                        className={` transition-all duration-500 flex items-end justify-between bg-fuchsia-100/0 pl-[10%] relative`}
+                      <div
+                        onClick={() => {
+                          if (renderedResultVideo) {
+                            downloadVideo(renderedResultVideo as string);
+                          }
+                        }}
                       >
                         <div className=" absolute top-0 left-0 w-[17%]  ">
                           {renderedResultVideo ? (
@@ -519,7 +551,7 @@ const DownloadPage = ({ onNext, onPrev }: DownloadPageProps) => {
                         >
                           Download Video
                         </div>
-                      </a>
+                      </div>
                     </div>
                   </motion.div>
                 )}
