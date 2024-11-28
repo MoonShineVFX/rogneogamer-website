@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { IMAGE_URLS } from "../../helpers/constants";
+import { IMAGE_URLS, SERIES_DATA } from "../../helpers/constants";
 import { useAppContext } from "../../context/AppContext";
 interface SeriesChoosePageProps {
   onNext: () => void;
@@ -13,12 +13,6 @@ const SeriesChoosePage = ({
   isDesktop,
 }: SeriesChoosePageProps) => {
   const { selectedSeries, setSelectedSeries } = useAppContext();
-
-  const series = [
-    { id: "1", name: "Mechanist" },
-    { id: "2", name: "Extremist" },
-    { id: "3", name: "Fanatic" },
-  ];
 
   const handleNext = () => {
     onNext();
@@ -64,7 +58,7 @@ const SeriesChoosePage = ({
           />
         </motion.div>
         <div className="grid grid-cols-1 gap-4 mb-3  absolute bottom-0 w-full">
-          {series.map((item) => (
+          {SERIES_DATA.map((item) => (
             <button
               key={item.id}
               onClick={() => setSelectedSeries(item.id as "1" | "2" | "3")}

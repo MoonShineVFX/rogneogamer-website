@@ -1,5 +1,5 @@
 // import { useAppContext } from "../../context/AppContext";
-import { IMAGE_URLS } from "../../helpers/constants";
+import { IMAGE_URLS, SERIES_DATA } from "../../helpers/constants";
 import { AnimatePresence, motion } from "framer-motion";
 import useIsMobile from "../../hooks/useIsMobile";
 import { useEffect, useRef, useState } from "react";
@@ -36,6 +36,9 @@ const DownloadPage = ({ onNext, onPrev }: DownloadPageProps) => {
   const [renderedResultImage, setRenderedResultImage] = useState<string | null>(
     null
   );
+  const [renderedResultImageMb, setRenderedResultImageMb] = useState<
+    string | null
+  >(null);
   const [renderedResultVideo, setRenderedResultVideo] = useState<string | null>(
     null
   );
@@ -108,6 +111,39 @@ const DownloadPage = ({ onNext, onPrev }: DownloadPageProps) => {
           } catch (error) {
             setError("影片上傳失敗");
           }
+
+          //swapFace_mb
+          try {
+            if (isSubscribed) {
+              setError(null);
+            }
+            const response = await faceSwapApi.swapFace_mb(
+              capturedImage,
+              `${IMAGE_URLS.ROG_NEO_GAMER}composed/v_templates/${
+                "S" +
+                selectedSeries +
+                selectedGender +
+                selectedAppearance +
+                "C0" +
+                selectedClothing +
+                "A" +
+                selectedAsset
+              }.jpg`
+            );
+            if (isSubscribed) {
+              if (response.id) {
+                setFaceSwapTaskId(response.id);
+                console.log(faceSwapTaskId);
+                setTimeout(() => {
+                  getResulImage_mb(response.id);
+                }, 500);
+              }
+            }
+            //POST rogneogamer-api.moonshine-studio.net/testpost
+            // const response = await faceSwapApi.testPost();
+          } catch (error) {
+            setError("圖片上傳失敗");
+          }
         }
       } catch (error) {
         isSubscribed &&
@@ -136,6 +172,26 @@ const DownloadPage = ({ onNext, onPrev }: DownloadPageProps) => {
       }
       if (response.finished === 1) {
         setRenderedResultImage(response.generations[0].img);
+      }
+
+      console.log(response);
+    }, 1000);
+  };
+  const getResulImage_mb = async (id: string) => {
+    if (!id) return;
+    const response = await faceSwapApi.getSwappedImage_mb(id);
+    setTimeout(async () => {
+      // if response.
+      if (response.restarted >= 2) {
+        setError("Timeout error, please upload the image again.");
+        return;
+      }
+      if (response.finished === 0) {
+        getResulImage_mb(id);
+        return;
+      }
+      if (response.finished === 1) {
+        setRenderedResultImageMb(response.generations[0].img);
       }
 
       console.log(response);
@@ -235,7 +291,7 @@ const DownloadPage = ({ onNext, onPrev }: DownloadPageProps) => {
             className="h-[100dvh] transition-all w-full bg-cover bg-center bg-no-repeat z-0 fixed top-0 left-0 pointer-events-none"
             style={{
               backgroundImage: `url('${
-                renderedResultImage ? renderedResultImage : ""
+                renderedResultImageMb ? renderedResultImageMb : ""
               }')`,
               touchAction: "none",
             }}
@@ -462,13 +518,15 @@ const DownloadPage = ({ onNext, onPrev }: DownloadPageProps) => {
                       className={` flex flex-col justify-center items-center gap-10 bg-orange-400/0 w-full `}
                     >
                       <a
-                        href={renderedResultImage ? renderedResultImage : ""}
+                        href={
+                          renderedResultImageMb ? renderedResultImageMb : ""
+                        }
                         target="_blank"
                         rel="noreferrer"
                         className={` transition-all duration-500 flex items-end justify-between bg-fuchsia-100/0 pl-[10%] relative`}
                       >
                         <div className=" absolute top-0 left-0 w-[12%]  ">
-                          {renderedResultImage ? (
+                          {renderedResultImageMb ? (
                             <img
                               className=" absolute  left-0"
                               src={
@@ -610,7 +668,7 @@ const DownloadPage = ({ onNext, onPrev }: DownloadPageProps) => {
                     damping: 20,
                     delay: 0.2,
                   }}
-                  className="pr-[73%] mb-[%]  "
+                  className="pr-[55%] mb-[%]  "
                 >
                   <div
                     className={`w-full h-auto  mt-[10%] overflow-hidden relative flex flex-col justify-start  bg-slate-400/0    ${"opacity-80 brightness-100 "}`}
@@ -620,21 +678,24 @@ const DownloadPage = ({ onNext, onPrev }: DownloadPageProps) => {
                         <div className=" font-cachetpro text-[1.5vw] font-semibold  leading-3 ">
                           SERIES:
                         </div>
-                        <div className=" font-light text-[1.5vw] font-robotocon ">
-                          {selectedSeries}
+                        <div className=" font-light text-[1.5vw] font-robotocon  -mt-[2%]">
+                          {
+                            SERIES_DATA.find(
+                              (item) => item.id === selectedSeries
+                            )?.name
+                          }
                         </div>
                       </div>
-                      <div className="flex  gap-2 items-center">
-                        <div className=" font-cachetpro text-[1.5vw] font-semibold  leading-3">
-                          Gender:
-                        </div>
-                        <div className=" font-light text-[1.5vw] font-robotocon ">
-                          {selectedGender}
-                        </div>
+                      <div className=" font-light text-[1.5vw] font-robotocon ">
+                        {
+                          SERIES_DATA.find((item) => item.id === selectedSeries)
+                            ?.description
+                        }
                       </div>
-                      <div className="flex  gap-2 items-center">
+
+                      <div className="flex  gap-2 items-center mt-[10%]">
                         <div className=" font-cachetpro text-[1.5vw] font-semibold  leading-3 ">
-                          Appearance:
+                          Ethnicity:
                         </div>
                         <div className=" font-light text-[1.5vw] font-robotocon ">
                           {selectedAppearance}
@@ -642,15 +703,23 @@ const DownloadPage = ({ onNext, onPrev }: DownloadPageProps) => {
                       </div>
                       <div className="flex  gap-2 items-center">
                         <div className=" font-cachetpro text-[1.5vw] font-semibold  leading-3 ">
-                          Clothing:
+                          Style:
                         </div>
                         <div className=" font-light text-[1.5vw] font-robotocon ">
-                          {selectedClothing}
+                          Style{selectedClothing}
+                        </div>
+                      </div>
+                      <div className="flex  gap-2 items-center">
+                        <div className=" font-cachetpro text-[1.5vw] font-semibold  leading-3">
+                          Body Type:
+                        </div>
+                        <div className=" font-light text-[1.5vw] font-robotocon ">
+                          {selectedGender}
                         </div>
                       </div>
                       <div className="flex  gap-2 items-center">
                         <div className=" font-cachetpro text-[1.5vw] font-semibold  leading-3 ">
-                          Asset:
+                          Gaming Setup:
                         </div>
                         <div className=" font-light text-[1.5vw] font-robotocon ">
                           {selectedAsset}
@@ -714,15 +783,18 @@ const DownloadPage = ({ onNext, onPrev }: DownloadPageProps) => {
                       Download PC Wallpaper
                     </div>
                   </a>
-                  <div
+                  <a
+                    href={renderedResultImageMb ? renderedResultImageMb : ""}
+                    target="_blank"
+                    rel="noreferrer"
                     className={`flex items-end justify-between w-[78%] pl-[12%] relative transition-all duration-500  ${
-                      renderedResultImage
+                      renderedResultImageMb
                         ? "hover:scale-95 cursor-pointer  "
                         : " grayscale brightness-50 cursor-wait "
                     }`}
                   >
                     <div className=" absolute -top-1 left-0 w-[11%]">
-                      {renderedResultImage ? (
+                      {renderedResultImageMb ? (
                         <img
                           className=" w-full"
                           src={
@@ -748,7 +820,7 @@ const DownloadPage = ({ onNext, onPrev }: DownloadPageProps) => {
                     >
                       Download Mobile Wallpaper
                     </div>
-                  </div>
+                  </a>
                   <a
                     href={renderedResultVideo ? renderedResultVideo : ""}
                     target="_blank"

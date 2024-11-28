@@ -106,7 +106,16 @@ const PreviewPage = ({ onNext, onPrev }: PreviewPageProps) => {
               className="absolute top-0 left-0 w-full h-full px-3 py-4 -mt-1 lg:px-[9%] "
             >
               <img
-                src={`${IMAGE_URLS.ROG_NEO_GAMER}p5_img2.png`}
+                src={`${IMAGE_URLS.ROG_NEO_GAMER_LG}composed/v_templates/${
+                  "S" +
+                  selectedSeries +
+                  selectedGender +
+                  selectedAppearance +
+                  "C0" +
+                  selectedClothing +
+                  "A" +
+                  selectedAsset
+                }.jpg`}
                 alt="預覽 1"
                 className="w-full h-full object-cover"
               />

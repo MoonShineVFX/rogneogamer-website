@@ -167,17 +167,19 @@ const HomePage = ({ onNext }: HomePageProps) => {
               className="w-full"
             />
           </div>
-          <div className="absolute top-[20%] left-1/2 -translate-x-1/2 w-[65vh] z-10">
+          <div className="absolute top-[20%] left-1/2 -translate-x-1/2 w-[50vh] z-10">
             <AnimatePresence mode="wait">
               <motion.img
                 key={currentImageIndex}
                 src={
-                  IMAGE_URLS.ROG_NEO_GAMER + HOME_DATA[currentImageIndex].img
+                  IMAGE_URLS.ROG_NEO_GAMER_MD +
+                  "characters/" +
+                  HOME_DATA[currentImageIndex].img
                 }
                 alt={`character-${currentImageIndex}`}
                 initial={{ opacity: 0, y: "18%", x: 0, scale: 1.6 }}
-                animate={{ opacity: 1, y: "30%", x: "-50%", scale: 1.7 }}
-                exit={{ opacity: 0, y: "18%", x: 0, scale: 1.4 }}
+                animate={{ opacity: 1, y: "45%", x: "-2%", scale: 1.7 }}
+                exit={{ opacity: 0, y: "45%", x: "-2%", scale: 1.4 }}
                 transition={{
                   delay: 0.1,
                   type: "spring",
@@ -426,12 +428,12 @@ const HomePage = ({ onNext }: HomePageProps) => {
                   stiffness: 200,
                   damping: 50,
                 }}
-                className="absolute top-[20%] left-1/2 -translate-x-1/2 w-[65vh] z-10"
+                className="absolute top-[16%] 2xl:top-[12%] left-1/2 -translate-x-1/2 w-[70vh] 2xl:w-[70vh] z-10"
               >
                 <img
                   src={
-                    IMAGE_URLS.ROG_NEO_GAMER_MD +
-                    "o4/" +
+                    IMAGE_URLS.ROG_NEO_GAMER_LG +
+                    "characters/" +
                     HOME_DATA[currentImageIndex].img
                   }
                   alt={`character-${currentImageIndex}`}

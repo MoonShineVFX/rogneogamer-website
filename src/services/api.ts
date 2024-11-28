@@ -123,4 +123,52 @@ export const faceSwapApi = {
       throw error;
     }
   },
+  // 圖片換臉
+  swapFace_mb: async (
+    source_image: File,
+    swap_image_url: string
+  ): Promise<FaceSwapResponse> => {
+    try {
+      const formData = new FormData();
+      formData.append("source_image", source_image);
+      formData.append("swap_image_url", swap_image_url);
+      var myHeaders = new Headers();
+      myHeaders.append("Authorization", "141cd239-d83c-4188-b9f9-0ae18be42bbd");
+      const response = await fetch(`${API_BASE_URL}/face_swap`, {
+        method: "POST",
+        headers: myHeaders,
+        body: formData,
+        redirect: "follow",
+      });
+
+      if (!response.ok) {
+        throw new Error("Face swap failed");
+      }
+
+      return await response.json();
+    } catch (error) {
+      console.error("Face swap error:", error);
+      throw error;
+    }
+  },
+
+  // 獲取換臉後的圖片
+  getSwappedImage_mb: async (id: string): Promise<FaceSwapResponse> => {
+    try {
+      const response = await fetch(`${API_BASE_URL}/images/${id}`, {
+        headers: {
+          Authorization: "141cd239-d83c-4188-b9f9-0ae18be42bbd",
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to get swapped image");
+      }
+
+      return await response.json();
+    } catch (error) {
+      console.error("Get swapped image error:", error);
+      throw error;
+    }
+  },
 };

@@ -77,8 +77,8 @@ const StyleChoosePage = ({
         <div className="w-full h-full  mx-auto ">
           <LoadingImage
             src={
-              "https://r2.web.moonshine.tw/msweb/rogneogamer/prototype/" +
-              "o3/image_S" +
+              IMAGE_URLS.ROG_NEO_GAMER_LG +
+              "characters/S" +
               selectedSeries +
               selectedGender +
               selectedAppearance +
