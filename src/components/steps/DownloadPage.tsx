@@ -237,18 +237,9 @@ const DownloadPage = ({ onNext, onPrev }: DownloadPageProps) => {
             transition={{ type: "spring", stiffness: 200, damping: 20 }}
             className="h-[100dvh] transition-all w-full bg-cover bg-center bg-no-repeat z-0 fixed top-0 left-0 pointer-events-none"
             style={{
-              backgroundImage: `url('${`${
-                IMAGE_URLS.ROG_NEO_GAMER_LG
-              }composed/h_templates/${
-                "S" +
-                selectedSeries +
-                selectedGender +
-                selectedAppearance +
-                "C0" +
-                selectedClothing +
-                "A" +
-                selectedAsset
-              }.jpg`}')`,
+              backgroundImage: `url('${
+                renderedResultImage ? renderedResultImage : ""
+              }')`,
               touchAction: "none",
             }}
           ></motion.div>
