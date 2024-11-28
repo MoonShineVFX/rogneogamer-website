@@ -408,36 +408,47 @@ const DownloadPage = ({ onNext, onPrev }: DownloadPageProps) => {
                             SERIES:
                           </div>
                           <div className=" font-light text-[5vw] font-robotocon ">
-                            {selectedSeries}
+                            {
+                              SERIES_DATA.find(
+                                (item) => item.id === selectedSeries
+                              )?.name
+                            }
                           </div>
                         </div>
-                        <div className="flex  gap-2 items-center">
+                        <div className=" font-light text-[1.5vw] font-robotocon ">
+                          {
+                            SERIES_DATA.find(
+                              (item) => item.id === selectedSeries
+                            )?.description
+                          }
+                        </div>
+                        <div className="flex  gap-2 items-center mt-[10%]">
                           <div className=" font-cachetpro text-[5vw] font-semibold  leading-3 ">
-                            Gender:
+                            Ethnicity:
                           </div>
                           <div className=" font-light text-[5vw] font-robotocon ">
-                            {selectedGender}
+                            {selectedAppearance == "W" ? "Latino " : "Asian"}
                           </div>
                         </div>
                         <div className="flex  gap-2 items-center">
                           <div className=" font-cachetpro text-[5vw] font-semibold  leading-3 ">
-                            Appearance:
+                            Style:
                           </div>
                           <div className=" font-light text-[5vw] font-robotocon ">
-                            {selectedAppearance}
+                            Style{selectedClothing}
                           </div>
                         </div>
                         <div className="flex  gap-2 items-center">
                           <div className=" font-cachetpro text-[5vw] font-semibold  leading-3 ">
-                            Clothing:
+                            Body Type:
                           </div>
                           <div className=" font-light text-[5vw] font-robotocon ">
-                            {selectedClothing}
+                            {selectedGender == "M" ? "Type 1" : "Type 2"}
                           </div>
                         </div>
                         <div className="flex  gap-2 items-center">
                           <div className=" font-cachetpro text-[5vw] font-semibold  leading-3 ">
-                            Asset:
+                            Gaming Setup::
                           </div>
                           <div className=" font-light text-[5vw] font-robotocon ">
                             {selectedAsset}
@@ -698,7 +709,7 @@ const DownloadPage = ({ onNext, onPrev }: DownloadPageProps) => {
                           Ethnicity:
                         </div>
                         <div className=" font-light text-[1.5vw] font-robotocon ">
-                          {selectedAppearance}
+                          {selectedAppearance == "W" ? "Latino " : "Asian"}
                         </div>
                       </div>
                       <div className="flex  gap-2 items-center">
@@ -714,7 +725,7 @@ const DownloadPage = ({ onNext, onPrev }: DownloadPageProps) => {
                           Body Type:
                         </div>
                         <div className=" font-light text-[1.5vw] font-robotocon ">
-                          {selectedGender}
+                          {selectedGender == "M" ? "Type 1" : "Type 2"}
                         </div>
                       </div>
                       <div className="flex  gap-2 items-center">
