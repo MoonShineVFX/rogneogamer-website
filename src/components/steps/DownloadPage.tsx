@@ -93,7 +93,7 @@ const DownloadPage = ({ onNext, onPrev }: DownloadPageProps) => {
           try {
             const responseVideo = await faceSwapApi.swapFaceVideo(
               capturedImage,
-              `${IMAGE_URLS.ROG_NEO_GAMER}video/${
+              `${IMAGE_URLS.ROG_NEO_GAMER}videoV2/${
                 "S" + selectedSeries + "_" + selectedGender
               }.mp4`
             );
