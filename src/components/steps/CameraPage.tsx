@@ -119,10 +119,10 @@ const CameraPage = ({ onNext, onPrev }: CameraPageProps) => {
     new Promise((resolve) => {
       Resizer.imageFileResizer(
         file,
-        300,
-        400,
+        800,
+        600,
         "JPEG",
-        70,
+        100,
         0,
         (uri) => {
           resolve(uri as File);
@@ -151,9 +151,11 @@ const CameraPage = ({ onNext, onPrev }: CameraPageProps) => {
         alert("請上傳小於12MB的圖片");
         return;
       }
+      setCapturedImage(file as File);
       const reader = new FileReader();
       reader.onloadend = () => {
         setImage(reader.result as string);
+
         setBeforeImage(reader.result as string);
         setImageType("upload");
       };
