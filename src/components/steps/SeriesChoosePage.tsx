@@ -49,10 +49,12 @@ const SeriesChoosePage = ({
           className=" relative"
         >
           <motion.img
-            initial={{ opacity: 0, y: 100 }}
-            animate={{ opacity: 1, y: 0 }}
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: -15 }}
             transition={{ duration: 0.5 }}
-            src={IMAGE_URLS.ROG_NEO_GAMER + "p2_character.png"}
+            src={`${IMAGE_URLS.ROG_NEO_GAMER}characters/${
+              SERIES_DATA.find((item) => item.id === selectedSeries)?.img
+            }`}
             alt=""
             className="w-full h-full object-contain"
           />

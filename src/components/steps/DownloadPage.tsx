@@ -1,5 +1,5 @@
 // import { useAppContext } from "../../context/AppContext";
-import { IMAGE_URLS, SERIES_DATA } from "../../helpers/constants";
+import { ASSET_DATA, IMAGE_URLS, SERIES_DATA } from "../../helpers/constants";
 import { AnimatePresence, motion } from "framer-motion";
 import useIsMobile from "../../hooks/useIsMobile";
 import { useEffect, useRef, useState } from "react";
@@ -285,10 +285,10 @@ const DownloadPage = ({ onNext, onPrev }: DownloadPageProps) => {
       {isMobile ? (
         <div className="w-full h-[100dvh] z-0 ">
           <motion.div
-            initial={{ opacity: 0, y: "0%", scale: 1.15 }}
-            animate={{ opacity: 1, y: "0%", scale: 1.15 }}
+            initial={{ opacity: 0, y: "0%", scale: 0.8 }}
+            animate={{ opacity: 1, y: "0%", scale: 1 }}
             transition={{ type: "spring", stiffness: 200, damping: 20 }}
-            className="h-[100dvh] transition-all w-full bg-cover bg-center bg-no-repeat z-0 fixed top-0 left-0 pointer-events-none"
+            className="h-[100dvh] transition-all w-[100%] bg-contain bg-center bg-no-repeat z-0 fixed top-0 left-0 pointer-events-none"
             style={{
               backgroundImage: `url('${
                 renderedResultImageMb ? renderedResultImageMb : ""
@@ -402,7 +402,7 @@ const DownloadPage = ({ onNext, onPrev }: DownloadPageProps) => {
                         overscrollBehaviorY: "contain",
                       }}
                     >
-                      <div className="w-[80%] bg-sky-600/0 flex flex-col gap-1 pt-[10%]">
+                      <div className="w-[90%] bg-sky-600/0 flex flex-col gap-1 pt-[10%]">
                         <div className="flex  gap-2 items-center">
                           <div className=" font-cachetpro text-[5vw] font-semibold  leading-3 ">
                             SERIES:
@@ -415,7 +415,7 @@ const DownloadPage = ({ onNext, onPrev }: DownloadPageProps) => {
                             }
                           </div>
                         </div>
-                        <div className=" font-light text-[1.5vw] font-robotocon ">
+                        <div className=" font-light text-[5vw] font-robotocon ">
                           {
                             SERIES_DATA.find(
                               (item) => item.id === selectedSeries
@@ -447,11 +447,18 @@ const DownloadPage = ({ onNext, onPrev }: DownloadPageProps) => {
                           </div>
                         </div>
                         <div className="flex  gap-2 items-center">
-                          <div className=" font-cachetpro text-[5vw] font-semibold  leading-3 ">
+                          <div className=" font-cachetpro text-[5vw] font-semibold  leading-3 whitespace-nowrap ">
                             Gaming Setup::
                           </div>
-                          <div className=" font-light text-[5vw] font-robotocon ">
-                            {selectedAsset}
+                          <div className=" font-light text-[5vw] font-robotocon whitespace-nowrap ">
+                            {/* ASSET_DATA name == S1A1  return title */}
+                            {
+                              ASSET_DATA.find(
+                                (item) =>
+                                  item.name ===
+                                  `S${selectedSeries}A${selectedAsset}`
+                              )?.title
+                            }
                           </div>
                         </div>
                       </div>
@@ -599,7 +606,7 @@ const DownloadPage = ({ onNext, onPrev }: DownloadPageProps) => {
                             />
                           ) : (
                             <div className="absolute top-0 left-0 flex items-center justify-center w-full aspect-square ">
-                              <div className=" w-[4vw]  aspect-square   animate-spin rounded-full border-4 border-solid border-current border-e-transparent align-[-0.125em] text-surface"></div>
+                              <div className=" w-[4vw]  aspect-square    animate-spin rounded-full border-4 border-solid border-current border-e-transparent align-[-0.125em] text-surface"></div>
                             </div>
                           )}
                         </div>
@@ -697,7 +704,7 @@ const DownloadPage = ({ onNext, onPrev }: DownloadPageProps) => {
                           }
                         </div>
                       </div>
-                      <div className=" font-light text-[1.5vw] font-robotocon ">
+                      <div className=" font-light text-[1.3vw] font-robotocon ">
                         {
                           SERIES_DATA.find((item) => item.id === selectedSeries)
                             ?.description
@@ -705,7 +712,7 @@ const DownloadPage = ({ onNext, onPrev }: DownloadPageProps) => {
                       </div>
 
                       <div className="flex  gap-2 items-center mt-[10%]">
-                        <div className=" font-cachetpro text-[1.5vw] font-semibold  leading-3 ">
+                        <div className=" font-cachetpro text-[1.3vw] font-semibold  leading-3 ">
                           Ethnicity:
                         </div>
                         <div className=" font-light text-[1.5vw] font-robotocon ">
@@ -713,27 +720,33 @@ const DownloadPage = ({ onNext, onPrev }: DownloadPageProps) => {
                         </div>
                       </div>
                       <div className="flex  gap-2 items-center">
-                        <div className=" font-cachetpro text-[1.5vw] font-semibold  leading-3 ">
+                        <div className=" font-cachetpro text-[1.3vw] font-semibold  leading-3 ">
                           Style:
                         </div>
-                        <div className=" font-light text-[1.5vw] font-robotocon ">
+                        <div className=" font-light text-[1.3vw] font-robotocon ">
                           Style{selectedClothing}
                         </div>
                       </div>
                       <div className="flex  gap-2 items-center">
-                        <div className=" font-cachetpro text-[1.5vw] font-semibold  leading-3">
+                        <div className=" font-cachetpro text-[1.3vw] font-semibold  leading-3">
                           Body Type:
                         </div>
-                        <div className=" font-light text-[1.5vw] font-robotocon ">
+                        <div className=" font-light text-[1.3vw] font-robotocon ">
                           {selectedGender == "M" ? "Type 1" : "Type 2"}
                         </div>
                       </div>
                       <div className="flex  gap-2 items-center">
-                        <div className=" font-cachetpro text-[1.5vw] font-semibold  leading-3 ">
+                        <div className=" font-cachetpro text-[1.3vw] font-semibold  leading-3 whitespace-nowrap ">
                           Gaming Setup:
                         </div>
-                        <div className=" font-light text-[1.5vw] font-robotocon ">
-                          {selectedAsset}
+                        <div className=" font-light text-[1.3vw] font-robotocon whitespace-nowrap">
+                          {
+                            ASSET_DATA.find(
+                              (item) =>
+                                item.name ===
+                                `S${selectedSeries}A${selectedAsset}`
+                            )?.title
+                          }
                         </div>
                       </div>
                     </div>

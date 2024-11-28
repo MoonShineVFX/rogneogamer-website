@@ -144,17 +144,29 @@ export const SERIES_DATA = [
     name: "Mechanist",
     description:
       "Tailored for tech enthusiasts and DIY fans, unleash your creativity and showcase your unique personality!",
+    img: "S1MWC01.png",
   },
   {
     id: "2",
     name: "Extremist",
     description:
       "Designed for challengers seeking peak performance, embodying the fusion of professional expertise and cutting-edge technology!​",
+    img: "S2FBC03.png",
   },
   {
     id: "3",
     name: "Fanatic",
     description:
       "Dive into the spirit of the ACG world and infuse your passion into your player identity with vibrant, soulful style!",
+    img: "S2MBC04.png",
   },
+];
+
+export const ASSET_DATA = [
+  { id: "1", name: "S1A1", title: "Modding Lab" },
+  { id: "2", name: "S1A2", title: "Trendy Creation Lab" },
+  { id: "3", name: "S2A1", title: "Racing Speedsters" },
+  { id: "4", name: "S2A2", title: "Sports Collectibles" },
+  { id: "5", name: "S3A1", title: "Anime Collectibles" },
+  { id: "6", name: "S3A2", title: "Space Mecha" },
 ];
