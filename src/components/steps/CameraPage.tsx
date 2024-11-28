@@ -120,8 +120,8 @@ const CameraPage = ({ onNext, onPrev }: CameraPageProps) => {
     new Promise((resolve) => {
       Resizer.imageFileResizer(
         file, // 要處理的原始檔案
-        1000, // 最大寬度（像素）
-        1000, // 最大高度（像素）
+        1300, // 最大寬度（像素）
+        1300, // 最大高度（像素）
         "JPEG", // 輸出的圖片格式
         100, // 圖片品質 (0-100)
         0, // 圖片旋轉角度
