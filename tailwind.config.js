@@ -12,6 +12,10 @@ export default {
         robotocon: ["RobotoCon", "sans-serif"],
         robotoconbold: ["RobotoConBold", "sans-serif"],
       },
+      screens: {
+        "3xl": "1920px",
+        "4xl": "2200px",
+      },
     },
   },
   plugins: [],

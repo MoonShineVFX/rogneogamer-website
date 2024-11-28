@@ -87,7 +87,7 @@ const DesktopChoosePage = ({ onNext, onPrev }: DesktopChoosePageProps) => {
 
   return (
     <div className="min-h-screen bg-black relative overflow-hidden">
-      <div className="absolute top-0 left-0 text-white/50 text-sm z-10">
+      <div className="absolute top-0 left-0 text-white/50 text-sm z-10 hidden">
         {"S" +
           selectedSeries +
           selectedGender +
@@ -111,14 +111,14 @@ const DesktopChoosePage = ({ onNext, onPrev }: DesktopChoosePageProps) => {
 
       {/* 調整主要內容區域 - 使用固定寬度並居中 */}
       <div className="relative z-10 h-screen flex items-center justify-center">
-        <div className="relative w-[1200px] h-[80vh]">
+        <div className="relative w-[1200px] 2xl:w-[66%] h-[80vh] 2xl:h-[70vh]">
           {/* Style 卡片 (中間層) */}
           <motion.div
             initial={{ x: 0, opacity: 0 }}
             animate={getCardStyle("style")}
             transition={{ duration: 0.4, ease: "easeInOut" }}
             onClick={() => handleCardClick("style")}
-            className={`w-[37%]  overflow-y-hidden   absolute left-1/2 -translate-x-1/2 bg-black/30 
+            className={`w-[37%] 2xl:w-[42%]  overflow-y-hidden   absolute left-1/2 -translate-x-1/2 bg-black/30 
               backdrop-blur-sm rounded-lg  transition-all duration-300 cursor-pointer
               hover:shadow-2xl
               ${
@@ -143,7 +143,7 @@ const DesktopChoosePage = ({ onNext, onPrev }: DesktopChoosePageProps) => {
             animate={getCardStyle("asset")}
             transition={{ duration: 0.4, ease: "easeInOut" }}
             onClick={() => handleCardClick("asset")}
-            className={`w-[37%]  overflow-y-hidden   absolute left-1/2 -translate-x-1/2 bg-black/30 
+            className={`w-[37%] 2xl:w-[42%]  overflow-y-hidden   absolute left-1/2 -translate-x-1/2 bg-black/30 
               backdrop-blur-sm rounded-lg  transition-all duration-300 cursor-pointer
               hover:shadow-2xl
               ${
@@ -168,7 +168,7 @@ const DesktopChoosePage = ({ onNext, onPrev }: DesktopChoosePageProps) => {
             animate={getCardStyle("series")}
             transition={{ duration: 0.4, ease: "easeInOut" }}
             onClick={() => handleCardClick("series")}
-            className={`w-[37%]  overflow-y-hidden   absolute left-1/2 -translate-x-1/2 bg-black/30 
+            className={`w-[37%] 2xl:w-[42%]  overflow-y-hidden   absolute left-1/2 -translate-x-1/2 bg-black/30 
               backdrop-blur-sm rounded-lg  transition-all duration-300 cursor-pointer
               hover:shadow-2xl
               ${

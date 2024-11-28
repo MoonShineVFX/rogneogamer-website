@@ -30,7 +30,7 @@ const PreviewPage = ({ onNext, onPrev }: PreviewPageProps) => {
         backgroundSize: "100% 100%",
       }}
     >
-      <div className="absolute top-0 left-0 text-white/50 text-sm z-10">
+      <div className="absolute top-0 left-0 text-white/50 text-sm z-10 hidden">
         {"S" +
           selectedSeries +
           selectedGender +
@@ -137,7 +137,7 @@ const PreviewPage = ({ onNext, onPrev }: PreviewPageProps) => {
                 "S" + selectedSeries + "_" + selectedGender
               }.mp4` */}
               <iframe
-                src={`${IMAGE_URLS.ROG_NEO_GAMER}video/${
+                src={`${IMAGE_URLS.ROG_NEO_GAMER}videoV2/${
                   "S" + selectedSeries + "_" + selectedGender
                 }.mp4`}
                 title="Video"

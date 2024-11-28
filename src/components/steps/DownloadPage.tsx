@@ -30,9 +30,9 @@ const DownloadPage = ({ onNext, onPrev }: DownloadPageProps) => {
   const [showProgress, setShowProgress] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [faceSwapTaskId, setFaceSwapTaskId] = useState<string>("");
-  const [videoFaceSwapTaskId, setVideoFaceSwapTaskId] = useState<string | null>(
-    null
-  );
+  // const [videoFaceSwapTaskId, setVideoFaceSwapTaskId] = useState<string | null>(
+  //   null
+  // );
   const [renderedResultImage, setRenderedResultImage] = useState<string | null>(
     null
   );
@@ -99,7 +99,7 @@ const DownloadPage = ({ onNext, onPrev }: DownloadPageProps) => {
             );
             if (isSubscribed) {
               if (responseVideo.job_id) {
-                setVideoFaceSwapTaskId(responseVideo.job_id);
+                // setVideoFaceSwapTaskId(responseVideo.job_id);
                 setTimeout(() => {
                   getResultVideo(responseVideo.job_id);
                 }, 500);
@@ -170,9 +170,6 @@ const DownloadPage = ({ onNext, onPrev }: DownloadPageProps) => {
     }, 1000);
   };
 
-  useEffect(() => {
-    console.log(videoFaceSwapTaskId);
-  }, [videoFaceSwapTaskId]);
   // POST https://rogneogamer-api.moonshine-studio.net/face_swap
   // GET https://rogneogamer-api.moonshine-studio.net/images/:id
   // POST https://rogneogamer-api.moonshine-studio.net/video_face_swap
@@ -215,7 +212,7 @@ const DownloadPage = ({ onNext, onPrev }: DownloadPageProps) => {
       <AnimatePresence>
         {showProgress && (
           <ScreenProgress
-            duration={1000000}
+            duration={10000}
             onComplete={() => setShowProgress(false)}
           />
         )}
