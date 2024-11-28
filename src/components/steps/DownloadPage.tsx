@@ -519,6 +519,7 @@ const DownloadPage = ({ onNext, onPrev }: DownloadPageProps) => {
                             downloadVideo(renderedResultVideo as string);
                           }
                         }}
+                        className={` transition-all duration-500 flex items-end justify-between bg-fuchsia-100/0 pl-[10%] relative`}
                       >
                         <div className=" absolute top-0 left-0 w-[17%]  ">
                           {renderedResultVideo ? (
