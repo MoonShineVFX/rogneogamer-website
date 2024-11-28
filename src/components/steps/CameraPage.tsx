@@ -119,12 +119,12 @@ const CameraPage = ({ onNext, onPrev }: CameraPageProps) => {
   const resizeFile = (file: File): Promise<File | Blob> =>
     new Promise((resolve) => {
       Resizer.imageFileResizer(
-        file,
-        1000,
-        1000,
-        "JPEG",
-        100,
-        0,
+        file, // 要處理的原始檔案
+        1000, // 最大寬度（像素）
+        1000, // 最大高度（像素）
+        "JPEG", // 輸出的圖片格式
+        100, // 圖片品質 (0-100)
+        0, // 圖片旋轉角度
         (uri) => {
           resolve(uri as File);
         },

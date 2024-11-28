@@ -215,7 +215,7 @@ const DownloadPage = ({ onNext, onPrev }: DownloadPageProps) => {
       <AnimatePresence>
         {showProgress && (
           <ScreenProgress
-            duration={10000}
+            duration={1000000}
             onComplete={() => setShowProgress(false)}
           />
         )}

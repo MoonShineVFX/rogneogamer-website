@@ -84,16 +84,33 @@ const ScreenProgress = ({
             }}
             className=" fixed bottom-10 max-w-full w-[90%]   z-40 left-1/2"
           >
-            <div className="w-full relative">
-              <div className="progress-bar flex items-center font-robotocon text-[4.5vw] text-white/80 mb-5">
-                <div>GENERATING...</div>
-                {progress}%
+            <div className="w-full relative flex  items-center justify-between">
+              <div className="w-full">
+                <img
+                  src={
+                    IMAGE_URLS.ROG_GAMER_CARD_GIF +
+                    "/images/mb/loading_ui_mb.svg"
+                  }
+                  alt=""
+                  className="w-full"
+                />
               </div>
-              <img
-                src={IMAGE_URLS.ROG_GAMER_CARD + "/images/mb/loading_ui_mb.svg"}
-                alt=""
-                className="w-full"
-              />
+
+              <div className="progress-bar flex items-center font-cachet justify-end gap-4  bottom-10 right-0  absolute  w-[100%] bg-zinc-70/0">
+                <div className="text-white">GENERATING...</div>
+                <div className="w-full bg-gray-700 rounded-full h-[1px] mb-0">
+                  <motion.div
+                    className="bg-white h-full rounded-full"
+                    initial={{ width: "0%" }}
+                    animate={{ width: `${progress}%` }}
+                    transition={{ duration: 0.3 }}
+                  />
+                </div>
+
+                <div className="text-white text-center">
+                  {Math.round(progress)}%
+                </div>
+              </div>
             </div>
           </motion.div>
         </>
