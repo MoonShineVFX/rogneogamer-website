@@ -32,9 +32,10 @@ const CameraPage = ({ onNext, onPrev }: CameraPageProps) => {
   const { setBeforeImage } = useImage();
   const cameraC_Container = useRef<HTMLDivElement>(null);
   const videoConstraints2 = {
-    width: 720,
-    height: 1280,
+    aspectRatio: 1,
     facingMode: "user",
+    width: { min: 300 },
+    height: { min: 340 },
   };
   const videoConstraints = {
     aspectRatio: 0.8888887,
