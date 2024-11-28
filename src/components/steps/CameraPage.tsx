@@ -120,8 +120,8 @@ const CameraPage = ({ onNext, onPrev }: CameraPageProps) => {
     new Promise((resolve) => {
       Resizer.imageFileResizer(
         file,
-        800,
-        600,
+        1000,
+        1000,
         "JPEG",
         100,
         0,
