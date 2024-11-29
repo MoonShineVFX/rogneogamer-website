@@ -1,4 +1,4 @@
-import { motion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import { IMAGE_URLS, SERIES_DATA } from "../../helpers/constants";
 import { useAppContext } from "../../context/AppContext";
 interface SeriesChoosePageProps {
@@ -42,23 +42,22 @@ const SeriesChoosePage = ({
         </div>
       </div>
       <div className=" w-[88%] pt-[5%]  mx-auto h-full  relative bg-green-50/0">
-        <motion.div
-          initial={{ opacity: 0, y: 100 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
-          className=" relative"
-        >
-          <motion.img
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: -15 }}
-            transition={{ duration: 0.5 }}
-            src={`${IMAGE_URLS.ROG_NEO_GAMER}characters/${
-              SERIES_DATA.find((item) => item.id === selectedSeries)?.img
-            }`}
-            alt=""
-            className="w-full h-full object-contain"
-          />
-        </motion.div>
+        <AnimatePresence initial={true}>
+          <motion.div className=" relative">
+            <motion.img
+              key={selectedSeries}
+              initial={{ opacity: 0, y: 10, x: -50 }}
+              animate={{ opacity: 1, y: 50, x: 0, scale: 1.3 }}
+              transition={{ duration: 0.5 }}
+              src={`${IMAGE_URLS.ROG_NEO_GAMER}characters/${
+                SERIES_DATA.find((item) => item.id === selectedSeries)?.img
+              }`}
+              alt=""
+              className="w-full h-full object-contain"
+            />
+          </motion.div>
+        </AnimatePresence>
+
         <div className="grid grid-cols-1 gap-4 mb-3  absolute bottom-0 w-full">
           {SERIES_DATA.map((item) => (
             <button
