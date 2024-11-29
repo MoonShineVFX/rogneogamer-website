@@ -173,7 +173,7 @@ const HomePage = ({ onNext }: HomePageProps) => {
               <motion.img
                 key={currentImageIndex}
                 src={
-                  IMAGE_URLS.ROG_NEO_GAMER +
+                  IMAGE_URLS.ROG_NEO_GAMER_LG +
                   "characters/" +
                   HOME_DATA[currentImageIndex].img
                 }
