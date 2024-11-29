@@ -60,6 +60,7 @@ const HomePage = ({ onNext }: HomePageProps) => {
     if (!displayName.trim()) {
       setIsUsername(false);
       setIsAccept(true);
+      console.log(isAccept);
       return;
     }
 
@@ -172,7 +173,7 @@ const HomePage = ({ onNext }: HomePageProps) => {
               <motion.img
                 key={currentImageIndex}
                 src={
-                  IMAGE_URLS.ROG_NEO_GAMER_MD +
+                  IMAGE_URLS.ROG_NEO_GAMER +
                   "characters/" +
                   HOME_DATA[currentImageIndex].img
                 }
@@ -264,9 +265,6 @@ const HomePage = ({ onNext }: HomePageProps) => {
                       className={`${
                         isSending ? "cursor-not-allowed opacity-50" : ""
                       } text-white block  w-[100%] font-robotocon  bg-transparent focus:outline-none sm:text-sm relative z-10 placeholder-gray-500`}
-                      placeholder={
-                        !isAccept ? " * Please agree to our terms." : ""
-                      }
                       autoComplete="off"
                       maxLength={20}
                       onChange={onChange}
@@ -526,7 +524,6 @@ const HomePage = ({ onNext }: HomePageProps) => {
                       type="text"
                       name="username"
                       className="block w-[100%] text-[1vw] font-robotocon text-white bg-transparent focus:outline-none relative z-10 placeholder-gray-500"
-                      placeholder={"* Please agree to our terms."}
                       autoComplete="off"
                       maxLength={20}
                       onChange={onChange}

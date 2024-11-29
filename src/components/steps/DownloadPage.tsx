@@ -97,7 +97,7 @@ const DownloadPage = ({ onNext, onPrev }: DownloadPageProps) => {
             try {
               const responseVideo = await faceSwapApi.swapFaceVideo(
                 capturedImage,
-                `${IMAGE_URLS.ROG_NEO_GAMER}videoV3/${
+                `${IMAGE_URLS.ROG_NEO_GAMER}videoV4/${
                   "S" + selectedSeries + "_" + selectedGender
                 }.mp4`
               );
@@ -787,10 +787,10 @@ const DownloadPage = ({ onNext, onPrev }: DownloadPageProps) => {
                   >
                     <div className="w-[80%] bg-sky-600/0 flex flex-col gap-1 pt-[10%]">
                       <div className="flex  gap-2 items-center">
-                        <div className=" font-cachetpro text-[1.5vw] font-semibold  leading-3 ">
+                        <div className=" font-cachetpro text-[1vw] font-semibold  leading-3 ">
                           SERIES:
                         </div>
-                        <div className=" font-light text-[1.5vw] font-robotocon  -mt-[2%]">
+                        <div className=" font-light text-[1vw] font-robotocon  -mt-[2%]">
                           {
                             SERIES_DATA.find(
                               (item) => item.id === selectedSeries
@@ -798,7 +798,7 @@ const DownloadPage = ({ onNext, onPrev }: DownloadPageProps) => {
                           }
                         </div>
                       </div>
-                      <div className=" font-light text-[1.3vw] font-robotocon ">
+                      <div className=" font-light text-[1vw] font-robotocon ">
                         {
                           SERIES_DATA.find((item) => item.id === selectedSeries)
                             ?.description
@@ -809,31 +809,31 @@ const DownloadPage = ({ onNext, onPrev }: DownloadPageProps) => {
                         <div className=" font-cachetpro text-[1.3vw] font-semibold  leading-3 ">
                           Ethnicity:
                         </div>
-                        <div className=" font-light text-[1.3vw] font-robotocon ">
+                        <div className=" font-light text-[1vw] font-robotocon ">
                           {selectedAppearance == "W" ? "Latino " : "Asian"}
                         </div>
                       </div>
                       <div className="flex  gap-2 items-center">
-                        <div className=" font-cachetpro text-[1.3vw] font-semibold  leading-3 ">
+                        <div className=" font-cachetpro text-[1vw] font-semibold  leading-3 ">
                           Style:
                         </div>
-                        <div className=" font-light text-[1.3vw] font-robotocon ">
+                        <div className=" font-light text-[1vw] font-robotocon ">
                           Style{selectedClothing}
                         </div>
                       </div>
                       <div className="flex  gap-2 items-center">
-                        <div className=" font-cachetpro text-[1.3vw] font-semibold  leading-3">
+                        <div className=" font-cachetpro text-[1vw] font-semibold  leading-3">
                           Body Type:
                         </div>
-                        <div className=" font-light text-[1.3vw] font-robotocon ">
+                        <div className=" font-light text-[1vw] font-robotocon ">
                           {selectedGender == "M" ? "Type 1" : "Type 2"}
                         </div>
                       </div>
                       <div className="flex  gap-2 items-center">
-                        <div className=" font-cachetpro text-[1.3vw] font-semibold  leading-3 whitespace-nowrap ">
+                        <div className=" font-cachetpro text-[1vw] font-semibold  leading-3 whitespace-nowrap ">
                           Gaming Setup:
                         </div>
-                        <div className=" font-light text-[1.3vw] font-robotocon whitespace-nowrap">
+                        <div className=" font-light text-[1vw] font-robotocon whitespace-nowrap">
                           {
                             ASSET_DATA.find(
                               (item) =>

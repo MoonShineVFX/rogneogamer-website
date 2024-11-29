@@ -470,13 +470,13 @@ const CameraPage = ({ onNext, onPrev }: CameraPageProps) => {
                     alt=""
                     className=" absolute top-0 right-0 mix-blend-screen max-w-full h-full "
                   />
-                  <div className=" w-full h-full flex flex-col justify-between pl-4  ">
+                  <div className=" w-[84%] h-full flex flex-col justify-between pl-4   ">
                     <div className=" opacity-80 pt-[28%] text-white/80 ">
                       <div className="flex  gap-2">
-                        <div className=" font-cachetpro text-[1.4vw] font-semibold pt-[4%] leading-3 ">
+                        <div className=" font-cachetpro text-[1vw] font-semibold pt-[4%] leading-3 ">
                           SERIES :
                         </div>
-                        <div className="mt-[0%] font-light text-[1.2vw] font-robotocon ">
+                        <div className="mt-[0%] font-light text-[1vw] font-robotocon ">
                           {
                             SERIES_DATA.find(
                               (item) => item.id === selectedSeries
@@ -484,7 +484,7 @@ const CameraPage = ({ onNext, onPrev }: CameraPageProps) => {
                           }
                         </div>
                       </div>
-                      <div className=" font-light text-[1.2vw] font-robotocon mt-[2%]">
+                      <div className=" font-light text-[1vw] font-robotocon mt-[2%]">
                         {
                           SERIES_DATA.find((item) => item.id === selectedSeries)
                             ?.description
@@ -495,34 +495,34 @@ const CameraPage = ({ onNext, onPrev }: CameraPageProps) => {
                       <div className="flex items-center justify-start gap-3 opacity-80 mb-[3vh] max-h-[40px] bg-slate-500/0 text-white/80">
                         <div className="w-[80%] bg-sky-600/0 flex flex-col gap-1">
                           <div className="flex  gap-2 items-center mt-[10%]">
-                            <div className=" font-cachetpro text-[1.3vw] font-semibold  leading-3 ">
+                            <div className=" font-cachetpro text-[1vw] font-semibold  leading-3 ">
                               Ethnicity:
                             </div>
-                            <div className=" font-light text-[1.3vw] font-robotocon ">
+                            <div className=" font-light text-[1vw] font-robotocon ">
                               {selectedAppearance == "W" ? "Latino " : "Asian"}
                             </div>
                           </div>
                           <div className="flex  gap-2 items-center">
-                            <div className=" font-cachetpro text-[1.3vw] font-semibold  leading-3 ">
+                            <div className=" font-cachetpro text-[1vw] font-semibold  leading-3 ">
                               Style:
                             </div>
-                            <div className=" font-light text-[1.3vw] font-robotocon ">
+                            <div className=" font-light text-[1vw] font-robotocon ">
                               Style{selectedClothing}
                             </div>
                           </div>
                           <div className="flex  gap-2 items-center">
-                            <div className=" font-cachetpro text-[1.3vw] font-semibold  leading-3">
+                            <div className=" font-cachetpro text-[1vw] font-semibold  leading-3">
                               Body Type:
                             </div>
-                            <div className=" font-light text-[1.3vw] font-robotocon ">
+                            <div className=" font-light text-[1vw] font-robotocon ">
                               {selectedGender == "M" ? "Type 1" : "Type 2"}
                             </div>
                           </div>
                           <div className="flex  gap-2 items-center">
-                            <div className=" font-cachetpro text-[1.3vw] font-semibold  leading-3 whitespace-nowrap ">
+                            <div className=" font-cachetpro text-[1vw] font-semibold  leading-3 whitespace-nowrap ">
                               Gaming Setup:
                             </div>
-                            <div className=" font-light text-[1.3vw] font-robotocon whitespace-nowrap">
+                            <div className=" font-light text-[1vw] font-robotocon whitespace-nowrap">
                               {
                                 ASSET_DATA.find(
                                   (item) =>
