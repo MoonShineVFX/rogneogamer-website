@@ -6,6 +6,7 @@ import { useEffect, useRef, useState } from "react";
 import { useAppContext } from "../../context/AppContext";
 import ScreenProgress from "../common/ScreenProgress";
 import { faceSwapApi } from "../../services/api";
+import ReactPlayer from "react-player";
 interface DownloadPageProps {
   onPrev: () => void;
   onNext: () => void;
@@ -42,6 +43,8 @@ const DownloadPage = ({ onNext, onPrev }: DownloadPageProps) => {
   const [renderedResultVideo, setRenderedResultVideo] = useState<string | null>(
     null
   );
+  const [showVideo, setShowVideo] = useState(false);
+  console.log(error, faceSwapTaskId);
   const mb_menu = [
     { title: "image" },
     { title: "wallpaper" },
@@ -54,100 +57,84 @@ const DownloadPage = ({ onNext, onPrev }: DownloadPageProps) => {
     let isSubscribed = true;
 
     const processImage = async () => {
+      if (!capturedImage) {
+        setError("沒有可用的圖片");
+        return;
+      }
+
       try {
-        if (!capturedImage) {
-          setError("沒有可用的圖片");
-          return;
-        }
-        console.log(capturedImage);
-        if (capturedImage) {
-          try {
-            if (isSubscribed) {
-              setError(null);
-            }
-            const response = await faceSwapApi.swapFace(
-              capturedImage,
-              `${IMAGE_URLS.ROG_NEO_GAMER}composed/h_templates/${
-                "S" +
-                selectedSeries +
-                selectedGender +
-                selectedAppearance +
-                "C0" +
-                selectedClothing +
-                "A" +
-                selectedAsset
-              }.jpg`
-            );
-            if (isSubscribed) {
-              if (response.id) {
-                setFaceSwapTaskId(response.id);
-                console.log(faceSwapTaskId);
-                setTimeout(() => {
-                  getResulImage(response.id);
-                }, 500);
-              }
-            }
-            //POST rogneogamer-api.moonshine-studio.net/testpost
-            // const response = await faceSwapApi.testPost();
-          } catch (error) {
-            setError("圖片上傳失敗");
-          }
+        setError(null);
 
-          try {
-            const responseVideo = await faceSwapApi.swapFaceVideo(
-              capturedImage,
-              `${IMAGE_URLS.ROG_NEO_GAMER}videoV2/${
-                "S" + selectedSeries + "_" + selectedGender
-              }.mp4`
-            );
-            if (isSubscribed) {
-              if (responseVideo.job_id) {
-                // setVideoFaceSwapTaskId(responseVideo.job_id);
-                setTimeout(() => {
-                  getResultVideo(responseVideo.job_id);
-                }, 500);
-              }
-            }
-          } catch (error) {
-            setError("影片上傳失敗");
-          }
-
-          //swapFace_mb
-          try {
-            if (isSubscribed) {
-              setError(null);
-            }
-            const response = await faceSwapApi.swapFace_mb(
-              capturedImage,
-              `${IMAGE_URLS.ROG_NEO_GAMER}composed/v_templates/${
-                "S" +
-                selectedSeries +
-                selectedGender +
-                selectedAppearance +
-                "C0" +
-                selectedClothing +
-                "A" +
-                selectedAsset
-              }.jpg`
-            );
-            if (isSubscribed) {
-              if (response.id) {
+        // 使用 Promise.all 並行處理三個請求
+        await Promise.all([
+          // PC 版圖片
+          (async () => {
+            try {
+              const response = await faceSwapApi.swapFace(
+                capturedImage,
+                `${IMAGE_URLS.ROG_NEO_GAMER}composed/h_templates/${
+                  "S" +
+                  selectedSeries +
+                  selectedGender +
+                  selectedAppearance +
+                  "C0" +
+                  selectedClothing +
+                  "A" +
+                  selectedAsset
+                }.jpg`
+              );
+              if (isSubscribed && response.id) {
                 setFaceSwapTaskId(response.id);
-                console.log(faceSwapTaskId);
-                setTimeout(() => {
-                  getResulImage_mb(response.id);
-                }, 500);
+                setTimeout(() => getResulImage(response.id), 500);
               }
+            } catch (error) {
+              isSubscribed && setError("PC圖片處理失敗");
             }
-            //POST rogneogamer-api.moonshine-studio.net/testpost
-            // const response = await faceSwapApi.testPost();
-          } catch (error) {
-            setError("圖片上傳失敗");
-          }
-        }
+          })(),
+
+          // 影片
+          (async () => {
+            try {
+              const responseVideo = await faceSwapApi.swapFaceVideo(
+                capturedImage,
+                `${IMAGE_URLS.ROG_NEO_GAMER}videoV3/${
+                  "S" + selectedSeries + "_" + selectedGender
+                }.mp4`
+              );
+              if (isSubscribed && responseVideo.job_id) {
+                setTimeout(() => getResultVideo(responseVideo.job_id), 500);
+              }
+            } catch (error) {
+              isSubscribed && setError("影片處理失敗");
+            }
+          })(),
+
+          // 手機版圖片
+          (async () => {
+            try {
+              const response = await faceSwapApi.swapFace_mb(
+                capturedImage,
+                `${IMAGE_URLS.ROG_NEO_GAMER}composed/v_templates/${
+                  "S" +
+                  selectedSeries +
+                  selectedGender +
+                  selectedAppearance +
+                  "C0" +
+                  selectedClothing +
+                  "A" +
+                  selectedAsset
+                }.jpg`
+              );
+              if (isSubscribed && response.id) {
+                setTimeout(() => getResulImage_mb(response.id), 500);
+              }
+            } catch (error) {
+              isSubscribed && setError("手機圖片處理失敗");
+            }
+          })(),
+        ]);
       } catch (error) {
-        isSubscribed &&
-          setError("Timeout error, please upload the image again.");
+        isSubscribed && setError("處理過程發生錯誤");
       }
     };
 
@@ -261,9 +248,85 @@ const DownloadPage = ({ onNext, onPrev }: DownloadPageProps) => {
       })
       .catch((err) => console.error("Error downloading video:", err));
   };
-  console.log(error);
+  // 首先添加一個 VideoModal 組件
+  const VideoModal = ({
+    videoUrl,
+    onClose,
+  }: {
+    videoUrl: string;
+    onClose: () => void;
+  }) => {
+    return (
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+        className="fixed inset-0 z-50 flex items-center justify-center bg-black/80"
+        onClick={onClose}
+      >
+        <motion.div
+          initial={{ scale: 0.5 }}
+          animate={{ scale: 1 }}
+          exit={{ scale: 0.5 }}
+          className="relative w-auto h-[80vh] max-h-[900px] aspect-[9/16] bg-black rounded-lg overflow-hidden"
+          onClick={(e) => e.stopPropagation()}
+        >
+          <ReactPlayer
+            url={videoUrl}
+            className="w-full h-full"
+            playing
+            playsinline
+            muted
+            loop
+            width="100%"
+            height="100%"
+            style={{ aspectRatio: "9/16" }} // 設置直式影片比例
+            config={{
+              file: {
+                attributes: {
+                  style: {
+                    width: "100%",
+                    height: "100%",
+                    objectFit: "contain",
+                  },
+                },
+              },
+            }}
+          />
+          <button
+            onClick={onClose}
+            className="absolute top-4 right-4 text-white hover:text-gray-300 z-10"
+          >
+            <svg
+              className="w-6 h-6"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M6 18L18 6M6 6l12 12"
+              />
+            </svg>
+          </button>
+        </motion.div>
+      </motion.div>
+    );
+  };
+
   return (
     <div className="relative h-[100dvh] bg-left-top bg-no-repeat   flex flex-col justify-between lg:justify-start">
+      {/* 添加 Video Modal */}
+      <AnimatePresence>
+        {showVideo && renderedResultVideo && (
+          <VideoModal
+            videoUrl={renderedResultVideo}
+            onClose={() => setShowVideo(false)}
+          />
+        )}
+      </AnimatePresence>
       {/* 添加 ScreenProgress */}
       <AnimatePresence>
         {showProgress && (
@@ -589,6 +652,37 @@ const DownloadPage = ({ onNext, onPrev }: DownloadPageProps) => {
                       <div
                         onClick={() => {
                           if (renderedResultVideo) {
+                            setShowVideo(true);
+                          }
+                        }}
+                        className={` transition-all duration-500 flex items-end justify-between bg-fuchsia-100/0 pl-[10%] relative`}
+                      >
+                        <div className=" absolute top-0 left-0 w-[20%]  ">
+                          {renderedResultVideo ? (
+                            <img
+                              className=" absolute  left-0"
+                              src={
+                                IMAGE_URLS.ROG_NEO_GAMER_MD +
+                                "final_play_icon.png"
+                              }
+                              alt=""
+                            />
+                          ) : (
+                            <div className="absolute top-0 left-0 flex items-center justify-center w-full aspect-square ">
+                              <div className=" w-[4vw]  aspect-square    animate-spin rounded-full border-4 border-solid border-current border-e-transparent align-[-0.125em] text-surface"></div>
+                            </div>
+                          )}
+                        </div>
+
+                        <div
+                          className={` ${"text-[#C7B299]"} font-cachetpro bg-sky-400/0 text-[5vw] underline`}
+                        >
+                          Play Video
+                        </div>
+                      </div>
+                      <div
+                        onClick={() => {
+                          if (renderedResultVideo) {
                             downloadVideo(renderedResultVideo as string);
                           }
                         }}
@@ -612,7 +706,7 @@ const DownloadPage = ({ onNext, onPrev }: DownloadPageProps) => {
                         </div>
 
                         <div
-                          className={` ${"text-[#C7B299]"} font-cachetpro bg-sky-400/0 text-[5vw] underline`}
+                          className={` ${"text-[rgb(199,178,153)]"} font-cachetpro bg-sky-400/0 text-[5vw] underline`}
                         >
                           Download Video
                         </div>
@@ -883,34 +977,31 @@ const DownloadPage = ({ onNext, onPrev }: DownloadPageProps) => {
                       Download Video
                     </div>
                   </a>
-                  <a
-                    href={renderedResultVideo ? renderedResultVideo : ""}
-                    target="_blank"
-                    rel="noreferrer"
+                  <div
+                    onClick={() => renderedResultVideo && setShowVideo(true)}
                     className={`flex items-end justify-between w-[78%] pl-[12%] relative transition-all duration-500  ${
                       renderedResultVideo
-                        ? "hover:scale-95 cursor-pointer  "
-                        : " grayscale brightness-50 cursor-wait "
+                        ? "hover:scale-95 cursor-pointer"
+                        : "grayscale brightness-50 cursor-wait"
                     }`}
                   >
-                    <div className=" absolute -top-1 left-0 w-[11%]">
+                    <div className="absolute -top-[2px] left-0 w-[10%]">
                       {renderedResultVideo ? (
                         <img
-                          className=" w-full"
+                          className="w-full"
                           src={
-                            IMAGE_URLS.ROG_GAMER_CARD_GIF +
-                            "/images/final_dl_icon.svg"
+                            IMAGE_URLS.ROG_NEO_GAMER_MD + "final_play_icon.png"
                           }
                           alt=""
                         />
                       ) : (
-                        <div className="absolute top-0 left-0 flex items-center justify-center w-full aspect-square ">
-                          <div className=" w-[1vw]  aspect-square   animate-spin rounded-full border-4 border-solid border-current border-e-transparent align-[-0.125em] text-surface"></div>
+                        <div className="absolute top-0 left-0 flex items-center justify-center w-full aspect-square">
+                          <div className="w-[1vw] aspect-square animate-spin rounded-full border-4 border-solid border-current border-e-transparent align-[-0.125em] text-surface"></div>
                         </div>
                       )}
                     </div>
                     <div
-                      className=" font-cachetpro bg-contain  w-[100%] bg-no-repeat bg-right-bottom bg-sky-400/0 text-[1.2vw]"
+                      className="font-cachetpro bg-contain w-[100%] bg-no-repeat bg-right-bottom bg-sky-400/0 text-[1.2vw]"
                       style={{
                         backgroundImage: `url('${
                           IMAGE_URLS.ROG_GAMER_CARD_GIF +
@@ -920,7 +1011,7 @@ const DownloadPage = ({ onNext, onPrev }: DownloadPageProps) => {
                     >
                       Play Video
                     </div>
-                  </a>
+                  </div>
                   <div
                     onClick={onNext}
                     className="hover:scale-95 cursor-pointer flex items-end justify-between w-[78%] bg-fuchsia-100/0 pl-[12%] relative"
