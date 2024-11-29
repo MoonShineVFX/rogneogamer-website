@@ -146,7 +146,7 @@ const PreviewPage = ({ onNext, onPrev }: PreviewPageProps) => {
                 "S" + selectedSeries + "_" + selectedGender
               }.mp4` */}
               <iframe
-                src={`${IMAGE_URLS.ROG_NEO_GAMER}videoV2/${
+                src={`${IMAGE_URLS.ROG_NEO_GAMER}videoV3/${
                   "S" + selectedSeries + "_" + selectedGender
                 }.mp4`}
                 title="Video"
