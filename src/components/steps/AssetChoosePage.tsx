@@ -25,9 +25,9 @@ const AssetChoosePage = ({
 
   return (
     <div
-      className="relative h-[100dvh] xl:h-[98dvh] 2xl:h-[75dvh] bg-left-top bg-no-repeat pt-[4%]  flex flex-col justify-between "
+      className="relative h-[100dvh] xl:h-[98dvh] 2xl:h-[77dvh] bg-left-top bg-no-repeat pt-[4%]  flex flex-col justify-between "
       style={{
-        backgroundImage: `url('${IMAGE_URLS.ROG_NEO_GAMER + "c_bg02.png"}')`,
+        backgroundImage: `url('${IMAGE_URLS.ROG_NEO_GAMER + "c_bg03.png"}')`,
         backgroundSize: "100% 100%",
       }}
     >
@@ -42,7 +42,7 @@ const AssetChoosePage = ({
           />
         </div>
       </div>
-      <div className=" h-full  mx-auto  flex flex-col justify-center items-center  gap-4 bg-emerald-600/0">
+      <div className=" h-full  mx-auto  flex flex-col justify-center items-center w-[90%]  gap-4 bg-emerald-600/0">
         <div className="w-[95%]  mx-auto relative bg-slate-20/0">
           <img
             src={IMAGE_URLS.ROG_NEO_GAMER + "asset_edge.png"}

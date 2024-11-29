@@ -87,7 +87,7 @@ const DesktopChoosePage = ({ onNext, onPrev }: DesktopChoosePageProps) => {
 
   return (
     <div className="min-h-screen bg-black relative overflow-hidden">
-      <div className="absolute top-0 left-0 text-white/50 text-sm z-10 ">
+      <div className="absolute top-0 left-0 text-white/50 text-sm z-10 hidden ">
         {"S" +
           selectedSeries +
           selectedGender +

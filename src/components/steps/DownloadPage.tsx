@@ -715,7 +715,7 @@ const DownloadPage = ({ onNext, onPrev }: DownloadPageProps) => {
                         <div className=" font-cachetpro text-[1.3vw] font-semibold  leading-3 ">
                           Ethnicity:
                         </div>
-                        <div className=" font-light text-[1.5vw] font-robotocon ">
+                        <div className=" font-light text-[1.3vw] font-robotocon ">
                           {selectedAppearance == "W" ? "Latino " : "Asian"}
                         </div>
                       </div>
@@ -881,6 +881,44 @@ const DownloadPage = ({ onNext, onPrev }: DownloadPageProps) => {
                       }}
                     >
                       Download Video
+                    </div>
+                  </a>
+                  <a
+                    href={renderedResultVideo ? renderedResultVideo : ""}
+                    target="_blank"
+                    rel="noreferrer"
+                    className={`flex items-end justify-between w-[78%] pl-[12%] relative transition-all duration-500  ${
+                      renderedResultVideo
+                        ? "hover:scale-95 cursor-pointer  "
+                        : " grayscale brightness-50 cursor-wait "
+                    }`}
+                  >
+                    <div className=" absolute -top-1 left-0 w-[11%]">
+                      {renderedResultVideo ? (
+                        <img
+                          className=" w-full"
+                          src={
+                            IMAGE_URLS.ROG_GAMER_CARD_GIF +
+                            "/images/final_dl_icon.svg"
+                          }
+                          alt=""
+                        />
+                      ) : (
+                        <div className="absolute top-0 left-0 flex items-center justify-center w-full aspect-square ">
+                          <div className=" w-[1vw]  aspect-square   animate-spin rounded-full border-4 border-solid border-current border-e-transparent align-[-0.125em] text-surface"></div>
+                        </div>
+                      )}
+                    </div>
+                    <div
+                      className=" font-cachetpro bg-contain  w-[100%] bg-no-repeat bg-right-bottom bg-sky-400/0 text-[1.2vw]"
+                      style={{
+                        backgroundImage: `url('${
+                          IMAGE_URLS.ROG_GAMER_CARD_GIF +
+                          "/images/final_text_ui.png"
+                        }')`,
+                      }}
+                    >
+                      Play Video
                     </div>
                   </a>
                   <div

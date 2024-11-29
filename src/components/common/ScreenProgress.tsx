@@ -61,7 +61,7 @@ const ScreenProgress = ({
         </div> */}
           <div className="vimeo-wrapper">
             <ReactPlayer
-              url="https://r2.web.moonshine.tw/msweb/roggamercard/videos/mb_loading.mp4"
+              url={`${IMAGE_URLS.ROG_NEO_GAMER}loading/mb_loading.mp4`}
               className="react-player"
               playing
               playsinline
@@ -118,13 +118,17 @@ const ScreenProgress = ({
         <>
           <div className=" fixed w-full h-full top-0 left-0 -z-10 overflow-hidden">
             <div className=" absolute w-full h-0 top-0 left-0 pb-[56.2%] clear-both">
-              <iframe
-                src="https://player.vimeo.com/video/951924287?background=1&autoplay=1&loop=1&byline=0&title=0"
-                allow="autoplay; fullscreen"
-                allowFullScreen
-                title="Vimeo Video"
-                className=" absolute top-0 left-0 w-full h-full"
-              ></iframe>
+              <ReactPlayer
+                url={`${IMAGE_URLS.ROG_NEO_GAMER}loading/loading.mp4`}
+                className="bsolute top-0 left-0 w-full h-full"
+                playing
+                playsinline
+                muted
+                loop
+                width="100vw"
+                height="56.25vw"
+                config={{ vimeo: { playerOptions: { background: true } } }}
+              />
             </div>
           </div>
           <motion.div
