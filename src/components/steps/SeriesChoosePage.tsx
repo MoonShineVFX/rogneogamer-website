@@ -25,6 +25,7 @@ const SeriesChoosePage = ({
   useEffect(() => {
     const fixScroll = () => {
       window.scrollTo(0, 0);
+      document.documentElement.style.height = "100%";
     };
 
     // 頁面切換時
