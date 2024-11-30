@@ -518,7 +518,7 @@ const CameraPage = ({ onNext, onPrev }: CameraPageProps) => {
                               {selectedGender == "M" ? "Type 1" : "Type 2"}
                             </div>
                           </div>
-                          <div className="flex  gap-2 items-center">
+                          <div className="flex  gap-2 mt-2 flex-col">
                             <div className=" font-cachetpro text-[1vw] font-semibold  leading-3 whitespace-nowrap ">
                               Gaming Setup:
                             </div>

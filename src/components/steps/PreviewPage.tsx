@@ -80,8 +80,8 @@ const PreviewPage = ({ onNext, onPrev }: PreviewPageProps) => {
               className="w-full h-full object-cover"
             />
           </motion.div>
-          <div className="absolute -bottom-[5%] left-1/2 -translate-x-1/2 font-roboto  z-20 flex items-center gap-2">
-            <p className="text-white/80 text-center">PC Wallpaper</p>
+          <div className="absolute -bottom-[5%] left-1/2 -translate-x-1/2 font-robotocon  z-20 flex items-center gap-2">
+            <p className="text-white/80 text-center ">PC Wallpaper</p>
           </div>
         </div>
 
@@ -120,7 +120,7 @@ const PreviewPage = ({ onNext, onPrev }: PreviewPageProps) => {
                 className="w-full h-full object-cover"
               />
             </motion.div>
-            <div className="absolute -bottom-[6%] left-1/2 -translate-x-1/2 font-roboto  z-20 flex items-center gap-2">
+            <div className="absolute -bottom-[6%] left-1/2 -translate-x-1/2 font-robotocon  z-20 flex items-center gap-2">
               <p className="text-white/80 text-center">Mobile Wallpaper</p>
             </div>
           </div>
@@ -153,7 +153,7 @@ const PreviewPage = ({ onNext, onPrev }: PreviewPageProps) => {
                 className="w-full h-full object-cover"
               ></iframe>
             </motion.div>
-            <div className="absolute -bottom-[6%] left-1/2 -translate-x-1/2 font-roboto  z-20 flex items-center gap-2">
+            <div className="absolute -bottom-[6%] left-1/2 -translate-x-1/2 font-robotocon  z-20 flex items-center gap-2">
               <p className="text-white/80 text-center">Video</p>
             </div>
           </div>

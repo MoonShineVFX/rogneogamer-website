@@ -806,7 +806,7 @@ const DownloadPage = ({ onNext, onPrev }: DownloadPageProps) => {
                       </div>
 
                       <div className="flex  gap-2 items-center mt-[10%]">
-                        <div className=" font-cachetpro text-[1.3vw] font-semibold  leading-3 ">
+                        <div className=" font-cachetpro text-[1vw] font-semibold  leading-3 ">
                           Ethnicity:
                         </div>
                         <div className=" font-light text-[1vw] font-robotocon ">

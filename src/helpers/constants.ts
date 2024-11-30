@@ -118,7 +118,7 @@ export const SERIES_DATA = [
     name: "Fanatic",
     description:
       "Dive into the spirit of the ACG world and infuse your passion into your player identity with vibrant, soulful style!",
-    img: "S2MBC04.png",
+    img: "S3MBC01.png",
   },
 ];
 
