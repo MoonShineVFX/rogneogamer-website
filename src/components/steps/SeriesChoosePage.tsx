@@ -58,7 +58,7 @@ const SeriesChoosePage = ({
           />
         </div>
       </div>
-      <div className=" w-[74%] lg:w-[88%] pt-[5%]  mx-auto h-full  relative bg-green-50/0">
+      <div className=" w-[74%] lg:w-[88%] pt-[5%]  mx-auto h-[88%]   relative bg-green-50/0">
         <AnimatePresence initial={true}>
           <motion.div className=" relative">
             <motion.img
@@ -75,7 +75,7 @@ const SeriesChoosePage = ({
           </motion.div>
         </AnimatePresence>
 
-        <div className="grid grid-cols-1 gap-4 mb-3  absolute bottom-0 w-full">
+        <div className="grid grid-cols-1 gap-4 mb-2  absolute bottom-0 w-full">
           {SERIES_DATA.map((item) => (
             <button
               key={item.id}
@@ -95,7 +95,7 @@ const SeriesChoosePage = ({
         </div>
       </div>
 
-      <div className="w-full pt-[5%] h-[12%]  bottom-0">
+      <div className="w-full pt-[5%] h-[12%]  ">
         {!isDesktop && (
           <div className="flex justify-between w-[60%] mx-auto h-full bg-violet-600/0 relative">
             <motion.div
