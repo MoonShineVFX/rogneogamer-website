@@ -79,7 +79,7 @@ const SeriesChoosePage = ({
         </div>
       </div>
 
-      <div className="w-full pt-[5%] h-[12%]  bottom-0">
+      <div className="w-full pt-[5%] h-[26%] lg:h-[12%]  bottom-0">
         {!isDesktop && (
           <div className="flex justify-between w-[60%] mx-auto h-full bg-violet-600/0 relative">
             <motion.div
