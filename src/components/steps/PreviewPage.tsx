@@ -106,7 +106,7 @@ const PreviewPage = ({ onNext, onPrev }: PreviewPageProps) => {
               className="absolute top-0 left-0 w-full h-full px-3 py-4 -mt-1 lg:px-[9%] "
             >
               <img
-                src={`${IMAGE_URLS.ROG_NEO_GAMER_LG}composed/v_templates/${
+                src={`${IMAGE_URLS.ROG_NEO_GAMER}composed/v_templates2/${
                   "S" +
                   selectedSeries +
                   selectedGender +
