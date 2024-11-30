@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { motion } from "framer-motion";
 import useIsMobile from "../../hooks/useIsMobile";
 import { IMAGE_URLS } from "../../helpers/constants";
@@ -12,20 +12,20 @@ const ScreenProgress = ({
   duration = 10000,
   onComplete,
 }: ScreenProgressProps) => {
-  const [progress, setProgress] = useState(0);
+  const progressRef = useRef(0);
+  const [displayProgress, setDisplayProgress] = useState(0);
   const [isVisible, setIsVisible] = useState(true);
   const isMobile = useIsMobile();
   useEffect(() => {
     const interval = 50; // 每50ms更新一次
     const steps = duration / interval;
     const increment = 100 / steps;
-    let currentProgress = 0;
 
     const timer = setInterval(() => {
-      currentProgress += increment;
-      setProgress(Math.min(currentProgress, 100));
+      progressRef.current += increment;
+      setDisplayProgress(Math.min(progressRef.current, 100));
 
-      if (currentProgress >= 100) {
+      if (progressRef.current >= 100) {
         clearInterval(timer);
         setTimeout(() => {
           setIsVisible(false);
@@ -102,13 +102,13 @@ const ScreenProgress = ({
                   <motion.div
                     className="bg-white h-full rounded-full"
                     initial={{ width: "0%" }}
-                    animate={{ width: `${progress}%` }}
+                    animate={{ width: `${displayProgress}%` }}
                     transition={{ duration: 0.3 }}
                   />
                 </div>
 
                 <div className="text-white text-center">
-                  {Math.round(progress)}%
+                  {Math.round(displayProgress)}%
                 </div>
               </div>
             </div>
@@ -158,13 +158,13 @@ const ScreenProgress = ({
                   <motion.div
                     className="bg-white h-full rounded-full"
                     initial={{ width: "0%" }}
-                    animate={{ width: `${progress}%` }}
+                    animate={{ width: `${displayProgress}%` }}
                     transition={{ duration: 0.3 }}
                   />
                 </div>
 
                 <div className="text-white text-center">
-                  {Math.round(progress)}%
+                  {Math.round(displayProgress)}%
                 </div>
               </div>
             </div>
