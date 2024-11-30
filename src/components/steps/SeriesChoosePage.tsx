@@ -24,10 +24,11 @@ const SeriesChoosePage = ({
 
   return (
     <div
-      className="relative h-[100dvh] xl:h-[98dvh] 2xl:h-[90dvh] 4xl:h-[77dvh] bg-left-top bg-no-repeat pt-[4%]  flex flex-col justify-between "
+      className="relative h-screen h-[100vh] h-[100dvh] xl:h-[98vh] xl:h-[98dvh] 2xl:h-[90vh] 2xl:h-[90dvh] 4xl:h-[77vh] 4xl:h-[77dvh] bg-left-top bg-no-repeat pt-[4%] flex flex-col justify-between"
       style={{
         backgroundImage: `url('${IMAGE_URLS.ROG_NEO_GAMER + "c_bg03.png"}')`,
         backgroundSize: "100% 100%",
+        minHeight: "-webkit-fill-available",
       }}
     >
       <div className="relative flex  h-[38px] w-full ">
