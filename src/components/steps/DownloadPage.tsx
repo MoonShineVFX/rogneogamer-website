@@ -49,6 +49,7 @@ const DownloadPage = memo(({ onNext, onPrev }: DownloadPageProps) => {
   console.log("元件 執行一次");
 
   const processApiCalls = useCallback(async () => {
+    console.log("processApiCalls 執行一次");
     if (!capturedImage) return;
 
     try {
@@ -199,75 +200,6 @@ const DownloadPage = memo(({ onNext, onPrev }: DownloadPageProps) => {
     };
   }, [processApiCalls]);
 
-  const getResulImage = async (id: string) => {
-    if (!id) return;
-    const response = await faceSwapApi.getSwappedImage(id);
-    setTimeout(async () => {
-      // if response.
-      if (response.restarted >= 2) {
-        setError("Timeout error, please upload the image again.");
-        return;
-      }
-      if (response.finished === 0) {
-        getResulImage(id);
-        return;
-      }
-      if (response.finished === 1) {
-        setRenderedResultImage(response.generations[0].img);
-      }
-
-      console.log(response);
-    }, 1000);
-  };
-  const getResulImage_mb = async (id: string) => {
-    if (!id) return;
-    const response = await faceSwapApi.getSwappedImage_mb(id);
-    setTimeout(async () => {
-      // if response.
-      if (response.restarted >= 2) {
-        setError("Timeout error, please upload the image again.");
-        return;
-      }
-      if (response.finished === 0) {
-        getResulImage_mb(id);
-        return;
-      }
-      if (response.finished === 1) {
-        setRenderedResultImageMb(response.generations[0].img);
-      }
-
-      console.log(response);
-    }, 1000);
-  };
-  const getResultVideo = async (id: string) => {
-    if (!id) return;
-    const response = await faceSwapApi.getSwappedVideo(id);
-    //   {
-    //     "completed_at": null,
-    //     "created_at": "2024-11-27T17:59:48.907167",
-    //     "error_message": "檔案下載失敗.",
-    //     "id": "0ec33f1a-39d2-49c1-9dec-9814ad282752",
-    //     "output_path": null,
-    //     "progress": 100,
-    //     "source_path": "https://www.ly.gov.tw/Images/Legislators/ly1000_6_00192_13f.jpg",
-    //     "status": "failed",
-    //     "target_path": "https://r2.web.moonshine.tw/msweb/rogneogamer/prototype/video/S1_F.mp4"
-    // }
-    setTimeout(async () => {
-      if (response.status === "failed") {
-        setError("影片下載失敗");
-        return;
-      }
-      if (response.progress < 100 || response.status === "processing") {
-        getResultVideo(id);
-        return;
-      }
-      if (response.status === "completed" && response.source_path.length > 0) {
-        setRenderedResultVideo(response.output_path);
-      }
-    }, 1000);
-  };
-
   // POST https://rogneogamer-api.moonshine-studio.net/face_swap
   // GET https://rogneogamer-api.moonshine-studio.net/images/:id
   // POST https://rogneogamer-api.moonshine-studio.net/video_face_swap
@@ -383,14 +315,12 @@ const DownloadPage = memo(({ onNext, onPrev }: DownloadPageProps) => {
         )}
       </AnimatePresence>
       {/* 添加 ScreenProgress */}
-      <AnimatePresence>
-        {showProgress && (
-          <ScreenProgress
-            duration={18000}
-            onComplete={() => setShowProgress(false)}
-          />
-        )}
-      </AnimatePresence>
+      {showProgress && (
+        <ScreenProgress
+          duration={12000}
+          onComplete={() => setShowProgress(false)}
+        />
+      )}
       <div className="fixed flex  h-[58px] w-full z-10 top-[0%] bg-gradient-to-b from-red-900 via-red-900/50 to-red-900/0">
         {/* <div className="  ml-auto pt-[2%] ">
           <img
