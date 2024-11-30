@@ -1,6 +1,7 @@
 import { AnimatePresence, motion } from "framer-motion";
 import { IMAGE_URLS, SERIES_DATA } from "../../helpers/constants";
 import { useAppContext } from "../../context/AppContext";
+import { useEffect } from "react";
 interface SeriesChoosePageProps {
   onNext: () => void;
   onPrev: () => void;
@@ -21,6 +22,21 @@ const SeriesChoosePage = ({
   const handlePrev = () => {
     onPrev();
   };
+  useEffect(() => {
+    const fixScroll = () => {
+      window.scrollTo(0, 0);
+    };
+
+    // 頁面切換時
+    fixScroll();
+
+    // 監聽滾動事件
+    window.addEventListener("scroll", fixScroll);
+
+    return () => {
+      window.removeEventListener("scroll", fixScroll);
+    };
+  }, []);
 
   return (
     <div
@@ -79,7 +95,7 @@ const SeriesChoosePage = ({
         </div>
       </div>
 
-      <div className="w-full pt-[5%] h-[26%] lg:h-[12%]  bottom-0">
+      <div className="w-full pt-[5%] h-[12%]  bottom-0">
         {!isDesktop && (
           <div className="flex justify-between w-[60%] mx-auto h-full bg-violet-600/0 relative">
             <motion.div
