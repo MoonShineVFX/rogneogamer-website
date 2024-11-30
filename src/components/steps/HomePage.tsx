@@ -74,6 +74,13 @@ const HomePage = ({ onNext }: HomePageProps) => {
       setIsSending(false);
     }
   };
+  const handleBlur = () => {
+    // 輸入框失焦時重置視窗
+    setTimeout(() => {
+      window.scrollTo(0, 0);
+      document.documentElement.style.height = "100%";
+    }, 100);
+  };
 
   return (
     <div className="relative">
@@ -270,6 +277,7 @@ const HomePage = ({ onNext }: HomePageProps) => {
                       onChange={onChange}
                       onKeyDown={handleKeyDown}
                       disabled={isSending}
+                      onBlur={handleBlur}
                     />
                     {isSending && (
                       <div className=" absolute right-1 inline-block  w-[8%] aspect-square animate-spin rounded-full border-4 border-solid border-current border-e-transparent align-[-0.125em] text-surface"></div>
@@ -528,6 +536,7 @@ const HomePage = ({ onNext }: HomePageProps) => {
                       maxLength={20}
                       onChange={onChange}
                       onKeyDown={handleKeyDown}
+
                       // disabled={!isAccept}
                     />
                     {isSending && (
