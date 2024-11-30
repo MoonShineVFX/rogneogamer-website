@@ -43,7 +43,7 @@ const AssetChoosePage = ({
         </div>
       </div>
       <div className=" h-full  mx-auto  flex flex-col justify-center items-center w-[90%]  gap-4 bg-emerald-600/0">
-        <div className="w-[95%]  mx-auto relative bg-slate-20/0">
+        <div className=" w-[88%] lg:w-[95%]  mx-auto relative bg-slate-20/0">
           <img
             src={IMAGE_URLS.ROG_NEO_GAMER + "asset_edge.png"}
             alt=""

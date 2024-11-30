@@ -1,4 +1,4 @@
-// import { useAppContext } from "../../context/AppContext";
+import { memo, useCallback } from "react";
 import { ASSET_DATA, IMAGE_URLS, SERIES_DATA } from "../../helpers/constants";
 import { AnimatePresence, motion } from "framer-motion";
 import useIsMobile from "../../hooks/useIsMobile";
@@ -12,9 +12,7 @@ interface DownloadPageProps {
   onNext: () => void;
 }
 
-const DownloadPage = ({ onNext, onPrev }: DownloadPageProps) => {
-  // 移除未使用的解構
-  // const { resultImages } = useAppContext();
+const DownloadPage = memo(({ onNext, onPrev }: DownloadPageProps) => {
   let scrollbarStyle = "style-1";
   const divRef = useRef(null);
   const {
@@ -30,10 +28,6 @@ const DownloadPage = ({ onNext, onPrev }: DownloadPageProps) => {
   const isMobile = useIsMobile();
   const [showProgress, setShowProgress] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [faceSwapTaskId, setFaceSwapTaskId] = useState<string>("");
-  // const [videoFaceSwapTaskId, setVideoFaceSwapTaskId] = useState<string | null>(
-  //   null
-  // );
   const [renderedResultImage, setRenderedResultImage] = useState<string | null>(
     null
   );
@@ -44,7 +38,7 @@ const DownloadPage = ({ onNext, onPrev }: DownloadPageProps) => {
     null
   );
   const [showVideo, setShowVideo] = useState(false);
-  console.log(error, faceSwapTaskId);
+  console.log(error);
   const mb_menu = [
     { title: "image" },
     { title: "wallpaper" },
@@ -52,89 +46,149 @@ const DownloadPage = ({ onNext, onPrev }: DownloadPageProps) => {
     { title: "video" },
     { title: "home" },
   ];
+  console.log("元件 執行一次");
+
+  const processApiCalls = useCallback(async () => {
+    if (!capturedImage) return;
+
+    try {
+      setError(null);
+
+      const [imageResponse, videoResponse, mobileResponse] = await Promise.all([
+        // PC 版圖片
+        faceSwapApi.swapFace(
+          capturedImage,
+          `${IMAGE_URLS.ROG_NEO_GAMER}composed/h_templates/${
+            "S" +
+            selectedSeries +
+            selectedGender +
+            selectedAppearance +
+            "C0" +
+            selectedClothing +
+            "A" +
+            selectedAsset
+          }.jpg`
+        ),
+
+        // 影片
+        faceSwapApi.swapFaceVideo(
+          capturedImage,
+          `${IMAGE_URLS.ROG_NEO_GAMER}videoV4/${
+            "S" + selectedSeries + "_" + selectedGender
+          }.mp4`
+        ),
+
+        // 手機版圖片
+        faceSwapApi.swapFace_mb(
+          capturedImage,
+          `${IMAGE_URLS.ROG_NEO_GAMER}composed/v_templates/${
+            "S" +
+            selectedSeries +
+            selectedGender +
+            selectedAppearance +
+            "C0" +
+            selectedClothing +
+            "A" +
+            selectedAsset
+          }.jpg`
+        ),
+      ]);
+
+      return { imageResponse, videoResponse, mobileResponse };
+    } catch (error) {
+      setError("處理過程發生錯誤");
+    }
+  }, [
+    capturedImage,
+    selectedSeries,
+    selectedGender,
+    selectedAppearance,
+    selectedClothing,
+    selectedAsset,
+  ]);
+
+  const handleImageResult = useCallback(async (id: string) => {
+    const response = await faceSwapApi.getSwappedImage(id);
+
+    if (response.restarted >= 2) {
+      setError("Timeout error, please upload the image again.");
+      return;
+    }
+
+    if (response.finished === 0) {
+      setTimeout(() => handleImageResult(id), 1000);
+      return;
+    }
+
+    if (response.finished === 1) {
+      setRenderedResultImage(response.generations[0].img);
+    }
+  }, []);
+
+  const handleVideoResult = useCallback(async (id: string) => {
+    if (!id) return;
+    const response = await faceSwapApi.getSwappedVideo(id);
+
+    setTimeout(async () => {
+      if (response.status === "failed") {
+        setError("影片下載失敗");
+        return;
+      }
+      if (response.progress < 100 || response.status === "processing") {
+        setTimeout(() => handleVideoResult(id), 1000);
+        return;
+      }
+      if (response.status === "completed" && response.source_path.length > 0) {
+        setRenderedResultVideo(response.output_path);
+      }
+      console.log(response);
+    }, 1000);
+  }, []);
+  const handleImageResult_mb = useCallback(async (id: string) => {
+    if (!id) return;
+    const response = await faceSwapApi.getSwappedImage_mb(id);
+    setTimeout(async () => {
+      // if response.
+      if (response.restarted >= 2) {
+        setError("Timeout error, please upload the image again.");
+        return;
+      }
+      if (response.finished === 0) {
+        setTimeout(() => handleImageResult_mb(id), 1000);
+        return;
+      }
+      if (response.finished === 1) {
+        setRenderedResultImageMb(response.generations[0].img);
+      }
+    }, 1000);
+  }, []);
+
+  const handleVideoClick = useCallback(() => {
+    if (renderedResultVideo) {
+      setShowVideo(true);
+    }
+  }, [renderedResultVideo]);
 
   useEffect(() => {
     let isSubscribed = true;
 
     const processImage = async () => {
-      if (!capturedImage) {
-        setError("沒有可用的圖片");
-        return;
+      const results = await processApiCalls();
+
+      if (!isSubscribed || !results) return;
+
+      const { imageResponse, videoResponse, mobileResponse } = results;
+
+      if (imageResponse?.id) {
+        setTimeout(() => handleImageResult(imageResponse.id), 500);
       }
 
-      try {
-        setError(null);
+      if (videoResponse?.job_id) {
+        setTimeout(() => handleVideoResult(videoResponse.job_id), 500);
+      }
 
-        // 使用 Promise.all 並行處理三個請求
-        await Promise.all([
-          // PC 版圖片
-          (async () => {
-            try {
-              const response = await faceSwapApi.swapFace(
-                capturedImage,
-                `${IMAGE_URLS.ROG_NEO_GAMER}composed/h_templates/${
-                  "S" +
-                  selectedSeries +
-                  selectedGender +
-                  selectedAppearance +
-                  "C0" +
-                  selectedClothing +
-                  "A" +
-                  selectedAsset
-                }.jpg`
-              );
-              if (isSubscribed && response.id) {
-                setFaceSwapTaskId(response.id);
-                setTimeout(() => getResulImage(response.id), 500);
-              }
-            } catch (error) {
-              isSubscribed && setError("PC圖片處理失敗");
-            }
-          })(),
-
-          // 影片
-          (async () => {
-            try {
-              const responseVideo = await faceSwapApi.swapFaceVideo(
-                capturedImage,
-                `${IMAGE_URLS.ROG_NEO_GAMER}videoV4/${
-                  "S" + selectedSeries + "_" + selectedGender
-                }.mp4`
-              );
-              if (isSubscribed && responseVideo.job_id) {
-                setTimeout(() => getResultVideo(responseVideo.job_id), 500);
-              }
-            } catch (error) {
-              isSubscribed && setError("影片處理失敗");
-            }
-          })(),
-
-          // 手機版圖片
-          (async () => {
-            try {
-              const response = await faceSwapApi.swapFace_mb(
-                capturedImage,
-                `${IMAGE_URLS.ROG_NEO_GAMER}composed/v_templates/${
-                  "S" +
-                  selectedSeries +
-                  selectedGender +
-                  selectedAppearance +
-                  "C0" +
-                  selectedClothing +
-                  "A" +
-                  selectedAsset
-                }.jpg`
-              );
-              if (isSubscribed && response.id) {
-                setTimeout(() => getResulImage_mb(response.id), 500);
-              }
-            } catch (error) {
-              isSubscribed && setError("手機圖片處理失敗");
-            }
-          })(),
-        ]);
-      } catch (error) {
-        isSubscribed && setError("處理過程發生錯誤");
+      if (mobileResponse?.id) {
+        setTimeout(() => handleImageResult_mb(mobileResponse.id), 500);
       }
     };
 
@@ -143,7 +197,8 @@ const DownloadPage = ({ onNext, onPrev }: DownloadPageProps) => {
     return () => {
       isSubscribed = false;
     };
-  }, [capturedImage]);
+  }, [processApiCalls]);
+
   const getResulImage = async (id: string) => {
     if (!id) return;
     const response = await faceSwapApi.getSwappedImage(id);
@@ -337,12 +392,12 @@ const DownloadPage = ({ onNext, onPrev }: DownloadPageProps) => {
         )}
       </AnimatePresence>
       <div className="fixed flex  h-[58px] w-full z-10 top-[0%] bg-gradient-to-b from-red-900 via-red-900/50 to-red-900/0">
-        <div className="  ml-auto pt-[2%] ">
+        {/* <div className="  ml-auto pt-[2%] ">
           <img
             src={`${IMAGE_URLS.ROG_NEO_GAMER + "c_titleborder01.png"}`}
             alt=""
           />
-        </div>
+        </div> */}
       </div>
 
       {isMobile ? (
@@ -351,7 +406,7 @@ const DownloadPage = ({ onNext, onPrev }: DownloadPageProps) => {
             initial={{ opacity: 0, y: "0%", scale: 0.8 }}
             animate={{ opacity: 1, y: "0%", scale: 1 }}
             transition={{ type: "spring", stiffness: 200, damping: 20 }}
-            className="h-[100dvh] transition-all w-[100%] bg-contain bg-center bg-no-repeat z-0 fixed top-0 left-0 pointer-events-none"
+            className="h-[100dvh] transition-all w-[100%] bg-contain bg-top bg-no-repeat z-0 fixed top-0 left-0 pointer-events-none"
             style={{
               backgroundImage: `url('${
                 renderedResultImageMb ? renderedResultImageMb : ""
@@ -362,7 +417,9 @@ const DownloadPage = ({ onNext, onPrev }: DownloadPageProps) => {
           <div
             className=" fixed top-0 left-0 w-full h-[100dvh] bg-bottom bg-cover bg-no-repeat pointer-events-none  bg-gradient-to-t from-black via-black/25 to-black/0  "
             // style={{
-            //   backgroundImage: `url('${r2imagesurl+'/images/mb/final_mask2.png'}')`,
+            //   backgroundImage: `url('${
+            //     IMAGE_URLS.ROG_GAMER_CARD + "/images/mb/final_mask2.png"
+            //   }')`,
             // }}
           ></div>
           <motion.div
@@ -470,7 +527,7 @@ const DownloadPage = ({ onNext, onPrev }: DownloadPageProps) => {
                           <div className=" font-cachetpro text-[5vw] font-semibold  leading-3 ">
                             SERIES:
                           </div>
-                          <div className=" font-light text-[5vw] font-robotocon ">
+                          <div className=" font-light text-[5vw] font-robotocon -mt-[6px] ">
                             {
                               SERIES_DATA.find(
                                 (item) => item.id === selectedSeries
@@ -489,7 +546,7 @@ const DownloadPage = ({ onNext, onPrev }: DownloadPageProps) => {
                           <div className=" font-cachetpro text-[5vw] font-semibold  leading-3 ">
                             Ethnicity:
                           </div>
-                          <div className=" font-light text-[5vw] font-robotocon ">
+                          <div className=" font-light text-[5vw] font-robotocon -mt-[6px] ">
                             {selectedAppearance == "W" ? "Latino " : "Asian"}
                           </div>
                         </div>
@@ -497,7 +554,7 @@ const DownloadPage = ({ onNext, onPrev }: DownloadPageProps) => {
                           <div className=" font-cachetpro text-[5vw] font-semibold  leading-3 ">
                             Style:
                           </div>
-                          <div className=" font-light text-[5vw] font-robotocon ">
+                          <div className=" font-light text-[5vw] font-robotocon -mt-[6px] ">
                             Style{selectedClothing}
                           </div>
                         </div>
@@ -505,7 +562,7 @@ const DownloadPage = ({ onNext, onPrev }: DownloadPageProps) => {
                           <div className=" font-cachetpro text-[5vw] font-semibold  leading-3 ">
                             Body Type:
                           </div>
-                          <div className=" font-light text-[5vw] font-robotocon ">
+                          <div className=" font-light text-[5vw] font-robotocon -mt-[6px] ">
                             {selectedGender == "M" ? "Type 1" : "Type 2"}
                           </div>
                         </div>
@@ -513,7 +570,7 @@ const DownloadPage = ({ onNext, onPrev }: DownloadPageProps) => {
                           <div className=" font-cachetpro text-[5vw] font-semibold  leading-3 whitespace-nowrap ">
                             Gaming Setup:
                           </div>
-                          <div className=" font-light text-[5vw] font-robotocon whitespace-nowrap ">
+                          <div className=" font-light text-[5vw] font-robotocon whitespace-nowrap -mt-[6px] ">
                             {/* ASSET_DATA name == S1A1  return title */}
                             {
                               ASSET_DATA.find(
@@ -650,11 +707,7 @@ const DownloadPage = ({ onNext, onPrev }: DownloadPageProps) => {
                       className={` flex flex-col justify-center items-center gap-10 bg-orange-400/0 w-full `}
                     >
                       <div
-                        onClick={() => {
-                          if (renderedResultVideo) {
-                            setShowVideo(true);
-                          }
-                        }}
+                        onClick={handleVideoClick}
                         className={` transition-all duration-500 flex items-end justify-between bg-fuchsia-100/0 pl-[10%] relative`}
                       >
                         <div className=" absolute top-0 left-0 w-[20%]  ">
@@ -1106,6 +1159,6 @@ const DownloadPage = ({ onNext, onPrev }: DownloadPageProps) => {
       )}
     </div>
   );
-};
+});
 
 export default DownloadPage;

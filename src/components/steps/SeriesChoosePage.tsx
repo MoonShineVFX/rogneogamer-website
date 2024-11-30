@@ -41,7 +41,7 @@ const SeriesChoosePage = ({
           />
         </div>
       </div>
-      <div className=" w-[88%] pt-[5%]  mx-auto h-full  relative bg-green-50/0">
+      <div className=" w-[74%] lg:w-[88%] pt-[5%]  mx-auto h-full  relative bg-green-50/0">
         <AnimatePresence initial={true}>
           <motion.div className=" relative">
             <motion.img
@@ -63,9 +63,9 @@ const SeriesChoosePage = ({
             <button
               key={item.id}
               onClick={() => setSelectedSeries(item.id as "1" | "2" | "3")}
-              className={`p-4 font-rog tracking-widest aspect-[410/40] text-lg bg-contain bg-no-repeat bg-center flex items-center justify-center text-white/80 scale-95 hover:scale-105 transition-transform ${
+              className={`p-4 font-rog tracking-widest aspect-[370/40] text-lg bg-contain bg-no-repeat bg-center flex items-center justify-center text-white/80 scale-95 hover:scale-105 transition-transform ${
                 selectedSeries === item.id
-                  ? "opacity-100 scale-105"
+                  ? "opacity-100 scale-100"
                   : "opacity-70 scale-95"
               }`}
               style={{
