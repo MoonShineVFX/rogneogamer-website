@@ -61,7 +61,7 @@ const HomePage = ({ onNext }: HomePageProps) => {
       setIsUsername(false);
       setIsAccept(true);
       console.log(isAccept);
-      return;
+      // return;
     }
 
     try {

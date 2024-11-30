@@ -59,7 +59,7 @@ const SeriesChoosePage = ({
           />
         </div>
       </div>
-      <div className=" w-[74%] lg:w-[88%] pt-[5%]  mx-auto h-[88%]   relative bg-green-50/0">
+      <div className=" w-[74%] lg:w-[68%] pt-[5%]  mx-auto h-[88%]    relative bg-green-50/0">
         <AnimatePresence initial={true}>
           <motion.div className=" relative">
             <motion.img
