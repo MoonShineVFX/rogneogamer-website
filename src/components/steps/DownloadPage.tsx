@@ -386,7 +386,7 @@ const DownloadPage = memo(({ onNext, onPrev }: DownloadPageProps) => {
       <AnimatePresence>
         {showProgress && (
           <ScreenProgress
-            duration={10000}
+            duration={18000}
             onComplete={() => setShowProgress(false)}
           />
         )}
@@ -624,7 +624,7 @@ const DownloadPage = memo(({ onNext, onPrev }: DownloadPageProps) => {
                             />
                           ) : (
                             <div className="absolute top-0 left-0 flex items-center justify-center w-full aspect-square ">
-                              <div className=" w-[4vw]  aspect-square   animate-spin rounded-full border-4 border-solid border-current border-e-transparent align-[-0.125em] text-surface"></div>
+                              <div className=" w-[4vw]  aspect-square   animate-spin rounded-full border-4 border-solid border-white/50 border-e-transparent align-[-0.125em] text-surface"></div>
                             </div>
                           )}
                         </div>
@@ -675,7 +675,7 @@ const DownloadPage = memo(({ onNext, onPrev }: DownloadPageProps) => {
                             />
                           ) : (
                             <div className="absolute top-0 left-0 flex items-center justify-center w-full aspect-square ">
-                              <div className=" w-[4vw]  aspect-square   animate-spin rounded-full border-4 border-solid border-current border-e-transparent align-[-0.125em] text-surface"></div>
+                              <div className=" w-[4vw]  aspect-square   animate-spin rounded-full border-4 border-solid border-white/50 border-e-transparent align-[-0.125em] text-surface"></div>
                             </div>
                           )}
                         </div>
@@ -722,7 +722,7 @@ const DownloadPage = memo(({ onNext, onPrev }: DownloadPageProps) => {
                             />
                           ) : (
                             <div className="absolute top-0 left-0 flex items-center justify-center w-full aspect-square ">
-                              <div className=" w-[4vw]  aspect-square    animate-spin rounded-full border-4 border-solid border-current border-e-transparent align-[-0.125em] text-surface"></div>
+                              <div className=" w-[4vw]  aspect-square   animate-spin rounded-full border-4 border-solid  border-white/50 border-e-transparent align-[-0.125em] text-surface"></div>
                             </div>
                           )}
                         </div>
@@ -753,7 +753,7 @@ const DownloadPage = memo(({ onNext, onPrev }: DownloadPageProps) => {
                             />
                           ) : (
                             <div className="absolute top-0 left-0 flex items-center justify-center w-full aspect-square ">
-                              <div className=" w-[4vw]  aspect-square    animate-spin rounded-full border-4 border-solid border-current border-e-transparent align-[-0.125em] text-surface"></div>
+                              <div className=" w-[4vw]  aspect-square    animate-spin rounded-full border-4 border-solid border-white/50 border-e-transparent align-[-0.125em] text-surface"></div>
                             </div>
                           )}
                         </div>
