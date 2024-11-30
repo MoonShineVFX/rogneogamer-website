@@ -110,7 +110,9 @@ const StyleChoosePage = ({
                     className="w-full h-full object-contain"
                   />
                 </button>
-                <div className="text-white/10">外觀 {selectedAppearance}</div>
+                <div className="text-white/10 hidden ">
+                  外觀 {selectedAppearance}
+                </div>
                 <button
                   onClick={() => {
                     setSelectedAppearance((prev) => (prev === "W" ? "B" : "W"));
@@ -149,7 +151,9 @@ const StyleChoosePage = ({
                     className="w-full h-full object-contain"
                   />
                 </button>
-                <div className="text-white/10">衣服 {selectedClothing}</div>
+                <div className="text-white/10 hidden ">
+                  衣服 {selectedClothing}
+                </div>
                 <button
                   onClick={() => cycleClothing("next")}
                   className={`w-[16%] aspect-square hover:scale-95 transition-transform  ${

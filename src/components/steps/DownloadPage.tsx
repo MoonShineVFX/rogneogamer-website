@@ -511,7 +511,7 @@ const DownloadPage = ({ onNext, onPrev }: DownloadPageProps) => {
                         </div>
                         <div className="flex  gap-2 items-center">
                           <div className=" font-cachetpro text-[5vw] font-semibold  leading-3 whitespace-nowrap ">
-                            Gaming Setup::
+                            Gaming Setup:
                           </div>
                           <div className=" font-light text-[5vw] font-robotocon whitespace-nowrap ">
                             {/* ASSET_DATA name == S1A1  return title */}
