@@ -303,7 +303,7 @@ const HomePage = ({ onNext }: HomePageProps) => {
                       onKeyDown={handleKeyDown}
                       disabled={isSending}
                       onBlur={handleBlur}
-                      placeholder={displayName ? "" + displayName : ""}
+                      placeholder={displayName ? "Log:" + displayName : ""}
                     />
                     {isSending && (
                       <div className=" absolute right-1 inline-block  w-[8%] aspect-square animate-spin rounded-full border-4 border-solid border-current border-e-transparent align-[-0.125em] text-surface"></div>
@@ -562,7 +562,7 @@ const HomePage = ({ onNext }: HomePageProps) => {
                       maxLength={20}
                       onChange={onChange}
                       onKeyDown={handleKeyDown}
-                      placeholder={displayName ? "before:" + displayName : ""}
+                      placeholder={displayName ? "Log:" + displayName : ""}
 
                       // disabled={!isAccept}
                     />
