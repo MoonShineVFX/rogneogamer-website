@@ -8,6 +8,21 @@ interface AssetChoosePageProps {
   isDesktop: boolean;
 }
 
+const ASSET_TITLES = {
+  "1": {
+    "1": "Modding Lab",
+    "2": "Trendy Creation Lab",
+  },
+  "2": {
+    "1": "Racing Speedsters",
+    "2": "Sports Collectibles",
+  },
+  "3": {
+    "1": "Anime Collectibles",
+    "2": "Space Mecha",
+  },
+} as const;
+
 const AssetChoosePage = ({
   onNext,
   onPrev,
@@ -18,8 +33,16 @@ const AssetChoosePage = ({
   // 直接生成當前系列的道具選項
   const currentAssets = selectedSeries
     ? [
-        { id: "1", name: `S${selectedSeries}A1` },
-        { id: "2", name: `S${selectedSeries}A2` },
+        {
+          id: "1",
+          name: `S${selectedSeries}A1`,
+          title: `${ASSET_TITLES[selectedSeries as "1" | "2" | "3"]["1"]}`,
+        },
+        {
+          id: "2",
+          name: `S${selectedSeries}A2`,
+          title: `${ASSET_TITLES[selectedSeries as "1" | "2" | "3"]["2"]}`,
+        },
       ]
     : [];
 
@@ -72,6 +95,9 @@ const AssetChoosePage = ({
                       selectedAsset === asset.id ? "scale-100" : "scale-90"
                     }`}
                   />
+                  <div className="absolute -bottom-[10%] left-0 w-full h-[10%] bg-red-500/0 text-white/80 text-center flex items-center justify-center font-robotocon">
+                    {asset.title}
+                  </div>
                 </div>
               ))}
             </div>

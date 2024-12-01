@@ -59,13 +59,13 @@ const SeriesChoosePage = ({
           />
         </div>
       </div>
-      <div className=" w-[74%] lg:w-[68%] pt-[5%]  mx-auto h-[88%]    relative bg-green-50/0">
+      <div className=" w-[80%] lg:w-[82%] pt-[5%]  mx-auto h-[88%]    relative bg-green-50/0">
         <AnimatePresence initial={true}>
           <motion.div className=" relative">
             <motion.img
               key={selectedSeries}
               initial={{ opacity: 0, y: 10, x: -50 }}
-              animate={{ opacity: 1, y: 50, x: 0, scale: 1.3 }}
+              animate={{ opacity: 1, y: 50, x: 0, scale: 1.2 }}
               transition={{ duration: 0.5 }}
               src={`${IMAGE_URLS.ROG_NEO_GAMER}characters/${
                 SERIES_DATA.find((item) => item.id === selectedSeries)?.img
@@ -81,7 +81,7 @@ const SeriesChoosePage = ({
             <button
               key={item.id}
               onClick={() => setSelectedSeries(item.id as "1" | "2" | "3")}
-              className={`p-4 font-rog tracking-widest aspect-[370/40] text-lg bg-contain bg-no-repeat bg-center flex items-center justify-center text-white/80 scale-95 hover:scale-105 transition-transform ${
+              className={`p-4 font-rog tracking-widest aspect-[360/40] text-lg bg-contain whitespace-nowrap bg-no-repeat bg-center flex items-center justify-center text-white/80 scale-95 hover:scale-105 transition-transform ${
                 selectedSeries === item.id
                   ? "opacity-100 scale-100"
                   : "opacity-70 scale-95"

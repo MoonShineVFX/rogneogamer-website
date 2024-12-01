@@ -17,12 +17,12 @@ interface HomePageProps {
 const HomePage = ({ onNext }: HomePageProps) => {
   const { displayName, setDisplayName } = useAppContext();
   const [isUsername, setIsUsername] = useState(false);
-  const [isAccept, setIsAccept] = useState(false);
+  // const [isAccept, setIsAccept] = useState(false);
   const [isSending, setIsSending] = useState(false);
   const windowSize = useWindowResize();
   const isMobile = useIsMobile();
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
-
+  const [error, setError] = useState<string | null>(null);
   // 每秒切換圖片
   useEffect(() => {
     const interval = setInterval(() => {
@@ -56,17 +56,42 @@ const HomePage = ({ onNext }: HomePageProps) => {
     }
   };
 
+  const validateName = (name: string) => {
+    if (!name.trim()) {
+      return "請輸入名字";
+    }
+    return null;
+  };
+
   const handleClick = async () => {
-    if (!displayName.trim()) {
+    // 清除之前的錯誤
+    setError(null);
+    const nameError = validateName(displayName);
+    if (nameError) {
       setIsUsername(false);
-      setIsAccept(true);
-      console.log(isAccept);
-      // return;
+      // setIsAccept(true);
+      setError(nameError);
+      console.log(error);
+      return;
     }
 
     try {
+      // 1. 先讓輸入框失焦
+      if (document.activeElement instanceof HTMLElement) {
+        document.activeElement.blur();
+      }
+
+      // 2. 強制重置視窗高度
+      window.scrollTo(0, 0);
+      document.documentElement.style.height = "100%";
+
+      // 3. 等待一小段時間確保視窗已重置
+      await new Promise((resolve) => setTimeout(resolve, 100));
+
       setIsSending(true);
       await new Promise((resolve) => setTimeout(resolve, 1000));
+
+      // 4. 確保視窗狀態正確後再切換頁面
       onNext();
     } catch (error) {
       console.error("Error:", error);
@@ -237,14 +262,14 @@ const HomePage = ({ onNext }: HomePageProps) => {
             }}
             className=" fixed bottom-0 left-1/2 border-[#B1B1B1]  bg-slate-600/0 w-[75%] max-w-[500px] z-50  "
           >
-            <div className=" pl-3 mb-1 relative  text-white/80 font-cachetpro leading-normal pt-[1%] text-[6vw] w-[80%] overflow-hidden whitespace-nowrap hidden">
+            <div className=" pl-3 mb-1 relative  text-white/80 font-cachetpro leading-normal pt-[1%] text-[6vw] w-[80%] overflow-hidden whitespace-nowrap ">
               <div className="w-[6px] h-[20px] border border-red-700 bg-red-950/80 absolute top-1/2 -translate-y-1/2 left-0"></div>
               Name Your Gamer
             </div>
             <div className=" flex items-center flex-col   ">
               <div className="flex flex-col items-center gap-4  w-full  bg-slate-500/0  ">
                 <div
-                  className={`flex w-full aspect-[410/40] justify-center items-center  bg-slate-500/0 hidden ${
+                  className={`flex w-full aspect-[410/40] justify-center items-center  bg-slate-500/0  ${
                     isUsername ? " " : " png-container"
                   }`}
                 >
@@ -278,6 +303,7 @@ const HomePage = ({ onNext }: HomePageProps) => {
                       onKeyDown={handleKeyDown}
                       disabled={isSending}
                       onBlur={handleBlur}
+                      placeholder={displayName ? "" + displayName : ""}
                     />
                     {isSending && (
                       <div className=" absolute right-1 inline-block  w-[8%] aspect-square animate-spin rounded-full border-4 border-solid border-current border-e-transparent align-[-0.125em] text-surface"></div>
@@ -293,7 +319,7 @@ const HomePage = ({ onNext }: HomePageProps) => {
                     }}
                   ></div>
                 </div>
-                <div className="text-red-700 text-[3vw] mt-[1%] font-robotocon hidden">
+                <div className="text-red-700 text-[3vw] mt-[1%] font-robotocon ">
                   * Input is limited to 20 characters.
                   <br />* Only English letters, numbers, and symbols are
                   permitted.
@@ -329,7 +355,7 @@ const HomePage = ({ onNext }: HomePageProps) => {
                   START
                 </button>
               </div>
-              <div className="h-[6vh] w-[1px] bg-white/70  mt-[5%]"></div>
+              <div className="h-[3vh] w-[1px] bg-white/70  mt-[5%]"></div>
             </div>
           </motion.div>
         </>
@@ -500,7 +526,7 @@ const HomePage = ({ onNext }: HomePageProps) => {
             }}
             className="absolute top-1/2 right-0 border-[#B1B1B1] pl-2 bg-slate-600/0 lg:w-[25vw] 2xl:w-[30vw] max-w-[900px] z-30"
           >
-            <div className="pl-[3%] mb-1 relative font-cachetpro leading-normal pt-[1%] text-lg w-[80%] overflow-hidden whitespace-nowrap hidden">
+            <div className="pl-[3%] mb-1 relative font-cachetpro leading-normal pt-[1%] text-lg w-[80%] overflow-hidden whitespace-nowrap ">
               <div className="w-[2%] h-[60%] border border-red-700 bg-red-950/80 absolute top-1/2 -translate-y-1/2 left-0"></div>
               <span className="text-[1.2vw] font-robotocon text-white/80">
                 Name Your Gamer
@@ -508,10 +534,10 @@ const HomePage = ({ onNext }: HomePageProps) => {
             </div>
 
             {/* 輸入框區域 */}
-            <div className="flex items-center   bg-slate-40/0">
-              <div className="flex items-center gap-1 w-full bg-slate-500/0 justify-end">
+            <div className="flex items-center ">
+              <div className="flex items-center gap-1 w-full bg-slate-500/0 ">
                 <div
-                  className={`flex w-full aspect-[350/40] justify-center items-center bg-slate-500/0 hidden ${
+                  className={`flex w-full aspect-[350/40] justify-center items-center bg-slate-500/0  ${
                     isUsername ? "" : "png-container"
                   }`}
                 >
@@ -536,6 +562,7 @@ const HomePage = ({ onNext }: HomePageProps) => {
                       maxLength={20}
                       onChange={onChange}
                       onKeyDown={handleKeyDown}
+                      placeholder={displayName ? "before:" + displayName : ""}
 
                       // disabled={!isAccept}
                     />
@@ -556,8 +583,8 @@ const HomePage = ({ onNext }: HomePageProps) => {
                   onClick={handleClick}
                   aria-label="start"
                   disabled={isSending}
-                  className={`z-0 w-[32%] text-[1vw] aspect-[90/40]  ${
-                    isSending ? "grayscale" : "grayscale-0"
+                  className={`z-0 w-[24%] text-[1vw] aspect-[90/40]  ${
+                    isSending || !isUsername ? "grayscale" : "grayscale-0"
                   } bg-contain bg-top bg-no-repeat flex items-center justify-center hover:scale-95 font-robotocon font-bold text-white/80`}
                   style={{
                     backgroundImage: `url('${IMAGE_URLS.ROG_GAMER_CARD}/images/redbutton_bg.png')`,
@@ -566,11 +593,11 @@ const HomePage = ({ onNext }: HomePageProps) => {
                   START
                 </button>
               </div>
-              <div className="h-[1px] w-[80%] bg-white/70 ml-1 "></div>
+              <div className="h-[1px] w-[6vw] bg-white/70 ml-1 "></div>
             </div>
 
             {/* 錯誤訊息 */}
-            <div className="text-red-700 text-[1vw] mt-[2%] font-robotocon hidden">
+            <div className="text-red-700 text-[1vw] mt-[2%] font-robotocon ">
               * Input is limited to 20 characters.
               <br />* Only English letters, numbers, and symbols are permitted.
               {!isUsername && <div>* Please name your gamer</div>}

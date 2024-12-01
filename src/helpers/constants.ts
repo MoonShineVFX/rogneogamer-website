@@ -101,21 +101,21 @@ export const HOME_DATA = [
 export const SERIES_DATA = [
   {
     id: "1",
-    name: "Mechanist",
+    name: "Modding Hacker",
     description:
       "Tailored for tech enthusiasts and DIY fans, unleash your creativity and showcase your unique personality!",
     img: "S1MWC01.png",
   },
   {
     id: "2",
-    name: "Extremist",
+    name: "Extreme Speedster ​",
     description:
       "Designed for challengers seeking peak performance, embodying the fusion of professional expertise and cutting-edge technology!​",
     img: "S2FBC03.png",
   },
   {
     id: "3",
-    name: "Fanatic",
+    name: "ACG Fanatic​",
     description:
       "Dive into the spirit of the ACG world and infuse your passion into your player identity with vibrant, soulful style!",
     img: "S3MBC01.png",
