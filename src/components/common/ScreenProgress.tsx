@@ -153,8 +153,10 @@ const ScreenProgress = ({
               </div>
 
               <div className="progress-bar flex items-center font-cachet justify-end gap-4  bottom-5 right-0  absolute  w-[50%] bg-zinc-70/0">
-                <div className="text-white">GENERATING...</div>
-                <div className="w-full bg-gray-700 rounded-full h-[1px] mb-0">
+                <div className="text-white text-sm 4xl:text-2xl">
+                  GENERATING...
+                </div>
+                <div className="w-full bg-gray-700 rounded-full h-[1px] 4xl:h-[2px] mb-0">
                   <motion.div
                     className="bg-white h-full rounded-full"
                     initial={{ width: "0%" }}
@@ -163,7 +165,7 @@ const ScreenProgress = ({
                   />
                 </div>
 
-                <div className="text-white text-center">
+                <div className="text-white text-center text-sm 4xl:text-2xl">
                   {Math.round(displayProgress)}%
                 </div>
               </div>

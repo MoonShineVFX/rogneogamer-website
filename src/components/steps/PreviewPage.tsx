@@ -41,7 +41,7 @@ const PreviewPage = ({ onNext, onPrev }: PreviewPageProps) => {
           selectedAsset}{" "}
       </div>
       <div className="relative flex  h-[38px] w-full ">
-        <div className="text-center text-white font-rog text- xl font-bold flex items-center justify-start gap-4 absolute top-0 left-0 pl-[5%] pt-[1%]   ">
+        <div className="text-center text-white font-rog text-base 4xl:text-xl font-bold flex items-center justify-start gap-4 absolute top-0 left-0 pl-[5%] pt-[1%]   ">
           PREVIEW{" "}
         </div>
         <div className="  ml-auto ">
@@ -80,7 +80,7 @@ const PreviewPage = ({ onNext, onPrev }: PreviewPageProps) => {
               className="w-full h-full object-cover"
             />
           </motion.div>
-          <div className="absolute -bottom-[5%] left-1/2 -translate-x-1/2 font-robotocon  z-20 flex items-center gap-2">
+          <div className="absolute -bottom-[5%] left-1/2 -translate-x-1/2 font-robotocon  text-sm 4xl:text-2xl z-20 flex items-center gap-2">
             <p className="text-white/80 text-center ">PC Wallpaper</p>
           </div>
         </div>
@@ -120,7 +120,7 @@ const PreviewPage = ({ onNext, onPrev }: PreviewPageProps) => {
                 className="w-full h-full object-cover"
               />
             </motion.div>
-            <div className="absolute -bottom-[6%] left-1/2 -translate-x-1/2 font-robotocon  z-20 flex items-center gap-2">
+            <div className="absolute -bottom-[6%] left-1/2 -translate-x-1/2 font-robotocon  text-sm 4xl:text-2xl z-20 flex items-center gap-2">
               <p className="text-white/80 text-center">Mobile Wallpaper</p>
             </div>
           </div>
@@ -153,7 +153,7 @@ const PreviewPage = ({ onNext, onPrev }: PreviewPageProps) => {
                 className="w-full h-full object-cover"
               ></iframe>
             </motion.div>
-            <div className="absolute -bottom-[6%] left-1/2 -translate-x-1/2 font-robotocon  z-20 flex items-center gap-2">
+            <div className="absolute -bottom-[6%] left-1/2 -translate-x-1/2 font-robotocon  text-sm 4xl:text-2xl z-20 flex items-center gap-2">
               <p className="text-white/80 text-center">Video</p>
             </div>
           </div>

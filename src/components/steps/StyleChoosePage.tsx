@@ -63,7 +63,7 @@ const StyleChoosePage = ({
       }}
     >
       <div className="relative flex  h-[38px] w-full ">
-        <div className="text-center text-white font-rog text- xl font-bold flex items-center justify-start gap-4 absolute top-0 left-0 pl-[5%] pt-[1%] uppercase   ">
+        <div className="text-center text-white font-rog text-base 4xl:text-xl font-bold flex items-center justify-start gap-4 absolute top-0 left-0 pl-[5%] pt-[1%] uppercase   ">
           Character{" "}
         </div>
         <div className="  ml-auto ">
@@ -175,10 +175,10 @@ const StyleChoosePage = ({
             <div className="flex gap-4 w-[80%] justify-center">
               <button
                 onClick={() => setSelectedGender("M")}
-                className={`flex-1  aspect-[16/8] -mr-4 font-rog text-xl tracking-widest  bg-contain bg-no-repeat bg-center flex items-center justify-center text-white/80 hover:scale-105 transition-transform ${
+                className={`flex-1  aspect-[16/8] -mr-4 font-rog text-xl 4xl:text-3xl tracking-widest  bg-contain bg-no-repeat bg-center flex items-center justify-center text-white/80 hover:scale-105 transition-transform ${
                   selectedGender === "M"
                     ? "opacity-100 scale-105"
-                    : "opacity-70 scale-95"
+                    : "opacity-50 scale-95"
                 }`}
                 style={{
                   backgroundImage: `url('${IMAGE_URLS.ROG_NEO_GAMER}p3_male.png')`,
@@ -188,10 +188,10 @@ const StyleChoosePage = ({
               </button>
               <button
                 onClick={() => setSelectedGender("F")}
-                className={`flex-1  bg-contain -ml-4 font-rog text-xl tracking-widest bg-no-repeat bg-center flex items-center justify-center text-white/80 hover:scale-105 transition-transform ${
+                className={`flex-1  bg-contain -ml-4 font-rog text-xl 4xl:text-3xl tracking-widest bg-no-repeat bg-center flex items-center justify-center text-white/80 hover:scale-105 transition-transform ${
                   selectedGender === "F"
                     ? "opacity-100 scale-105"
-                    : "opacity-70 scale-95"
+                    : "opacity-50 scale-95"
                 }`}
                 style={{
                   backgroundImage: `url('${IMAGE_URLS.ROG_NEO_GAMER}p3_female.png')`,

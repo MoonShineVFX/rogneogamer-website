@@ -49,7 +49,7 @@ const SeriesChoosePage = ({
       }}
     >
       <div className="relative flex  h-[38px] w-full ">
-        <div className="text-center text-white font-rog text- xl font-bold flex items-center justify-start gap-4 absolute top-0 left-0 pl-[5%] pt-[1%] uppercase   ">
+        <div className="text-center text-white font-rog text-base 4xl:text-xl font-bold flex items-center justify-start gap-4 absolute top-0 left-0 pl-[5%] pt-[1%] uppercase   ">
           SERIES{" "}
         </div>
         <div className="  ml-auto ">
@@ -59,7 +59,7 @@ const SeriesChoosePage = ({
           />
         </div>
       </div>
-      <div className=" w-[80%] lg:w-[82%] pt-[5%]  mx-auto h-[88%]    relative bg-green-50/0">
+      <div className=" w-[80%] lg:w-[72%] pt-[5%]  mx-auto h-[88%]    relative bg-green-50/0">
         <AnimatePresence initial={true}>
           <motion.div className=" relative">
             <motion.img
@@ -81,10 +81,10 @@ const SeriesChoosePage = ({
             <button
               key={item.id}
               onClick={() => setSelectedSeries(item.id as "1" | "2" | "3")}
-              className={`p-4 font-rog tracking-widest aspect-[360/40] text-lg bg-contain whitespace-nowrap bg-no-repeat bg-center flex items-center justify-center text-white/80 scale-95 hover:scale-105 transition-transform ${
+              className={`p-4  4xl:p-7 font-rog tracking-widest aspect-[360/40] text-lg 4xl:text-2xl bg-contain whitespace-nowrap bg-no-repeat bg-center flex items-center justify-center text-white/80 scale-95 hover:scale-105 transition-transform ${
                 selectedSeries === item.id
                   ? "opacity-100 scale-100"
-                  : "opacity-70 scale-95"
+                  : "opacity-50 scale-95"
               }`}
               style={{
                 backgroundImage: `url('${IMAGE_URLS.ROG_NEO_GAMER}p2_btn_border.png')`,

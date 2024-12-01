@@ -773,7 +773,7 @@ const DownloadPage = memo(({ onNext, onPrev }: DownloadPageProps) => {
                         <div className=" font-cachetpro text-[1vw] font-semibold  leading-3 ">
                           SERIES:
                         </div>
-                        <div className=" font-light text-[1vw] font-robotocon  -mt-[2%]">
+                        <div className=" font-light text-[1vw] font-robotocon  -mt-[2%] ">
                           {
                             SERIES_DATA.find(
                               (item) => item.id === selectedSeries
@@ -792,7 +792,7 @@ const DownloadPage = memo(({ onNext, onPrev }: DownloadPageProps) => {
                         <div className=" font-cachetpro text-[1vw] font-semibold  leading-3 ">
                           Ethnicity:
                         </div>
-                        <div className=" font-light text-[1vw] font-robotocon ">
+                        <div className=" font-light text-[1vw] font-robotocon -mt-[2%]">
                           {selectedAppearance == "W" ? "Latino " : "Asian"}
                         </div>
                       </div>
@@ -800,7 +800,7 @@ const DownloadPage = memo(({ onNext, onPrev }: DownloadPageProps) => {
                         <div className=" font-cachetpro text-[1vw] font-semibold  leading-3 ">
                           Style:
                         </div>
-                        <div className=" font-light text-[1vw] font-robotocon ">
+                        <div className=" font-light text-[1vw] font-robotocon -mt-[2%]">
                           Style{selectedClothing}
                         </div>
                       </div>
@@ -816,7 +816,7 @@ const DownloadPage = memo(({ onNext, onPrev }: DownloadPageProps) => {
                         <div className=" font-cachetpro text-[1vw] font-semibold  leading-3 whitespace-nowrap ">
                           Gaming Setup:
                         </div>
-                        <div className=" font-light text-[1vw] font-robotocon whitespace-nowrap">
+                        <div className=" font-light text-[1vw] font-robotocon whitespace-nowrap -mt-[2%]">
                           {
                             ASSET_DATA.find(
                               (item) =>
