@@ -82,7 +82,7 @@ const DownloadPage = memo(({ onNext, onPrev }: DownloadPageProps) => {
         // 手機版圖片
         faceSwapApi.swapFace_mb(
           capturedImage,
-          `${IMAGE_URLS.ROG_NEO_GAMER}composed/v_templates2/${
+          `${IMAGE_URLS.ROG_NEO_GAMER}composed/v_templates3/${
             "S" +
             selectedSeries +
             selectedGender +
