@@ -104,21 +104,21 @@ export const SERIES_DATA = [
     name: "Modding Hacker",
     description:
       "Tailored for tech enthusiasts and DIY fans, unleash your creativity and showcase your unique personality!",
-    img: "S1MWC01.png",
+    img: "SS1.png",
   },
   {
     id: "2",
     name: "Extreme Speedster ​",
     description:
       "Designed for challengers seeking peak performance, embodying the fusion of professional expertise and cutting-edge technology!​",
-    img: "S2FBC03.png",
+    img: "SS2.png",
   },
   {
     id: "3",
     name: "ACG Fanatic​",
     description:
       "Dive into the spirit of the ACG world and infuse your passion into your player identity with vibrant, soulful style!",
-    img: "S3MBC01.png",
+    img: "SS3.png",
   },
 ];
 

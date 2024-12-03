@@ -67,7 +67,7 @@ const SeriesChoosePage = ({
               initial={{ opacity: 0, y: 10, x: -50 }}
               animate={{ opacity: 1, y: 50, x: 0, scale: 1.2 }}
               transition={{ duration: 0.5 }}
-              src={`${IMAGE_URLS.ROG_NEO_GAMER}characters/${
+              src={`${IMAGE_URLS.ROG_NEO_GAMER}${
                 SERIES_DATA.find((item) => item.id === selectedSeries)?.img
               }`}
               alt=""
