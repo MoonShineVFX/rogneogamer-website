@@ -102,7 +102,7 @@ const AssetChoosePage = ({
                     />
 
                     <div
-                      className={`absolute w-full h-full bg-red-900/80 -z-10 blur-2xl  top-0 left-0 scale-110 rounded-xl transition-all duration-300 ${
+                      className={`absolute w-full h-full bg-red-100/80 -z-10 blur-xl  top-0 left-0 scale-105 rounded-xl transition-all duration-300 ${
                         selectedAsset === asset.id
                           ? "opacity-100  animate-pulse"
                           : "opacity-0"
