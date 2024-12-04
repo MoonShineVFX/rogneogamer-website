@@ -77,14 +77,14 @@ const StyleChoosePage = ({
         <div className="w-full h-full  mx-auto ">
           <LoadingImage
             src={
-              IMAGE_URLS.ROG_NEO_GAMER_LG +
+              IMAGE_URLS.ROG_NEO_GAMER_MD +
               "characters/S" +
               selectedSeries +
               selectedGender +
               selectedAppearance +
               "C0" +
               selectedClothing +
-              ".png?v=2"
+              ".png"
             }
             alt=""
             className="max-w-full max-h-full mx-auto"

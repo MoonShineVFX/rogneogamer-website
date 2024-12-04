@@ -88,13 +88,28 @@ const AssetChoosePage = ({
                     backgroundSize: "100% 100%",
                   }}
                 >
-                  <motion.img
-                    src={IMAGE_URLS.ROG_NEO_GAMER + `Assets/${asset.name}.jpg`}
-                    alt=""
-                    className={`w-[55%] max-w-full max-h-full transition-all duration-300 ${
-                      selectedAsset === asset.id ? "scale-100" : "scale-90"
+                  <div
+                    className={`w-[55%] relative  max-w-full max-h-full transition-all duration-300  ${
+                      selectedAsset === asset.id ? "scale-100 " : "scale-90"
                     }`}
-                  />
+                  >
+                    <motion.img
+                      src={
+                        IMAGE_URLS.ROG_NEO_GAMER + `Assets/${asset.name}.jpg`
+                      }
+                      alt=""
+                      className="z-20 w-full h-full "
+                    />
+
+                    <div
+                      className={`absolute w-full h-full bg-red-900/80 -z-10 blur-2xl  top-0 left-0 scale-110 rounded-xl transition-all duration-300 ${
+                        selectedAsset === asset.id
+                          ? "opacity-100  animate-pulse"
+                          : "opacity-0"
+                      } `}
+                    ></div>
+                  </div>
+
                   <div className="absolute -bottom-[10%] left-0 w-full h-[10%] bg-red-500/0 text-white/80 text-center flex items-center justify-center font-robotocon">
                     {asset.title}
                   </div>
