@@ -15,7 +15,7 @@ interface HomePageProps {
 // }
 
 const HomePage = ({ onNext }: HomePageProps) => {
-  const { displayName, setDisplayName } = useAppContext();
+  const { displayName, setDisplayName, setCapturedImage } = useAppContext();
   const [isUsername, setIsUsername] = useState(false);
   // const [isAccept, setIsAccept] = useState(false);
   const [isSending, setIsSending] = useState(false);
@@ -40,6 +40,11 @@ const HomePage = ({ onNext }: HomePageProps) => {
       `${windowSize.height}px`
     );
   }, [windowSize.height]);
+
+  // 添加 useEffect 來重置 capturedImage
+  useEffect(() => {
+    setCapturedImage(null);
+  }, [setCapturedImage]);
 
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
