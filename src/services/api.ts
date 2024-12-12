@@ -12,6 +12,36 @@ interface FaceSwapResponse {
   output_path: string;
 }
 
+//task response
+// {
+//   "queue_size": 1,
+//   "status": "queued",
+//   "tasks": [
+//       {
+//           "completed_at": null,
+//           "created_at": "2024-12-12T15:00:45.069230",
+//           "id": "8eaf4c3b-9d3d-4a6f-a00d-4971a91f92c0",
+//           "output_path": null,
+//           "source_path": "https://rogneogamer.moonshine-studio.net/uploads/1733450429950-8okq7amvlfd.png",
+//           "status": "queued",
+//           "target_path": "https://r2.web.moonshine.tw/msweb/rogneogamer/prototype/video/S1_M.mp4"
+//       }
+//   ]
+// }
+// interface VideoTaskResponse {
+//   queue_size: number;
+//   status: string;
+//   tasks: {
+//     completed_at: string | null;
+//     created_at: string;
+//     id: string;
+//     output_path: string | null;
+//     source_path: string;
+//     status: string;
+//     target_path: string;
+//   }[];
+// }
+
 export const API_BASE_URL = "https://rogneogamer-api.moonshine-studio.net";
 
 export const faceSwapApi = {
@@ -80,6 +110,9 @@ export const faceSwapApi = {
     swap_video_url: string
   ): Promise<FaceSwapResponse> => {
     try {
+      // 先檢查隊列大小
+      await faceSwapApi.checkQueueSize();
+
       const formData = new FormData();
       formData.append("source_image", source_image);
       formData.append("swap_video_url", swap_video_url);
@@ -168,6 +201,36 @@ export const faceSwapApi = {
       return await response.json();
     } catch (error) {
       console.error("Get swapped image error:", error);
+      throw error;
+    }
+  },
+
+  //video task rogneogamer-api.moonshine-studio.net/videotask
+  // 新增檢查隊列大小的函式
+  checkQueueSize: async (): Promise<boolean> => {
+    try {
+      let attempts = 0;
+      const maxAttempts = 20; // 最多嘗試20次
+
+      while (attempts < maxAttempts) {
+        const response = await fetch(`${API_BASE_URL}/videotask`, {
+          method: "GET",
+        });
+        const data = await response.json();
+        console.log("Current queue size:", data.queue_size);
+
+        if (data.queue_size < 4) {
+          return true; // 隊列大小可接受
+        }
+
+        console.log("Queue is full, waiting 10 seconds...");
+        await new Promise((resolve) => setTimeout(resolve, 10000)); // 等待10秒
+        attempts++;
+      }
+
+      throw new Error("Queue is still full after maximum attempts");
+    } catch (error) {
+      console.error("Error checking queue size:", error);
       throw error;
     }
   },

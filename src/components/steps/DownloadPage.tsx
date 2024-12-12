@@ -55,7 +55,8 @@ const DownloadPage = memo(({ onNext, onPrev }: DownloadPageProps) => {
     try {
       setError(null);
 
-      const [imageResponse, videoResponse, mobileResponse] = await Promise.all([
+      // 先執行圖片相關的 API 調用
+      const [imageResponse, mobileResponse] = await Promise.all([
         // PC 版圖片
         faceSwapApi.swapFace(
           capturedImage,
@@ -69,14 +70,6 @@ const DownloadPage = memo(({ onNext, onPrev }: DownloadPageProps) => {
             "A" +
             selectedAsset
           }.jpg`
-        ),
-
-        // 影片
-        faceSwapApi.swapFaceVideo(
-          capturedImage,
-          `${IMAGE_URLS.ROG_NEO_GAMER}videoV4/${
-            "S" + selectedSeries + "_" + selectedGender
-          }.mp4`
         ),
 
         // 手機版圖片
@@ -95,8 +88,30 @@ const DownloadPage = memo(({ onNext, onPrev }: DownloadPageProps) => {
         ),
       ]);
 
+      // 檢查視頻隊列狀態
+      try {
+        await faceSwapApi.checkQueueSize();
+      } catch (queueError) {
+        // 即使視頻處理失敗，仍然返回圖片處理的結果
+        return {
+          imageResponse,
+          mobileResponse,
+          videoResponse: null,
+          error: "視頻處理隊列已滿，請稍後再試",
+        };
+      }
+
+      // 執行視頻處理
+      const videoResponse = await faceSwapApi.swapFaceVideo(
+        capturedImage,
+        `${IMAGE_URLS.ROG_NEO_GAMER}videoV4/${
+          "S" + selectedSeries + "_" + selectedGender
+        }.mp4`
+      );
+
       return { imageResponse, videoResponse, mobileResponse };
     } catch (error) {
+      console.error("API 調用錯誤:", error);
       setError("處理過程發生錯誤");
     }
   }, [
