@@ -135,7 +135,11 @@ const DownloadPage = memo(({ onNext, onPrev }: DownloadPageProps) => {
         setError("影片下載失敗");
         return;
       }
-      if (response.progress < 100 || response.status === "processing") {
+      if (
+        response.progress < 100 ||
+        response.status === "processing" ||
+        response.status === "queued"
+      ) {
         setTimeout(() => handleVideoResult(id), 1000);
         return;
       }
